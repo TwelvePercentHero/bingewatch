@@ -2,8 +2,15 @@
 
 {% block content %}
 
-<div>Binge | Watch</div>
+<div class="jumbotron text-center">
 
-<a href="{{ url_for('get_recipes') }}">Browse Recipes</a>
+    <h1 class="display-4">Binge | Watch</h1>
+    <p class="lead">Find the perfect food to cook for your next movie night</p>
+    <form method='POST' class="form-inline" action="{{ url_for('search_recipes') }}">
+        <input class="form-control" type="search" name="search_term" placeholder="Search Recipes">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    
+</div>
 
 {% endblock %}

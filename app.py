@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 
@@ -29,6 +29,20 @@ def get_recipes():
 def recipe(recipe_id):
     return render_template('recipe.html',
                             recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}))
+
+# Search recipes
+@app.route('/search_recipes', methods=['GET', 'POST'])
+def search_recipes():
+    # Request the search term submitted as part of the form on index.html
+    search_term = request.form.get('search_term')
+    # Create index
+    mongo.db.recipes.create_index([('$**', 'text')])
+    # Build query
+    query = ({ '$text': { '$search': search_term } })
+    # Find results
+    results = mongo.db.recipes.find(query)
+    return render_template('recipe-results.html',
+                            recipes = results)
 
 # Run app
 if __name__ == 'main':
