@@ -28,7 +28,35 @@ def get_recipes():
                 filter1 = key
                 value1 = value
                 query = { filter1: value1 }
-            recipe_results = mongo.db.recipes.find(query).sort('recipe_name', 1)
+        elif len(form) == 2:
+            if 'recipe_type' in form:
+                filter1 = 'recipe_type'
+                value1 = str(form['recipe_type'])
+                if 'category' in form:
+                    filter2 = 'category'
+                    value2 = str(form['category'])
+                elif 'genres' in form:
+                    filter2 = 'genres'
+                    value2 = str(form['genres'])
+                else:
+                    filter2 = 'origin'
+                    value2 = str(form['origin'])
+            elif 'category' in form:
+                filter1 = 'category'
+                value1 = str(form['category'])
+                if 'genres' in form:
+                    filter2 = 'genres'
+                    value2 = str(form['genres'])
+                else:
+                    filter2 = 'origin'
+                    value2 = str(form['origin'])
+            else:
+                filter1 = 'genres'
+                value1 = str(form['genres'])
+                filter2 = 'origin'
+                value2 = str(form['origin'])
+            query = ( { '$and' : [{ filter1 : value1 }, { filter2 : value2 }]})
+        recipe_results = mongo.db.recipes.find(query).sort('recipe_name', 1)
     else:
         recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
     return render_template('recipe-results.html',
