@@ -6,11 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static\css\style.css">
 
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <a class="navbar-brand" href="{{ url_for('home_page') }}">Binge | Watch</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,9 +35,25 @@
     {% block content %}
     {% endblock %}
 
-    <footer>
-        
-        
+    <footer class="container-fluid">
+
+        <div class="row text-center">
+            <div class="col-xs-12 col-md-4">
+                <h3>About</h3>
+                <p>Binge | Watch is a database of recipes</p>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <ul>
+                    <li><a href="{{ url_for('home_page') }}">Home</a></li>
+                    <li><a href="{{ url_for('get_recipes') }}">Browse Recipes</a></li>
+                    <li><a href="#">Add Recipe</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h3>User Login</h3>
+                <p>Login here</p>
+            </div>
+        </div>
         
     </footer>
 
