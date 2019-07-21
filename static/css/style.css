@@ -6,3 +6,7 @@ footer {
     background-color: #490000;
     color: #fff;
 }
+
+footer ul {
+    list-style: none;
+}
