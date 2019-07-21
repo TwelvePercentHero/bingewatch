@@ -19,9 +19,33 @@ def home_page():
 """ Queries """
 
 # Get all recipes
-@app.route('/get_recipes')
+@app.route('/get_recipes', methods=['GET', 'POST'])
 def get_recipes():
-    recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        if len(form) == 1:
+            if 'recipe_type' in form:
+                recipe_results = mongo.db.recipes.find(
+                    {
+                        'recipe_type': form['recipe_type']
+                    }).sort('recipe_name', 1)
+            elif 'category' in form:
+                recipe_results = mongo.db.recipes.find(
+                    {
+                        'category': form['category']
+                    }).sort('recipe_name', 1)
+            elif 'genre' in form:
+                recipe_results = mongo.db.recipes.find(
+                    {
+                        'genres': form['genre']
+                    }).sort('recipe_name', 1)
+            elif 'origin' in form:
+                recipe_results = mongo.db.recipes.find(
+                    {
+                        'origin': form['origin']
+                    }).sort('recipe_name', 1)
+    else:
+        recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
     return render_template('recipe-results.html',
                             recipes = recipe_results,
                             recipe_types = mongo.db.recipe_types.find(),
@@ -32,8 +56,9 @@ def get_recipes():
 # Find specific recipe
 @app.route('/recipe/<recipe_id>')
 def recipe(recipe_id):
+    current_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     return render_template('recipe.html',
-                            recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}))
+                            recipe = current_recipe)
 
 # Search recipes
 @app.route('/search_recipes', methods=['GET', 'POST'])
