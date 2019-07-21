@@ -21,8 +21,13 @@ def home_page():
 # Get all recipes
 @app.route('/get_recipes')
 def get_recipes():
+    recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
     return render_template('recipe-results.html',
-                            recipes = mongo.db.recipes.find())
+                            recipes = recipe_results,
+                            recipe_types = mongo.db.recipe_types.find(),
+                            genres = mongo.db.genres.find(),
+                            origin = mongo.db.origin.find(),
+                            categories = mongo.db.categories.find())
 
 # Find specific recipe
 @app.route('/recipe/<recipe_id>')

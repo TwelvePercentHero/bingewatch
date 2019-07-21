@@ -10,3 +10,8 @@ footer {
 footer ul {
     list-style: none;
 }
+
+.card {
+    margin-bottom: 10px;
+    display: inline-block;
+}

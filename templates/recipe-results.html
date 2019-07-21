@@ -2,22 +2,78 @@
 
 {% block content %}
 
-<div>
-    <h1>Recipes</h1>
-    <p>Browse all of the delicious (and occasionally disgusting) recipes from the worlds of film, TV and video games below</p>
+<div class="container-fluid text-center">
+
+<div class="row">
+    <div>
+        <h1>Recipes</h1>
+        <p>Browse all of the delicious (and occasionally disgusting) recipes from the worlds of film, TV and video games below</p>
+    </div>
 </div>
 
-<div>
-    {% for recipe in recipes %}
-    <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
-        <img src="{{ recipe.image }}" class="card-img-top">
-        <div class="card-body">
-            <h5 class="card-title">{{ recipe.recipe_name }}</h5>
-            <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
-            <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn btn-primary">View Recipe</a>
-        </div>
+<div class="row">
+
+    <div class="col-sm-12 col-md-3">
+        <h1>Filters</h1>
+        <form action="{{ url_for('get_recipes') }}" method="POST">
+            <div class="form-group">
+                <label>Recipe Type</label>
+                <select class="form-control" id="recipe_type" name="recipe_type">
+                    <option value="" disabled selected>Choose Recipe Type</option>
+                    {% for type in recipe_types %}
+                    <option value="{{ type.recipe_type }}">{{ type.recipe_type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="" disabled selected>Choose Category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Pairs With</label>
+                <select class="form-control" id="genre" name="genre">
+                    <option value="" disabled selected>Choose Category</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Origin</label>
+                <select class="form-control" id="origin" name="origin">
+                    <option value="" disabled selected>Choose Category</option>
+                    {% for o in origin %}
+                    <option value="{{ o.nationality }}">{{ o.nationality }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
     </div>
-    {% endfor %}
+
+
+    <div class="col-sm-12 col-md-9">
+        {% for recipe in recipes %}
+        <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
+            <img src="{{ recipe.image }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+                <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
+                <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn btn-primary">View Recipe</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
 </div>
 
 {% endblock %}
