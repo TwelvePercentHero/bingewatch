@@ -16,11 +16,19 @@ mongo = PyMongo(app)
 def home_page():
     return render_template('index.html')
 
-# Recipe read methods
+""" Queries """
+
+# Get all recipes
 @app.route('/get_recipes')
 def get_recipes():
     return render_template('recipe-results.html',
                             recipes = mongo.db.recipes.find())
+
+# Find specific recipe
+@app.route('/recipe/<recipe_id>')
+def recipe(recipe_id):
+    return render_template('recipe.html',
+                            recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)}))
 
 # Run app
 if __name__ == 'main':
