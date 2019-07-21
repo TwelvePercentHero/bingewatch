@@ -2,13 +2,58 @@
 
 {% block content %}
 
-<div>
-    <h1>{{ recipe.recipe_name }}</h1>
-</div>
+<div class="container-fluid">
+    <div class="row">
+        <img class="img-fluid" src="{{ recipe.image }}">
+    </div>
 
-<div>
-    <p>From <strong>{{ recipe.recipe_from }}</strong></p>
-    <p><strong>Category:</strong> {{ recipe.category }}</p>
+    <div clas="row">
+        <h1>{{ recipe.recipe_name }}</h1>
+    </div>
+
+        <p>From <strong>{{ recipe.recipe_from }}</strong></p>
+        <p><strong>Category: </strong> {{ recipe.category }}</p>
+        <p>{{ recipe.recipe_description }}</p>
+
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Ingredients</h2>
+            <ul>
+                {% for i in recipe.ingredients %}
+                <li>{{ i }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-md-9">
+            <h2>Method</h2>
+            {% for m in recipe.method %}
+            <p>{{ m }}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Tags</h3>
+    </div>
+    <div class="row">
+        <ul>
+            {% for t in recipe.recipe_type %}
+            <li>{{ t }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h3>Pairs With</h3>
+    </div>
+    <div class="row">
+        <ul>
+            {% for p in recipe.genres %}
+            <li>{{ p }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 
