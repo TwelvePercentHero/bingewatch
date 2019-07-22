@@ -2,10 +2,11 @@ import os
 from flask import Flask, render_template, url_for, request, session, redirect
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-import bcrypt
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+bcrypt = Bcrypt(app)
 
 # Database access configuration
 app.config['MONGO_DBNAME'] = 'binge_watch'
@@ -16,6 +17,34 @@ mongo = PyMongo(app)
 @app.route('/')
 def home_page():
     return render_template('index.html')
+
+@app.route('/user')
+def user():
+    if 'username' in session:
+        return 'You are logged in as ' + session['username']
+
+    return render_template('login.html')
+
+@app.route('/newuser')
+def newuser():
+    return render_template('register.html')
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        users = mongo.db.users
+        existing_user = users.find_one({ 'name' : request.form['username']})
+
+        if existing_user is None:
+            hashpass = bcrypt.generate_password_hash(request.form['password'])
+            users.insert({ 'name' : request.form['username'], 'password': hashpass })
+            session['username'] = request.form['username']
+            return redirect(url_for('home_page'))
+
+        return 'That username already exists!'
+
+    return render_template('register.html')
+
 
 """ Queries """
 

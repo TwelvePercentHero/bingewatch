@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form method='POST' action="#">
+    <form method='POST' action="{{ url_for('register')}}">
         <div class="form-group">
             <label>Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
