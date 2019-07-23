@@ -206,6 +206,34 @@ def search_recipes():
     return render_template('recipe-results.html',
                             recipes = results)
 
+""" Recipe create and edit functions """
+
+@app.route('/add_recipe')
+def add_recipe():
+    if 'user' in session:
+        return render_template('add-recipe.html',
+                            recipe_types = mongo.db.recipe_types.find().sort('recipe_type', 1),
+                            origin = mongo.db.origin.find().sort('nationality', 1))
+    else:
+        flash("You must be logged in to do that!")
+        return redirect(url_for('home_page'))
+
+@app.route('/insert_recipe', methods=['POST'])
+def insert_recipe():
+    recipes = mongo.db.recipes
+    form = request.form.to_dict()
+    recipes.insert_one(
+        {
+        'recipe_name': form['recipe_name'],
+        'cuisine': form['cuisine'],
+        'recipe_type': form['recipe_type'],
+        'recipe_description': form['recipe_description'],
+        'ingredients': form['ingredients'],
+        'method': form['method']
+        }
+    )
+    return redirect(url_for('get_recipes'))
+
 # Run app
 if __name__ == 'main':
     app.run(host=os.environ.get('IP', '0.0.0.0'),

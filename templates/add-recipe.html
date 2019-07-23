@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class='container-fluid'>
+
+<h1>Add a Recipe</h1>
+
+<form action="{{ url_for('insert_recipe') }}" id='add-recipe' enctype=multipart/form-data method='POST'>
+    <div class='form-row'>
+        <label>Recipe Name</label>
+        <input id='recipe_name' name='recipe_name' class='form-control' type='text' placeholder='Recipe Name' required>
+    </div>
+
+    <div class='form-row'>
+        <select id='cuisine' name='cuisine' class='form-control' required>
+            <option value='' disabled selected>Cuisine</option>
+            {% for origin in origin %}
+            <option value='{{ origin.nationality }}'>{{ origin.nationality }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class='form-row'>
+        <select id='recipe_type' name='recipe_type' class='form-control' required>
+            <option value='' disabled selected>Recipe Type</option>    
+            {% for type in recipe_types %}
+            <option value='{{ type.recipe_type }}'>{{ type.recipe_type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class='form-group'>
+        <label>Recipe Description</label>
+        <textarea id='recipe_description' name='recipe_description' class='form-control' rows='5' required></textarea>
+    </div>
+
+    <div class='form-row'>
+        <p>Ingredients</p>
+    </div>
+
+    <div id='ingredients-list'>
+        <div class='form-group' id='first-ingredient'>
+            <input id='ingredients' name='ingredients' class='form-control' type='text' placeholder='Ingredient' required>
+        </div>
+    </div>
+
+    <div class='form-row'>
+        <p>Method</p>
+    </div>
+    
+    <div id='method-steps'>
+        <div class='form-group' id='step-one'>
+            <input id='method' name='method' class='form-control' type='text' placeholder='Step' required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" name="action">Submit</button>
+
+</form>
+
+</section>
+
+
+{% endblock %}
