@@ -1,12 +1,12 @@
 import os
-from flask import Flask, render_template, url_for, request, session, redirect
+from flask import Flask, render_template, url_for, request, session, redirect, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from flask_bcrypt import Bcrypt
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-bcrypt = Bcrypt(app)
 
 # Database access configuration
 app.config['MONGO_DBNAME'] = 'binge_watch'
@@ -18,33 +18,81 @@ mongo = PyMongo(app)
 def home_page():
     return render_template('index.html')
 
-@app.route('/user')
-def user():
-    if 'username' in session:
-        return 'You are logged in as ' + session['username']
+""" User Authentication """
 
-    return render_template('login.html')
+# Login
 
-@app.route('/newuser')
-def newuser():
-    return render_template('register.html')
+@app.route('/login', methods=['GET'])
+def login():
+    if 'user' in session:
+        user_in_db = mongo.db.users.find_one({ 'username' : session['user'] })
+        if user_in_db:
+            flash('You are logged in already!')
+            return redirect(url_for('profile', user=user_in_db['username']))
+    else:
+        return render_template('login.html')
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/user_auth', methods=['POST'])
+def user_auth():
+    form = request.form.to_dict()
+    user_in_db = mongo.db.users.find_one({ 'username': form['username'] })
+    if user_in_db:
+        if check_password_hash(user_in_db['password'], form['password']):
+            session['user'] = form['username']
+            flash('You were logged in!')
+            return redirect(url_for('profile', user=user_in_db['username']))
+        else:
+            flash('Wrong password or user name!')
+            return redirect(url_for('login'))
+    else:
+        flash('You must be registered!')
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if 'user' in session:
+        flash('You are already signed in!')
+        return redirect(url_for('home_page'))
     if request.method == 'POST':
-        users = mongo.db.users
-        existing_user = users.find_one({ 'name' : request.form['username']})
-
-        if existing_user is None:
-            hashpass = bcrypt.generate_password_hash(request.form['password'])
-            users.insert({ 'name' : request.form['username'], 'password': hashpass })
-            session['username'] = request.form['username']
-            return redirect(url_for('home_page'))
-
-        return 'That username already exists!'
-
+        form = request.form.to_dict()
+        if form['password'] == form['password2']:
+            user = mongo.db.users.find_one({ 'username' : form['username']})
+            if user:
+                flash("{form['username']} already exists!")
+                return redirect(url_for('register'))
+            else:
+                hash_pass = generate_password_hash(form['password'])
+                mongo.db.users.insert_one(
+                    {
+                        'username': form['username'],
+                        'password': hash_pass
+                    }
+                )
+                user_in_db = mongo.db.users.find_one({'username': form['username']})
+                if user_in_db:
+                    session['user'] = user_in_db['username']
+                    return redirect(url_for('profile', user=user_in_db['username']))
+                else:
+                    flash("There was a problem saving your profile")
+                    return redirect(url_for('register'))
+        else:
+            flash("Passwords don't match!")
+            return redirect(url_for('register'))
     return render_template('register.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You were logged out!')
+    return redirect(url_for('home_page'))
+
+@app.route('/profile/<user>')
+def profile(user):
+    if 'user' in session:
+        user_in_db = mongo.db.users.find_one({ 'username': user })
+        return render_template('profile.html', user=user_in_db)
+    else:
+        flash('You must be logged in!')
+        return redirect(url_for('home_page'))
 
 """ Queries """
 
