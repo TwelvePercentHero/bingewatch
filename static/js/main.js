@@ -22,4 +22,16 @@ $(document).on('click', '#remove-ingredient', function() {
     $(this).parent().remove();
 });
 
+$('#add-step').click(function() {
+    var newStep = $(`<div class='form-group' id='method-div'>
+    <input id='method' name='method' class='form-control' type='text' placeholder='Step'>
+    <a class='btn btn-primary' id='remove-step'>Remove Step</a>
+    </div>` );
+    $('#method-steps').append(newStep);
+});
+
+$(document).on('click', '#remove-step', function() {
+    $(this).parent().remove();
+});
+
 });
