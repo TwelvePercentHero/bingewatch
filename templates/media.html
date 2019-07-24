@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <img class="media-header img-fluid" src="/{{ media.image }}">
+    </div>
+    
+    <div class="row">
+        <h1>{{ media.media_name }}</h1>
+    </div>
+
+    <div class="row">
+        <h2>Created By</h2>
+    </div>
+
+    <div class="row">
+        <ul>
+            {% for c in media.creators %}
+            <li>{{ c }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Starring</h2>
+    </div>
+
+    <div class="row">
+        <ul>
+            {% for s in media.starring %}
+            <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Description</h2>
+        <p>{{ media.description }}</p>
+    </div>
+
+</div>
+
+{% endblock %}

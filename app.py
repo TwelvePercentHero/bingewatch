@@ -229,8 +229,16 @@ def search_recipes():
 # Get all media
 @app.route('/get_media')
 def get_media():
+    media = mongo.db.media.find().sort('media_name', 1)
     return render_template('media-results.html',
-                            media = mongo.db.media.find().sort('media_name', 1))
+                            media = media)
+
+# Find specific media
+@app.route('/media/<media_id>')
+def media(media_id):
+    media = mongo.db.media.find_one({'_id': ObjectId(media_id)})
+    return render_template('media.html',
+                            media = media)
 
 """ Recipe create and edit functions """
 

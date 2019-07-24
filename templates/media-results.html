@@ -18,7 +18,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ media.media_name }}</h5>
                 <p class="card-text"><strong>{{ media.category }}</strong></p>
-                <a href="#">View Media</a>
+                <a href="{{ url_for('media', media_id = media._id) }}" class="btn btn-primary">View Media</a>
             </div>
         </div>
         {% endfor %}
