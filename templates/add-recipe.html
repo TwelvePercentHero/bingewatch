@@ -1,61 +1,75 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 
-<section class='container-fluid'>
+<section class="container-fluid">
 
 <h1>Add a Recipe</h1>
 
-<form action="{{ url_for('insert_recipe') }}" id='add-recipe' enctype=multipart/form-data method='POST'>
-    <div class='form-row'>
+<form action="{{ url_for("insert_recipe") }}" id="add-recipe" enctype=multipart/form-data method="POST">
+    <div class="form-row">
         <label>Recipe Name</label>
-        <input id='recipe_name' name='recipe_name' class='form-control' type='text' placeholder='Recipe Name' required>
+        <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>
     </div>
 
-    <div class='form-row'>
-        <select id='cuisine' name='cuisine' class='form-control' required>
-            <option value='' disabled selected>Cuisine</option>
+    <div class="form-row">
+        <select id="cuisine" name="cuisine" class="form-control" required>
+            <option value="" disabled selected>Cuisine</option>
             {% for origin in origin %}
-            <option value='{{ origin.nationality }}'>{{ origin.nationality }}</option>
+            <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
             {% endfor %}
         </select>
     </div>
 
-    <div class='form-row'>
-        <select id='recipe_type' name='recipe_type' class='form-control' required>
-            <option value='' disabled selected>Recipe Type</option>    
-            {% for type in recipe_types %}
-            <option value='{{ type.recipe_type }}'>{{ type.recipe_type }}</option>
-            {% endfor %}
-        </select>
+    <div class="form-row">
+        {% for type in recipe_types %}
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }} id="recipe_type">
+            <label class="form-check-label">
+                {{ type.recipe_type }}
+            </label>
+        </div>
+        {% endfor %}
     </div>
 
-    <div class='form-group'>
+    <div class="form-group">
         <label>Recipe Description</label>
-        <textarea id='recipe_description' name='recipe_description' class='form-control' rows='5' required></textarea>
+        <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" required></textarea>
     </div>
 
-    <div class='form-row'>
+    <div class="form-row">
         <p>Ingredients</p>
     </div>
 
-    <div id='ingredients-list'>
-        <div class='form-group' id='first-ingredient'>
-            <input id='ingredients' name='ingredients' class='form-control' type='text' placeholder='Ingredient' required>
+    <div id="ingredients-list">
+        <div class="form-group" id="first-ingredient">
+            <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" required>
         </div>
     </div>
-    <a class='btn btn-primary' id='add-ingredient'>Add Ingredient</a>
+    <a class="btn btn-primary" id="add-ingredient">Add Ingredient</a>
 
-    <div class='form-row'>
+    <div class="form-row">
         <p>Method</p>
     </div>
     
-    <div id='method-steps'>
-        <div class='form-group' id='method-div'>
-            <input id='method' name='method' class='form-control' type='text' placeholder='Step' required>
+    <div id="method-steps">
+        <div class="form-group" id="method-div">
+            <input id="method" name="method" class="form-control" type="text" placeholder="Step" required>
         </div>
     </div>
-    <a class='btn btn-primary' id='add-step'>Add Step</a>
+    <a class="btn btn-primary" id="add-step">Add Step</a>
+
+    <p>Upload Image</p>
+
+    <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="image">Choose file</label>
+            </div>
+          </div>
 
     <button type="submit" class="btn btn-primary" name="action">Submit</button>
 

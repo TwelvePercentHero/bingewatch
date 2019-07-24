@@ -3,10 +3,17 @@ from flask import Flask, render_template, url_for, request, session, redirect, f
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+# Adding flask_uploads to allow custom recipe images to be uploaded by users
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
+# Flask_uploads configuration for image uploads
+images = UploadSet('images', IMAGES)
+app.config['UPLOADED_IMAGES_DEST'] = 'static/images/uploads'
+configure_uploads(app, images)
 
 # Database access configuration
 app.config['MONGO_DBNAME'] = 'binge_watch'
@@ -20,10 +27,10 @@ def home_page():
 
 """ User Authentication """
 
-# Login
-
+# Login Page
 @app.route('/login', methods=['GET'])
 def login():
+    # Check if user is already logged in and redirect to profile page
     if 'user' in session:
         user_in_db = mongo.db.users.find_one({ 'username' : session['user'] })
         if user_in_db:
@@ -32,11 +39,14 @@ def login():
     else:
         return render_template('login.html')
 
+# User authorisation
 @app.route('/user_auth', methods=['POST'])
 def user_auth():
+    # Create dict from form fields
     form = request.form.to_dict()
     user_in_db = mongo.db.users.find_one({ 'username': form['username'] })
     if user_in_db:
+        # Check entered password matches password in database after hashing
         if check_password_hash(user_in_db['password'], form['password']):
             session['user'] = form['username']
             flash('You were logged in!')
@@ -48,11 +58,14 @@ def user_auth():
         flash('You must be registered!')
         return redirect(url_for('register'))
 
+# User registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # Check if user is already logged in
     if 'user' in session:
         flash('You are already signed in!')
         return redirect(url_for('home_page'))
+    # If method is POST check password1 and 2 match and check if user already exists in database
     if request.method == 'POST':
         form = request.form.to_dict()
         if form['password'] == form['password2']:
@@ -60,6 +73,7 @@ def register():
             if user:
                 flash(f"{form['username']} already exists!")
                 return redirect(url_for('register'))
+            # If user doesn't exist, generate password hash and insert into database
             else:
                 hash_pass = generate_password_hash(form['password'])
                 mongo.db.users.insert_one(
@@ -80,14 +94,17 @@ def register():
             return redirect(url_for('register'))
     return render_template('register.html')
 
+# Logout
 @app.route('/logout')
 def logout():
     session.clear()
     flash('You were logged out!')
     return redirect(url_for('home_page'))
 
+# View user profile
 @app.route('/profile/<user>')
 def profile(user):
+    # Check if user is logged in
     if 'user' in session:
         user_in_db = mongo.db.users.find_one({ 'username': user })
         return render_template('profile.html', user=user_in_db)
@@ -209,28 +226,41 @@ def search_recipes():
 
 """ Recipe create and edit functions """
 
+# Add recipe form
 @app.route('/add_recipe')
 def add_recipe():
+    # Check user is logged in
     if 'user' in session:
         return render_template('add-recipe.html',
                             recipe_types = mongo.db.recipe_types.find().sort('recipe_type', 1),
                             origin = mongo.db.origin.find().sort('nationality', 1))
     else:
         flash("You must be logged in to do that!")
-        return redirect(url_for('home_page'))
+        return redirect(url_for('login'))
 
+# Insert recipe to database
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    # Upload image to uploads folder and generate filepath
+    if 'image' in request.files:
+        filename = images.save(request.files['image'])
+        filepath = 'static/images/uploads/' + filename
+    else:
+        filepath = 'static/images/default.jpg'
     recipes = mongo.db.recipes
     form = request.form.to_dict()
+    # Create flatForm to allow recipe_type, ingredients and method to be stored as arrays rather than strings
+    flatForm = request.form.to_dict(flat=False)
+    # Insert into recipes collection
     recipes.insert_one(
         {
         'recipe_name': form['recipe_name'],
         'cuisine': form['cuisine'],
-        'recipe_type': form['recipe_type'],
+        'recipe_type': flatForm['recipe_type'],
         'recipe_description': form['recipe_description'],
-        'ingredients': form['ingredients'],
-        'method': form['method']
+        'ingredients': flatForm['ingredients'],
+        'method': flatForm['method'],
+        'image': filepath
         }
     )
     return redirect(url_for('get_recipes'))
