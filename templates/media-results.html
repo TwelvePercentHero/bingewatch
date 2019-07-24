@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Media</h1>
+            <p>Browse all of the film, TV and video games currently in the Binge | Watch database below.</p>
+            <p>Do you have a favourite media you don't see below? Then follow the link to <a href="#">add media</a> to the database.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for media in media %}
+        <div class="card col-sm-12 col-md-3" id="{{ media._id }}">
+            <img src="{{ media.image }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ media.media_name }}</h5>
+                <p class="card-text"><strong>{{ media.category }}</strong></p>
+                <a href="#">View Media</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

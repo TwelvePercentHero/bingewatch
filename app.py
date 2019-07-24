@@ -112,7 +112,7 @@ def profile(user):
         flash('You must be logged in!')
         return redirect(url_for('home_page'))
 
-""" Queries """
+""" Recipe Queries """
 
 # Get all recipes
 @app.route('/get_recipes', methods=['GET', 'POST'])
@@ -223,6 +223,14 @@ def search_recipes():
     results = mongo.db.recipes.find(query)
     return render_template('recipe-results.html',
                             recipes = results)
+
+""" Media Queries """
+
+# Get all media
+@app.route('/get_media')
+def get_media():
+    return render_template('media-results.html',
+                            media = mongo.db.media.find().sort('media_name', 1))
 
 """ Recipe create and edit functions """
 
