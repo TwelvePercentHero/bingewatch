@@ -46,6 +46,7 @@ def user_auth():
             return redirect(url_for('login'))
     else:
         flash('You must be registered!')
+        return redirect(url_for('register'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -57,7 +58,7 @@ def register():
         if form['password'] == form['password2']:
             user = mongo.db.users.find_one({ 'username' : form['username']})
             if user:
-                flash("{form['username']} already exists!")
+                flash(f"{form['username']} already exists!")
                 return redirect(url_for('register'))
             else:
                 hash_pass = generate_password_hash(form['password'])
