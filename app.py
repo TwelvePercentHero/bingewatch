@@ -240,6 +240,16 @@ def media(media_id):
     return render_template('media.html',
                             media = media)
 
+# Search media
+@app.route('/search_media', methods=['GET', 'POST'])
+def search_media():
+    search_term = request.form.get('search_term')
+    mongo.db.media.create_index([('$**', 'text')])
+    query = ({ '$text': { '$search': search_term } })
+    results = mongo.db.media.find(query)
+    return render_template('media-results.html',
+                            media = results)
+
 """ Recipe create and edit functions """
 
 # Add recipe form
