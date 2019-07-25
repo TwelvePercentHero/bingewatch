@@ -291,6 +291,47 @@ def insert_recipe():
     )
     return redirect(url_for('get_recipes'))
 
+""" Media create and edit functions """
+
+# Add media form
+@app.route('/add_media')
+def add_media():
+    # Check user is logged in
+    if 'user' in session:
+        return render_template('add-media.html',
+                                categories = mongo.db.categories.find(),
+                                origin = mongo.db.origin.find(),
+                                genres = mongo.db.genres.find())
+    else:
+        flash("You must be logged in to do that!")
+        return redirect(url_for('login'))
+
+# Insert media to database
+@app.route('/insert_media', methods=['POST'])
+def insert_media():
+    # Upload image to uploads folder and create filepath
+    if 'image' in request.files:
+        filename = images.save(request.files['image'])
+        filepath = 'static/images/uploads/' + filename
+    else:
+        filepath = 'static/images/default.jpg'
+    media = mongo.db.media
+    form = request.form.to_dict()
+    flatForm = request.form.to_dict(flat=False)
+    media.insert_one(
+        {
+            'media_name': form['media-name'],
+            'category': form['category'],
+            'origin': form['origin'],
+            'starring': flatForm['starring'],
+            'creators': flatForm['creators'],
+            'genres': flatForm['genres'],
+            'description': form['description'],
+            'image': filepath
+        }
+    )
+    return redirect(url_for('get_media'))
+
 # Run app
 if __name__ == 'main':
     app.run(host=os.environ.get('IP', '0.0.0.0'),

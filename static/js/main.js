@@ -34,4 +34,28 @@ $(document).on('click', '#remove-step', function() {
     $(this).parent().remove();
 });
 
+$('#add-actor').click(function() {
+    var newActor = $(`<div class='form-group' id='actor-div'>
+    <input id='starring' name='starring' class='form-control' type='text' placeholder='Actor'>
+    <a class='btn btn-primary' id='remove-actor'>Remove Actor</a>
+    </div>` );
+    $('#actor-list').append(newActor);
+});
+
+$(document).on('click', '#remove-actor', function() {
+    $(this).parent().remove();
+});
+
+$('#add-creator').click(function() {
+    var newCreator = $(`<div class='form-group' id='creator-div'>
+    <input id='creators' name='creators' class='form-control' type='text' placeholder='Creator'>
+    <a class='btn btn-primary' id='remove-creator'>Remove Creator</a>
+    </div>` );
+    $('#creator-list').append(newCreator);
+});
+
+$(document).on('click', '#remove-creator', function() {
+    $(this).parent().remove();
+});
+
 });

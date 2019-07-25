@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="container-fluid">
+
+    <div>
+
+        <form action="{{ url_for('insert_media') }}" id="add-media" enctype=multipart/form-data method="POST">
+        
+        <div class="form-row">
+            <label>Media Name</label>
+            <input id="media-name" name="media-name" class="form-control" type="text" placeholder="Media Name" required>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                <select id="category" name="category" class="form-control" required>
+                    <option value="" disabled selected>Choose Category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col">
+                <select id="origin" name="origin" class="form-control" required>
+                    <option value="" disabled selected>Choose Origin</option>
+                    {% for origin in origin %}
+                    <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            {% for genres in genres %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="genres" value="{{ genres.genre_name }}" id="genres">
+                <label class="form-check-label">
+                    {{ genres.genre_name }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label>Media Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+        </div>
+
+        <div class="form-row">
+            <p>Starring</p>
+        </div>
+
+        <div id="actor-list">
+            <div class="form-group" id="actors">
+                <input id="starring" name="starring" class="form-control" type="text" placeholder="Actor" required>
+            </div>
+        </div>
+        <a class="btn btn-primary" id="add-actor">Add Actor</a>
+        
+        <div class="form-row">
+            <p>Creators</p>
+        </div>
+
+        <div id="creator-list">
+            <div class="form-group" id="creator-div">
+                <input id="creators" name="creators" class="form-control" type="text" placeholder="Creator" required>
+            </div>
+        </div>
+        <a class="btn btn-primary" id="add-creator">Add Creator</a>
+
+        <div class="form-row">
+            <p>Upload Image</p>
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="image">Choose file</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" name="action">Submit</button>        
+        </form>
+    </div>
+
+</section>
+
+
+{% endblock %}
