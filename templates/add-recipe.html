@@ -13,6 +13,15 @@
     </div>
 
     <div class="form-row">
+        <select id="recipe_from" name="recipe_from" class="form-control" required>
+            <option value="" disabled selected>Recipe From</option>
+            {% for media in media %}
+            <option value="{{media.media_name}}">{{media.media_name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
         <select id="cuisine" name="cuisine" class="form-control" required>
             <option value="" disabled selected>Cuisine</option>
             {% for origin in origin %}

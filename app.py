@@ -299,7 +299,8 @@ def add_recipe():
     if 'user' in session:
         return render_template('add-recipe.html',
                             recipe_types = mongo.db.recipe_types.find().sort('recipe_type', 1),
-                            origin = mongo.db.origin.find().sort('nationality', 1))
+                            origin = mongo.db.origin.find().sort('nationality', 1),
+                            media = mongo.db.media.find().sort('media_name', 1))
     else:
         flash("You must be logged in to do that!")
         return redirect(url_for('login'))
@@ -322,6 +323,7 @@ def insert_recipe():
     new_recipe = temp_recipes.insert_one(
         {
         'recipe_name': form['recipe_name'],
+        'recipe_from': form['recipe_from'],
         'cuisine': form['cuisine'],
         'recipe_type': flatForm['recipe_type'],
         'recipe_description': form['recipe_description'],
