@@ -313,12 +313,13 @@ def insert_recipe():
         filepath = 'static/images/uploads/' + filename
     else:
         filepath = 'static/images/default.jpg'
-    recipes = mongo.db.recipes
+    # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
+    temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
     # Create flatForm to allow recipe_type, ingredients and method to be stored as arrays rather than strings
     flatForm = request.form.to_dict(flat=False)
     # Insert into recipes collection
-    recipes.insert_one(
+    new_recipe = temp_recipes.insert_one(
         {
         'recipe_name': form['recipe_name'],
         'cuisine': form['cuisine'],
@@ -329,6 +330,55 @@ def insert_recipe():
         'image': filepath
         }
     )
+    # Use aggregate method to join the temp_recipes and media collections
+    temp_recipes.aggregate([
+        {
+            '$lookup':
+            {
+                'from': 'media',
+                'localField': 'recipe_from',
+                'foreignField': 'media_name',
+                'as': 'recipe_media'
+            }
+        },
+        # Use $mergeObjects to combine temp_recipes and media documents into the temp_recipes collection
+        {
+            '$replaceRoot': { 'newRoot': { '$mergeObjects': [ { '$arrayElemAt': [ '$recipe_media', 0 ]}, '$$ROOT'] } }
+        },
+        {
+            '$project': { 'recipe_media': 0 }
+        },
+        # Output aggregated data to the temp_recipes collection
+        {
+            '$out': 'temp_recipes'
+        }
+    ])
+    return redirect(url_for('preview_recipe', new_recipe_id = new_recipe.inserted_id))
+
+# Preview recipe
+@app.route('/preview_recipe/<new_recipe_id>')
+def preview_recipe(new_recipe_id):
+    recipe_preview = mongo.db.temp_recipes.find_one({'_id': ObjectId(new_recipe_id)})
+    return render_template('recipe-preview.html',
+                            temp_recipe = recipe_preview)
+
+# Submit recipe
+@app.route('/submit_recipe/<submit_recipe_id>')
+def submit_recipe(submit_recipe_id):
+    temp_recipes = mongo.db.temp_recipes
+    # Find the recipe in temp_recipes collection
+    submit = temp_recipes.find_one({'_id': ObjectId(submit_recipe_id)})
+    # Insert the recipe into recipes collection
+    submitted_recipes = mongo.db.recipes.insert_one(submit)
+    # Remove the recipe from temp_recipes collection
+    temp_recipes.remove({'_id': ObjectId(submit_recipe_id)})
+    return redirect(url_for('recipe', recipe_id=submitted_recipes.inserted_id))
+
+# Discard recipe
+@app.route('/discard_recipe/<discard_recipe_id>')
+def discard_recipe(discard_recipe_id):
+    mongo.db.temp_recipes.remove({ '_id': ObjectId(discard_recipe_id)})
+    flash("Recipe discarded")
     return redirect(url_for('get_recipes'))
 
 """ Media create and edit functions """

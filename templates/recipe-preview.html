@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="alert alert-danger" role="alert">
+            This is a preview. To submit your recipe to the site please check the details are correct and then click the Submit button.
+        </div>
+    </div>
+
+    <div class="container-fluid">
+            <div class="row">
+                <img class="img-fluid" src="../{{ temp_recipe.image }}">
+            </div>
+        
+            <div clas="row">
+                <h1>{{ temp_recipe.recipe_name }}</h1>
+            </div>
+        
+                <p>From <strong>{{ temp_recipe.recipe_from }}</strong></p>
+                <p><strong>Category: </strong> {{ temp_recipe.category }}</p>
+                <p>{{ temp_recipe.recipe_description }}</p>
+        
+            <div class="row">
+                <div class="col-md-3">
+                    <h2>Ingredients</h2>
+                    <ul>
+                        {% for i in temp_recipe.ingredients %}
+                        <li>{{ i }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="col-md-9">
+                    <h2>Method</h2>
+                    {% for m in temp_recipe.method %}
+                    <p>{{ m }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        
+            <div class="row">
+                <h3>Tags</h3>
+            </div>
+            <div class="row">
+                <ul>
+                    {% for t in temp_recipe.recipe_type %}
+                    <li>{{ t }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        
+            <div class="row">
+                <h3>Pairs With</h3>
+            </div>
+            <div class="row">
+                <ul>
+                    {% for p in temp_recipe.genres %}
+                    <li>{{ p }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="row">
+                <a href="{{ url_for('submit_recipe', submit_recipe_id = temp_recipe._id) }}" class="btn btn-primary">Submit Recipe</a>
+                <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}" class="btn btn-primary">Discard Recipe</a>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}
