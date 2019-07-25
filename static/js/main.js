@@ -58,4 +58,11 @@ $(document).on('click', '#remove-creator', function() {
     $(this).parent().remove();
 });
 
+$('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+});
+
 });
