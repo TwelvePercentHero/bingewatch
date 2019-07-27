@@ -6,7 +6,7 @@
 
 <h1>Add a Recipe</h1>
 
-<form action="{{ url_for("insert_recipe") }}" id="add-recipe" enctype=multipart/form-data method="POST">
+<form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype=multipart/form-data method="POST">
     <div class="form-row">
         <label>Recipe Name</label>
         <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>

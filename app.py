@@ -374,7 +374,8 @@ def submit_recipe(submit_recipe_id):
     submitted_recipes = mongo.db.recipes.insert_one(submit)
     # Remove the recipe from temp_recipes collection
     temp_recipes.remove({'_id': ObjectId(submit_recipe_id)})
-    return redirect(url_for('recipe', recipe_id=submitted_recipes.inserted_id))
+    return redirect(url_for('recipe',
+                            recipe_id = submitted_recipes.inserted_id))
 
 # Discard recipe
 @app.route('/discard_recipe/<discard_recipe_id>')
@@ -389,14 +390,30 @@ def edit_recipe(edit_recipe_id):
     # Check user is logged in
     if 'user' in session:
         recipe_changes = mongo.db.recipes.find_one({'_id': ObjectId(edit_recipe_id)})
+        mongo.db.temp_recipes.insert_one(recipe_changes)
+        mongo.db.recipes.remove({'_id': ObjectId(edit_recipe_id)})
+        editing_recipe = mongo.db.temp_recipes.find_one({'_id': ObjectId(edit_recipe_id)})
         return render_template('edit-recipe.html',
-                                recipe = recipe_changes,
+                                recipe = editing_recipe,
                                 recipe_types = mongo.db.recipe_types.find(),
                                 media = mongo.db.media.find(),
                                 origin = mongo.db.origin.find())
     else:
         flash('You must be logged in to do that!')
         return redirect(url_for('login'))
+
+""" Update recipe
+@app.route('/update_recipe/<update_recipe_id>', methods='GET', 'POST')
+def update_recipe(update_recipe_id):
+    if 'image' in request.form:
+        filepath = request.form['image']
+    elif 'image' in request.files:
+        filename = images.save(request.files['image'])
+        filepath = 'static/images/uploads/' + filename
+    else:
+        filepath = 'static/images/default.jpg'
+    recipes = mongo.db.recipes
+    form = request.form.to_dict() """
 
 """ Media create and edit functions """
 
