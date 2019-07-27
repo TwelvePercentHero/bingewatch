@@ -402,8 +402,8 @@ def edit_recipe(edit_recipe_id):
         flash('You must be logged in to do that!')
         return redirect(url_for('login'))
 
-""" Update recipe
-@app.route('/update_recipe/<update_recipe_id>', methods='GET', 'POST')
+# Update recipe
+@app.route('/update_recipe/<update_recipe_id>', methods=['GET', 'POST'])
 def update_recipe(update_recipe_id):
     if 'image' in request.form:
         filepath = request.form['image']
@@ -412,8 +412,43 @@ def update_recipe(update_recipe_id):
         filepath = 'static/images/uploads/' + filename
     else:
         filepath = 'static/images/default.jpg'
-    recipes = mongo.db.recipes
-    form = request.form.to_dict() """
+    temp_recipes = mongo.db.temp_recipes
+    form = request.form.to_dict()
+    flatForm = request.form.to_dict(flat=False)
+    temp_recipes.update({'_id': ObjectId(update_recipe_id)},
+    {
+    'recipe_name': form['recipe_name'],
+    'recipe_from': form['recipe_from'],
+    'cuisine': form['cuisine'],
+    'recipe_type': flatForm['recipe_type'],
+    'recipe_description': form['recipe_description'],
+    'ingredients': flatForm['ingredients'],
+    'method': flatForm['method'],
+    'image': filepath
+    })
+    temp_recipes.aggregate([
+        {
+        '$lookup':
+            {
+                'from': 'media',
+                'localField': 'recipe_from',
+                'foreignField': 'media_name',
+                'as': 'recipe_media'
+            }
+        },
+        # Use $mergeObjects to combine temp_recipes and media documents into the temp_recipes collection
+        {
+            '$replaceRoot': { 'newRoot': { '$mergeObjects': [ { '$arrayElemAt': [ '$recipe_media', 0 ]}, '$$ROOT'] } }
+        },
+        {
+            '$project': { 'recipe_media': 0 }
+        },
+        # Output aggregated data to the temp_recipes collection
+        {
+            '$out': 'temp_recipes'
+        }
+    ])
+    return redirect(url_for('get_recipes'))
 
 """ Media create and edit functions """
 

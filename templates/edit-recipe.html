@@ -6,7 +6,7 @@
 
 <h1>Add a Recipe</h1>
 
-<form action="#" id="edit-recipe" enctype=multipart/form-data method="POST">
+<form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe" enctype=multipart/form-data method="POST">
 
     <div class="form-row">
         <p>Amend the fields below and click the 'Submit' button to save your changes.</p>
