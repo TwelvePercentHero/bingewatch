@@ -85,7 +85,8 @@ def register():
                 user_in_db = mongo.db.users.find_one({'username': form['username']})
                 if user_in_db:
                     session['user'] = user_in_db['username']
-                    return redirect(url_for('profile', user=user_in_db['username']))
+                    return redirect(url_for('profile',
+                                            user=user_in_db['username']))
                 else:
                     flash("There was a problem saving your profile")
                     return redirect(url_for('register'))
@@ -456,6 +457,25 @@ def update_recipe(update_recipe_id):
     ])
     return redirect(url_for('preview_recipe',
                             new_recipe_id = update_recipe_id))
+
+# Delete recipe
+@app.route('/delete_recipe/<delete_recipe_id>', methods=['POST'])
+def delete_recipe(delete_recipe_id):
+    recipes = mongo.db.recipes
+    # Rather than deleting outright, move the recipe into the archived_recipes collection
+    archived_recipes = mongo.db.archived_recipes
+    delete = recipes.find_one({ '_id': ObjectId(delete_recipe_id)})
+    form = request.form.to_dict()
+    # User must confirm the recipe name before deleting
+    if form['confirm-delete'] == delete['recipe_name']:
+        archived_recipes.insert_one(delete)
+        recipes.remove({'_id': ObjectId(delete_recipe_id)})
+        flash("Recipe successfully deleted!")
+        return redirect(url_for('get_recipes'))
+    else:
+        flash("Recipe Name does not match - delete recipe failed")
+        return redirect(url_for('recipe',
+                                recipe_id = delete_recipe_id))
 
 """ Media create and edit functions """
 
