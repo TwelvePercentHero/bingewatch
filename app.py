@@ -355,7 +355,8 @@ def insert_recipe():
             '$out': 'temp_recipes'
         }
     ])
-    return redirect(url_for('preview_recipe', new_recipe_id = new_recipe.inserted_id))
+    return redirect(url_for('preview_recipe',
+                            new_recipe_id = new_recipe.inserted_id))
 
 # Preview recipe
 @app.route('/preview_recipe/<new_recipe_id>')
@@ -374,6 +375,7 @@ def submit_recipe(submit_recipe_id):
     submitted_recipes = mongo.db.recipes.insert_one(submit)
     # Remove the recipe from temp_recipes collection
     temp_recipes.remove({'_id': ObjectId(submit_recipe_id)})
+    flash("Recipe submitted!")
     return redirect(url_for('recipe',
                             recipe_id = submitted_recipes.inserted_id))
 
@@ -389,9 +391,13 @@ def discard_recipe(discard_recipe_id):
 def edit_recipe(edit_recipe_id):
     # Check user is logged in
     if 'user' in session:
+        # Find recipe to be edited in recipes collection
         recipe_changes = mongo.db.recipes.find_one({'_id': ObjectId(edit_recipe_id)})
+        # Insert the recipe into temp_recipes
         mongo.db.temp_recipes.insert_one(recipe_changes)
+        # Remove the recipe from the recipes collection
         mongo.db.recipes.remove({'_id': ObjectId(edit_recipe_id)})
+        # Find the recipe to be edited in temp_recipes collection
         editing_recipe = mongo.db.temp_recipes.find_one({'_id': ObjectId(edit_recipe_id)})
         return render_template('edit-recipe.html',
                                 recipe = editing_recipe,
@@ -448,7 +454,8 @@ def update_recipe(update_recipe_id):
             '$out': 'temp_recipes'
         }
     ])
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('preview_recipe',
+                            new_recipe_id = update_recipe_id))
 
 """ Media create and edit functions """
 
