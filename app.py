@@ -379,9 +379,24 @@ def submit_recipe(submit_recipe_id):
 # Discard recipe
 @app.route('/discard_recipe/<discard_recipe_id>')
 def discard_recipe(discard_recipe_id):
-    mongo.db.temp_recipes.remove({ '_id': ObjectId(discard_recipe_id)})
+    mongo.db.temp_recipes.remove({'_id': ObjectId(discard_recipe_id)})
     flash("Recipe discarded")
     return redirect(url_for('get_recipes'))
+
+# Edit recipe
+@app.route('/edit_recipe/<edit_recipe_id>')
+def edit_recipe(edit_recipe_id):
+    # Check user is logged in
+    if 'user' in session:
+        recipe_changes = mongo.db.recipes.find_one({'_id': ObjectId(edit_recipe_id)})
+        return render_template('edit-recipe.html',
+                                recipe = recipe_changes,
+                                recipe_types = mongo.db.recipe_types.find(),
+                                media = mongo.db.media.find(),
+                                origin = mongo.db.origin.find())
+    else:
+        flash('You must be logged in to do that!')
+        return redirect(url_for('login'))
 
 """ Media create and edit functions """
 
