@@ -591,6 +591,24 @@ def update_media(update_media_id):
     })
     return redirect(url_for('preview_media', new_media_id = update_media_id))
 
+# Delete media
+@app.route('/delete_media/<delete_media_id>', methods=['POST'])
+def delete_media(delete_media_id):
+    media = mongo.db.media
+    # Rather than deleting outright, move the media into the archived_media collection
+    archived_media = mongo.db.archived_media
+    delete = media.find_one({ '_id': ObjectId(delete_media_id) })
+    form = request.form.to_dict()
+    # User must confirm the media name before deleting
+    if form['confirm-delete'] == delete['media_name']:
+        archived_media.insert_one(delete)
+        media.remove({ '_id': ObjectId(delete_media_id)})
+        flash("Media successfully deleted!")
+        return redirect(url_for('get_media'))
+    else:
+        flash("Media Name does not match - delete media failed")
+        return redirect(url_for('media',
+                                media_id = delete_media_id))
 
 # Run app
 if __name__ == 'main':
