@@ -611,7 +611,7 @@ def delete_media(delete_media_id):
 
 """ Likes """
 
-# Like Recipe
+# Like recipe
 @app.route('/like_recipe/<like_recipe_id>')
 def like_recipe(like_recipe_id):
     recipe = mongo.db.recipes.find_one({ '_id': ObjectId(like_recipe_id) })
@@ -632,6 +632,28 @@ def like_recipe(like_recipe_id):
             flash("Recipe liked!")
             return redirect(url_for('recipe',
                                     recipe_id = like_recipe_id))
+
+# Like media
+@app.route('/like_media/<like_media_id>')
+def like_media(like_media_id):
+    media = mongo.db.media.find_one({ '_id': ObjectId(like_media_id) })
+    if 'user' in session:
+        user = mongo.db.users.find_one({ 'username': session['user'] })
+        likes = mongo.db.likes.count( { '$and': [ { 'media_id': media['_id'] }, { 'username': user['username'] } ] } )
+        if likes == 1:
+            flash("You have already liked this media!")
+            return redirect(url_for('media',
+                                    media_id = like_media_id))
+        else:
+            mongo.db.likes.insert_one(
+                {
+                    'media_id': media['_id'],
+                    'username': user['username']
+                }
+                )
+            flash("Media liked!")
+            return redirect(url_for('media',
+                                    media_id = like_media_id))
 
 # Run app
 if __name__ == 'main':
