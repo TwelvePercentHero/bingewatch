@@ -539,6 +539,13 @@ def submit_media(submit_media_id):
     flash("Media submitted!")
     return redirect(url_for('media', media_id = submitted_media.inserted_id))
 
+# Discard media
+@app.route('/discard_media/<discard_media_id>')
+def discard_media(discard_media_id):
+    mongo.db.temp_media.remove({ '_id': ObjectId(discard_media_id)})
+    flash("Media discarded")
+    return redirect(url_for('get_media'))
+
 # Run app
 if __name__ == 'main':
     app.run(host=os.environ.get('IP', '0.0.0.0'),
