@@ -209,7 +209,8 @@ def get_recipes():
 def recipe(recipe_id):
     current_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     return render_template('recipe.html',
-                            recipe = current_recipe)
+                            recipe = current_recipe,
+                            media = mongo.db.media.find())
 
 # Search recipes
 @app.route('/search_recipes', methods=['GET', 'POST'])

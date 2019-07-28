@@ -62,7 +62,28 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirm-delete-modal">Delete Recipe</button>
     </div>
     {% endif %}
+
+    <div class="row">
+        <h2>Recommended Media</h2>
+    </div>
+
+    <div class="col-sm-12">
+        {% for media in media %}
+        {% if media.media_name == recipe.recipe_from or media.genres == recipe.genres %}
+        <div class="card col-sm-12 col-md-3" id="{{ media._id }}">
+            <img src="{{ media.image }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ media.media_name }}</h5>
+                <p class="card-text"><strong>{{ media.gategory }}</strong></p>
+                <a href="{{ url_for('media', media_id = media._id) }}" class="btn btn-primary">View Media</a>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
 </div>
+
+
 
 <!-- Confirm Deletion Modal -->
 <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal" aria-hidden="true">
