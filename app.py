@@ -107,7 +107,14 @@ def profile(user):
     # Check if user is logged in
     if 'user' in session:
         user_in_db = mongo.db.users.find_one({ 'username': user })
-        return render_template('profile.html', user=user_in_db)
+        user_likes = mongo.db.likes.find( { 'username': user_in_db['username']} )
+        recipes = mongo.db.recipes.find()
+        media = mongo.db.media.find()
+        return render_template('profile.html',
+                                user = user_in_db,
+                                likes = user_likes,
+                                recipes = recipes,
+                                media = media)
     else:
         flash('You must be logged in!')
         return redirect(url_for('home_page'))
@@ -628,7 +635,7 @@ def like_recipe(like_recipe_id):
                     'recipe_id': recipe['_id'],
                     'username': user['username']
                 }
-                )
+            )
             flash("Recipe liked!")
             return redirect(url_for('recipe',
                                     recipe_id = like_recipe_id))
