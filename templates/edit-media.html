@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="container-fluid">
+
+    <div>
+
+        <form action="{{ url_for('update_media', update_media_id = media._id)}}" id="edit-media" enctype=multipart/form-data method="POST">
+        
+        <div class="form-row">
+            <label>Media Name</label>
+            <input id="media-name" name="media-name" class="form-control" type="text" placeholder="Media Name" value="{{ media.media_name }}" required>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                <select id="category" name="category" class="form-control" required>
+                    <option value="" disabled selected>Choose Category</option>
+                    {% for cat in categories %}
+                    {% if cat.category_name == media.category %}
+                    <option value="{{ cat.category_name }}" selected>{{ cat.category_name }}</option>
+                    {% else %}
+                    <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col">
+                <select id="origin" name="origin" class="form-control" required>
+                    <option value="" disabled selected>Choose Origin</option>
+                    {% for origin in origin %}
+                    {% if origin.nationality == media.origin %}
+                    <option value="{{ origin.nationality }}" selected>{{ origin.nationality }}</option>
+                    {% else %}
+                    <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            {% for genres in genres %}
+            {% if genres.genre_name in media.genres %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="genres" value="{{ genres.genre_name }}" id="genres" checked>
+                <label class="form-check-label">
+                    {{ genres.genre_name }}
+                </label>
+            </div>
+            {% else %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="genres" value="{{ genres.genre_name }}" id="genres">
+                <label class="form-check-label">
+                    {{ genres.genre_name }}
+                </label>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label>Media Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" required>{{ media.description }}</textarea>
+        </div>
+
+        <div class="form-row">
+            <p>Starring</p>
+        </div>
+
+        <div id="actor-list">
+            {% for s in media.starring %}
+            <div class="form-group" id="actors">
+                <input id="starring" name="starring" class="form-control" type="text" placeholder="Actor" value="{{ s }}" required>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="btn btn-primary" id="add-actor">Add Actor</a>
+        
+        <div class="form-row">
+            <p>Creators</p>
+        </div>
+
+        <div id="creator-list">
+            {% for c in media.creators %}
+            <div class="form-group" id="creator-div">
+                <input id="creators" name="creators" class="form-control" type="text" placeholder="Creator" value="{{ c }}" required>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="btn btn-primary" id="add-creator">Add Creator</a>
+
+        <div class="form-row">
+            <p>Upload Image</p>
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="image">{{ media.image }}</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" name="action">Preview</button>        
+        </form>
+    </div>
+
+</section>
+
+
+{% endblock %}

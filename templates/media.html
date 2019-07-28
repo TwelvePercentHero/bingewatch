@@ -44,7 +44,7 @@
     <!-- Only display edit and delete buttons if the user is logged in -->
     {% if 'user' in session %}
     <div class="row">
-        <a href="#" class="btn btn-primary">Edit Media</a>
+        <a href="{{ url_for('edit_media', edit_media_id = media._id )}}" class="btn btn-primary">Edit Media</a>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirm-delete-modal">Delete Media</button>
     </div>
     {% endif %}

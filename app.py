@@ -546,6 +546,52 @@ def discard_media(discard_media_id):
     flash("Media discarded")
     return redirect(url_for('get_media'))
 
+# Edit media
+@app.route('/edit_media/<edit_media_id>')
+def edit_media(edit_media_id):
+    # Check user is logged in
+    if 'user' in session:
+        # Find media to be edited in media collection
+        media_changes = mongo.db.media.find_one({ '_id': ObjectId(edit_media_id)})
+        # Insert the media into temp_media
+        mongo.db.temp_media.insert_one(media_changes)
+        # Remove the media from the media collection
+        mongo.db.media.remove({ '_id': ObjectId(edit_media_id)})
+        # Find the media to be edited in temp_media collection
+        editing_media = mongo.db.temp_media.find_one({ '_id': ObjectId(edit_media_id)})
+        return render_template('edit-media.html',
+                                media = editing_media,
+                                categories = mongo.db.categories.find(),
+                                origin = mongo.db.origin.find(),
+                                genres = mongo.db.genres.find())
+
+# Update media
+@app.route('/update_media/<update_media_id>', methods=['GET', 'POST'])
+def update_media(update_media_id):
+    if 'image' in request.form:
+        filepath = request.form['image']
+    elif 'image' in request.files:
+        filename = images.save(request.files['image'])
+        filepath = 'static/images/uploads/' + filename
+    else:
+        filepath = 'static/images/default.jpg'
+    temp_media = mongo.db.temp_media
+    form = request.form.to_dict()
+    flatForm = request.form.to_dict(flat=False)
+    temp_media.update({ '_id': ObjectId(update_media_id)},
+    {
+        'media_name': form['media-name'],
+        'category': form['category'],
+        'origin': form['origin'],
+        'starring': flatForm['starring'],
+        'creators': flatForm['creators'],
+        'genres': flatForm['genres'],
+        'description': form['description'],
+        'image': filepath
+    })
+    return redirect(url_for('preview_media', new_media_id = update_media_id))
+
+
 # Run app
 if __name__ == 'main':
     app.run(host=os.environ.get('IP', '0.0.0.0'),
