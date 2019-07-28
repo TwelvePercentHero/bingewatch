@@ -617,19 +617,21 @@ def like_recipe(like_recipe_id):
     recipe = mongo.db.recipes.find_one({ '_id': ObjectId(like_recipe_id) })
     if 'user' in session:
         user = mongo.db.users.find_one({ 'username' : session['user'] })
-        mongo.db.likes.insert_one(
-            {
-                'recipe_id': recipe['_id'],
-                'username': user['username']
-            }
-        )
-        flash("Recipe liked!")
-        return redirect(url_for('recipe',
-                                recipe_id = like_recipe_id))
-    else:
-        flash("You must be logged in to do that!")
-        return redirect(url_for('login'))
-
+        likes = mongo.db.likes.count( { '$and': [ { 'recipe_id': recipe['_id'] }, { 'username': user['username'] } ] })
+        if likes == 1:
+            flash("You have already liked this recipe!")
+            return redirect(url_for('recipe',
+                                    recipe_id = like_recipe_id))
+        else:
+            mongo.db.likes.insert_one(
+                {
+                    'recipe_id': recipe['_id'],
+                    'username': user['username']
+                }
+                )
+            flash("Recipe liked!")
+            return redirect(url_for('recipe',
+                                    recipe_id = like_recipe_id))
 
 # Run app
 if __name__ == 'main':
