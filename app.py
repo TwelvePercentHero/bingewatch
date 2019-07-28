@@ -6,7 +6,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Adding flask_uploads to allow custom recipe images to be uploaded by users
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
@@ -609,6 +608,28 @@ def delete_media(delete_media_id):
         flash("Media Name does not match - delete media failed")
         return redirect(url_for('media',
                                 media_id = delete_media_id))
+
+""" Likes """
+
+# Like Recipe
+@app.route('/like_recipe/<like_recipe_id>')
+def like_recipe(like_recipe_id):
+    recipe = mongo.db.recipes.find_one({ '_id': ObjectId(like_recipe_id) })
+    if 'user' in session:
+        user = mongo.db.users.find_one({ 'username' : session['user'] })
+        mongo.db.likes.insert_one(
+            {
+                'recipe_id': recipe['_id'],
+                'username': user['username']
+            }
+        )
+        flash("Recipe liked!")
+        return redirect(url_for('recipe',
+                                recipe_id = like_recipe_id))
+    else:
+        flash("You must be logged in to do that!")
+        return redirect(url_for('login'))
+
 
 # Run app
 if __name__ == 'main':
