@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+        <div class="row">
+            <div class="alert alert-danger" role="alert">
+                This is a preview. To submit your media to the site please check the details are correct and then click the Submit button.
+            </div>
+        </div>
+
+    <div class="row">
+        <img class="media-header img-fluid" src="/{{ temp_media.image }}">
+    </div>
+    
+    <div class="row">
+        <h1>{{ temp_media.media_name }}</h1>
+    </div>
+
+    <div class="row">
+        <h2>Created By</h2>
+    </div>
+
+    <div class="row">
+        <ul>
+            {% for c in temp_media.creators %}
+            <li>{{ c }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Starring</h2>
+    </div>
+
+    <div class="row">
+        <ul>
+            {% for s in temp_media.starring %}
+            <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row">
+        <h2>Description</h2>
+        <p>{{ temp_media.description }}</p>
+    </div>
+
+    <div class="row">
+        <a href="{{ url_for('submit_media', submit_media_id = temp_media._id )}}" class="btn btn-primary">Submit Media</a>
+        <a href="#" class="btn btn-primary">Discard Media</a>
+    </div>
+
+
+{% endblock %}

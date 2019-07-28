@@ -210,7 +210,7 @@ def recipe(recipe_id):
     current_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     return render_template('recipe.html',
                             recipe = current_recipe,
-                            media = mongo.db.media.find())
+                            media = mongo.db.media.find().sort('media_name', 1))
 
 # Search recipes
 @app.route('/search_recipes', methods=['GET', 'POST'])
@@ -280,7 +280,8 @@ def get_media():
 def media(media_id):
     media = mongo.db.media.find_one({'_id': ObjectId(media_id)})
     return render_template('media.html',
-                            media = media)
+                            media = media,
+                            recipes = mongo.db.recipes.find().sort('recipe_name', 1))
 
 # Search media
 @app.route('/search_media', methods=['GET', 'POST'])
@@ -502,10 +503,10 @@ def insert_media():
         filepath = 'static/images/uploads/' + filename
     else:
         filepath = 'static/images/default.jpg'
-    media = mongo.db.media
+    temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
-    media.insert_one(
+    new_media = temp_media.insert_one(
         {
             'media_name': form['media-name'],
             'category': form['category'],
@@ -517,7 +518,26 @@ def insert_media():
             'image': filepath
         }
     )
-    return redirect(url_for('get_media'))
+    return redirect(url_for('preview_media', new_media_id = new_media.inserted_id))
+
+# Preview media
+@app.route('/preview_media/<new_media_id>')
+def preview_media(new_media_id):
+    media_preview = mongo.db.temp_media.find_one({ '_id': ObjectId(new_media_id)})
+    return render_template('media-preview.html', temp_media = media_preview)
+
+# Submit media
+@app.route('/submit_media/<submit_media_id>')
+def submit_media(submit_media_id):
+    temp_media = mongo.db.temp_media
+    # Find the media in the temp_media collection
+    submit = temp_media.find_one({ '_id': ObjectId(submit_media_id)})
+    # Insert the media into the media collection
+    submitted_media = mongo.db.media.insert_one(submit)
+    # Remove the media from the temp_media collection
+    temp_media.remove({ '_id': ObjectId(submit_media_id)})
+    flash("Media submitted!")
+    return redirect(url_for('media', media_id = submitted_media.inserted_id))
 
 # Run app
 if __name__ == 'main':
