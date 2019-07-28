@@ -313,9 +313,9 @@ def insert_recipe():
     # Upload image to uploads folder and generate filepath
     if 'image' in request.files:
         filename = images.save(request.files['image'])
-        filepath = 'static/images/uploads/' + filename
+        filepath = '../static/images/uploads/' + filename
     else:
-        filepath = 'static/images/default.jpg'
+        filepath = '../static/images/default.jpg'
     # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
@@ -417,9 +417,9 @@ def update_recipe(update_recipe_id):
         filepath = request.form['image']
     elif 'image' in request.files:
         filename = images.save(request.files['image'])
-        filepath = 'static/images/uploads/' + filename
+        filepath = '../static/images/uploads/' + filename
     else:
-        filepath = 'static/images/default.jpg'
+        filepath = '../static/images/default.jpg'
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
@@ -571,9 +571,9 @@ def update_media(update_media_id):
         filepath = request.form['image']
     elif 'image' in request.files:
         filename = images.save(request.files['image'])
-        filepath = 'static/images/uploads/' + filename
+        filepath = '../static/images/uploads/' + filename
     else:
-        filepath = 'static/images/default.jpg'
+        filepath = '../static/images/default.jpg'
     temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
