@@ -317,6 +317,7 @@ def add_recipe():
 # Insert recipe to database
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
     if 'image' in request.files:
         filename = images.save(request.files['image'])
@@ -338,7 +339,8 @@ def insert_recipe():
         'recipe_description': form['recipe_description'],
         'ingredients': flatForm['ingredients'],
         'method': flatForm['method'],
-        'image': filepath
+        'image': filepath,
+        'submitted_by': user['username']
         }
     )
     # Use aggregate method to join the temp_recipes and media collections
@@ -622,8 +624,10 @@ def delete_media(delete_media_id):
 @app.route('/like_recipe/<like_recipe_id>')
 def like_recipe(like_recipe_id):
     recipe = mongo.db.recipes.find_one({ '_id': ObjectId(like_recipe_id) })
+    # Check user is logged in
     if 'user' in session:
         user = mongo.db.users.find_one({ 'username' : session['user'] })
+        # Find out if the user has liked the recipe already
         likes = mongo.db.likes.count( { '$and': [ { 'recipe_id': recipe['_id'] }, { 'username': user['username'] } ] })
         if likes == 1:
             flash("You have already liked this recipe!")
@@ -633,9 +637,33 @@ def like_recipe(like_recipe_id):
             mongo.db.likes.insert_one(
                 {
                     'recipe_id': recipe['_id'],
-                    'username': user['username']
+                    'username': user['username'],
+                    'record_type': 'recipe'
                 }
             )
+            # Use aggregate method to join the likes and recipes collections
+            mongo.db.likes.aggregate([
+                {
+                    '$lookup':
+                    {
+                        'from': 'recipes',
+                        'localField': 'recipe_id',
+                        'foreignField': '_id',
+                        'as': 'liked_recipes'
+                    }
+                },
+                # Use $mergeObjects to combine likes and recipes documents into the likes collection
+                {
+                    '$replaceRoot': { 'newRoot': { '$mergeObjects': [ { '$arrayElemAt': ['$liked_recipes', 0 ] }, '$$ROOT' ] } }
+                },
+                { 
+                    '$project': { 'liked_recipes': 0 } 
+                },
+                # Output aggregated data to the likes collection
+                { 
+                    '$out': 'likes'
+                }
+            ])
             flash("Recipe liked!")
             return redirect(url_for('recipe',
                                     recipe_id = like_recipe_id))
@@ -644,8 +672,10 @@ def like_recipe(like_recipe_id):
 @app.route('/like_media/<like_media_id>')
 def like_media(like_media_id):
     media = mongo.db.media.find_one({ '_id': ObjectId(like_media_id) })
+    # Check user is logged in
     if 'user' in session:
         user = mongo.db.users.find_one({ 'username': session['user'] })
+        # Find out if the user has liked the media already
         likes = mongo.db.likes.count( { '$and': [ { 'media_id': media['_id'] }, { 'username': user['username'] } ] } )
         if likes == 1:
             flash("You have already liked this media!")
@@ -655,9 +685,33 @@ def like_media(like_media_id):
             mongo.db.likes.insert_one(
                 {
                     'media_id': media['_id'],
-                    'username': user['username']
+                    'username': user['username'],
+                    'record_type': 'media'
                 }
                 )
+            # Use aggregate method to join the likes and media collections
+            mongo.db.likes.aggregate([
+                {
+                    '$lookup':
+                    {
+                        'from': 'media',
+                        'localField': 'media_id',
+                        'foreignField': '_id',
+                        'as': 'liked_media'
+                    }
+                },
+                # Use $mergeObjects to combine likes and media into the likes collection
+                {
+                    '$replaceRoot': { 'newRoot': { '$mergeObjects': [ { '$arrayElemAt': ['$liked_media', 0 ] }, '$$ROOT' ] } }
+                },
+                { 
+                    '$project': { 'liked_media': 0 } 
+                },
+                # Output aggregated data to the likes collection
+                { 
+                    '$out': 'likes'
+                }
+            ])
             flash("Media liked!")
             return redirect(url_for('media',
                                     media_id = like_media_id))

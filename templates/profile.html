@@ -7,11 +7,26 @@
 <p>This is your <strong>Binge | Watch</strong> user profile page.</p>
 <p>All the recipes and media you have liked will appear in the sections below.</p>
 
-<h2>Favourite Recipes</h2>
 {% for l in likes %}
-<p>{{ l }}</p>
-{% endfor %}
-
-<h2>Favourite Media</h2>
+{% if l.record_type == 'recipe' %}
+<div class="card col-sm-12 col-md-3" id="{{ l.recipe_id }}">
+        <img src="{{ l.image }}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ l.recipe_name }}</h5>
+            <p class="card-text">From <strong>{{ l.recipe_from }}</strong></p>
+            <a href="{{ url_for('recipe', recipe_id = l.recipe_id) }}" class="btn btn-primary">View Recipe</a>
+        </div>
+    </div>
+{% elif l.record_type == 'media' %}
+    <div class="card col-sm-12 col-md-3" id="{{ l.media_id }}">
+        <img src="{{ l.image }}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ l.media_name }}</h5>
+            <p class="card-text"><strong>{{ l.category }}</strong></p>
+            <a href="{{ url_for('media', media_id = l.media_id) }}" class="btn btn-primary">View Media</a>
+        </div>
+    </div>
+{% endif %}
+{% endfor %} 
 
 {% endblock %}
