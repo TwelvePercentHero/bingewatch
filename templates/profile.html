@@ -29,4 +29,32 @@
 {% endif %}
 {% endfor %} 
 
+<h2>Your Recipes</h2>
+{% for r in recipes %}
+{% if r.submitted_by == user['username'] %}
+<div class="card col-sm-12 col-md-3" id="{{ r._id }}">
+        <img src="{{ r.image }}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ r.recipe_name }}</h5>
+            <p class="card-text">From <strong>{{ r.recipe_from }}</strong></p>
+            <a href="{{ url_for('recipe', recipe_id = r._id) }}" class="btn btn-primary">View Recipe</a>
+        </div>
+    </div>
+{% endif %}
+{% endfor %}
+
+<h2>Your Media</h2>
+{% for m in media %}
+{% if m.submitted_by == user['username'] %}
+    <div class="card col-sm-12 col-md-3" id="{{ m.media_id }}">
+        <img src="../{{ m.image }}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ m.media_name }}</h5>
+            <p class="card-text"><strong>{{ m.category }}</strong></p>
+            <a href="{{ url_for('media', media_id = m.media_id) }}" class="btn btn-primary">View Media</a>
+        </div>
+    </div>
+{% endif %}
+{% endfor %}
+
 {% endblock %}

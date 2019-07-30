@@ -505,6 +505,7 @@ def add_media():
 # Insert media to database
 @app.route('/insert_media', methods=['POST'])
 def insert_media():
+    user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and create filepath
     if 'image' in request.files:
         filename = images.save(request.files['image'])
@@ -523,7 +524,8 @@ def insert_media():
             'creators': flatForm['creators'],
             'genres': flatForm['genres'],
             'description': form['description'],
-            'image': filepath
+            'image': filepath,
+            'submitted_by': user['username']
         }
     )
     return redirect(url_for('preview_media', new_media_id = new_media.inserted_id))
