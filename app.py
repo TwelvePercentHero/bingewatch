@@ -1,6 +1,6 @@
 import os, datafunctions
 from flask import Flask, render_template, url_for, request, session, redirect, flash
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 # Adding flask_uploads to allow custom recipe images to be uploaded by users
@@ -131,7 +131,9 @@ def get_recipes():
         recipe_results = mongo.db.recipes.find(query).sort('recipe_name', 1)
     else:
         recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
+    total_recipes = recipe_results.count()
     return render_template('recipe-results.html',
+                            total_results = total_recipes,
                             recipes = recipe_results,
                             recipe_types = mongo.db.recipe_types.find(),
                             genres = mongo.db.genres.find(),
