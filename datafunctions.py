@@ -9,6 +9,8 @@ app.config['MONGO_DBNAME'] = 'binge_watch'
 app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 mongo = PyMongo(app)
 
+
+
 """ Filters """
 
 # get_recipes filter

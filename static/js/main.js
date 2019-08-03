@@ -8,7 +8,18 @@ function flashed_messages() {
 			$("#alerts").slideUp(1500);
 		}, 7000);
 	}
-}
+};
+
+$(document).on("click", ".browse", function() {
+    var file = $(this).parents().find(".file");
+    file.trigger("click");
+});
+$('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+});
 
 $('#add-ingredient').click(function() {
     var newIngredient = $(`<div class='form-group' id='ingredients-div'>
@@ -56,13 +67,6 @@ $('#add-creator').click(function() {
 
 $(document).on('click', '#remove-creator', function() {
     $(this).parent().remove();
-});
-
-$('input[type="file"]').change(function(e) {
-    var fileName = e.target.files[0].name;
-    $("#file").val(fileName);
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
 });
 
 });

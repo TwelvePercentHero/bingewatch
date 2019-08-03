@@ -19,7 +19,7 @@
 
     <div class="col-sm-12 col-md-3">
         <h1>Filters</h1>
-        <form action="{{ url_for('get_recipes') }}" method="POST">
+        <form action="{{ url_for('get_recipes', page_no=1) }}" method="POST">
             <div class="form-group">
                 <label>Recipe Type</label>
                 <select class="form-control" id="recipe_type" name="recipe_type">
@@ -61,7 +61,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Filter Results</button>
         </form>
-        <a href="{{ url_for('get_recipes') }}" class="btn btn-primary">Reset Filters</a>
+        <a href="{{ url_for('get_recipes', page_no = 1) }}" class="btn btn-primary">Reset Filters</a>
     </div>
 
 
@@ -76,6 +76,12 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+
+    <div class="row">
+        <p>Page {{ page_no }} of {{ total_pages }}</p>
+        <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+        <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}"" class="btn btn-primary">Next Page</a>
     </div>
 
 </div>

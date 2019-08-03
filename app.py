@@ -1,4 +1,4 @@
-import os, datafunctions
+import os, datafunctions, math
 from flask import Flask, render_template, url_for, request, session, redirect, flash
 from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
@@ -122,19 +122,35 @@ def profile(user):
 """ Recipe Queries """
 
 # Get all recipes
-@app.route('/get_recipes', methods=['GET', 'POST'])
-def get_recipes():
+@app.route('/get_recipes/<page_no>', methods=['GET', 'POST'])
+def get_recipes(page_no):
+    recipes = mongo.db.recipes
+    page_skip = (int(page_no) - 1) * 9
     if request.method == 'POST':
         # Create dict from form fields to filter results
         form = request.form.to_dict()
         query = datafunctions.filter_recipes(form)
-        recipe_results = mongo.db.recipes.find(query).sort('recipe_name', 1)
+        filtered_results = recipes.find(query).sort('recipe_name', 1)
+        total_recipes = filtered_results.count()
+        if total_recipes > 9:
+            results_pages = recipes.find(query).sort('recipe_name', 1).skip(page_skip).limit(9)
+        else:
+            results_pages = filtered_results
     else:
-        recipe_results = mongo.db.recipes.find().sort('recipe_name', 1)
-    total_recipes = recipe_results.count()
+        all_results = recipes.find().sort('recipe_name', 1)
+        total_recipes = all_results.count()
+        if total_recipes > 9:
+            results_pages = recipes.find().sort('recipe_name', 1).skip(page_skip).limit(9)
+        else:
+            results_pages = all_results
+    total_pages = int(math.ceil(total_recipes/9.0))
+    if total_recipes == 0:
+        page_no = 0
     return render_template('recipe-results.html',
+                            page_no = page_no,
                             total_results = total_recipes,
-                            recipes = recipe_results,
+                            total_pages = total_pages,
+                            recipes = results_pages,
                             recipe_types = mongo.db.recipe_types.find(),
                             genres = mongo.db.genres.find(),
                             origin = mongo.db.origin.find(),

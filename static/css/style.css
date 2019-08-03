@@ -15,3 +15,8 @@ footer ul {
     margin-bottom: 10px;
     display: inline-block;
 }
+
+.file {
+    visibility: hidden;
+    position: absolute;
+  }
