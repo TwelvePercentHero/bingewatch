@@ -461,7 +461,8 @@ def insert_media():
             'genres': flatForm['genres'],
             'description': form['description'],
             'image': filepath,
-            'submitted_by': user['username']
+            'submitted_by': user['username'],
+            'likes': 0
         }
     )
     return redirect(url_for('preview_media', new_media_id = new_media.inserted_id))
@@ -654,6 +655,10 @@ def like_media(like_media_id):
                     '$out': 'likes'
                 }
             ])
+            mongo.db.media.update({ '_id': ObjectId(like_media_id) },
+            {
+                '$inc': { 'likes': 1 }
+            })
             flash("Media liked!")
             return redirect(url_for('media',
                                     media_id = like_media_id))
