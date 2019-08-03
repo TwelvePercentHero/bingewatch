@@ -124,11 +124,27 @@ def profile(user):
 # Get all recipes
 @app.route('/get_recipes/<page_no>', methods=['GET', 'POST'])
 def get_recipes(page_no):
+    selected_recipe_type = None
+    selected_category = None
+    selected_genre = None
+    selected_origin = None
     recipes = mongo.db.recipes
     page_skip = (int(page_no) - 1) * 9
     if request.method == 'POST':
         # Create dict from form fields to filter results
         form = request.form.to_dict()
+        if 'recipe_type' in form:
+            selected_recipe_type = form['recipe_type']
+        if 'category' in form:
+            selected_category = form['category']
+        if 'genres' in form:
+            selected_genre = form['genres']
+        if 'origin' in form:
+            selected_origin = form['origin']
+        # Catch if users attempt to submit filters without selecting options
+        if len(form) == 0:
+            flash("Please choose a category to filter")
+            return redirect(url_for('get_recipes', page_no = 1))
         query = datafunctions.filter_recipes(form)
         filtered_results = recipes.find(query).sort('recipe_name', 1)
         total_recipes = filtered_results.count()
@@ -154,7 +170,11 @@ def get_recipes(page_no):
                             recipe_types = mongo.db.recipe_types.find(),
                             genres = mongo.db.genres.find(),
                             origin = mongo.db.origin.find(),
-                            categories = mongo.db.categories.find())
+                            categories = mongo.db.categories.find(),
+                            selected_recipe_type = selected_recipe_type,
+                            selected_category = selected_category,
+                            selected_genre = selected_genre,
+                            selected_origin = selected_origin)
 
 # Find specific recipe
 @app.route('/recipe/<recipe_id>')

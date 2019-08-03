@@ -12,14 +12,14 @@
 </div>
 
 <div class="row">
-    {{ total_results }} results found
+    {{ total_results }} result{% if total_results > 1 or total_results == 0 %}s{% endif %} found
 </div>
 
 <div class="row">
 
     <div class="col-sm-12 col-md-3">
         <h1>Filters</h1>
-        <form action="{{ url_for('get_recipes', page_no=1) }}" method="POST">
+        <form action="{{ url_for('get_recipes', page_no = 1) }}" method="POST">
             <div class="form-group">
                 <label>Recipe Type</label>
                 <select class="form-control" id="recipe_type" name="recipe_type">
@@ -82,12 +82,15 @@
         <p>Page {{ page_no }} of {{ total_pages }}</p>
         {% if total_pages <= 1 %}
         <div></div>
-        {% else %}
+        {% elif total_pages > 1 %}
         <div>
-            {% if page_no|int > 1 %}
+            {% if page_no|int == 1 %}
+            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int > 1 and page_no|int < total_pages %}
             <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
-            {% elif page_no|int == 1 %}
-            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}"" class="btn btn-primary">Next Page</a>
+            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int == total_pages %}
+            <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
             {% endif %}
         </div>
         {% endif %}
