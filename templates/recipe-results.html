@@ -80,8 +80,17 @@
 
     <div class="row">
         <p>Page {{ page_no }} of {{ total_pages }}</p>
-        <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
-        <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}"" class="btn btn-primary">Next Page</a>
+        {% if total_pages <= 1 %}
+        <div></div>
+        {% else %}
+        <div>
+            {% if page_no|int > 1 %}
+            <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+            {% elif page_no|int == 1 %}
+            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}"" class="btn btn-primary">Next Page</a>
+            {% endif %}
+        </div>
+        {% endif %}
     </div>
 
 </div>
