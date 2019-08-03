@@ -275,7 +275,8 @@ def insert_recipe():
         'ingredients': flatForm['ingredients'],
         'method': flatForm['method'],
         'image': filepath,
-        'submitted_by': user['username']
+        'submitted_by': user['username'],
+        'likes': 0
         }
     )
     # Use aggregate method to join the temp_recipes and media collections
@@ -601,6 +602,10 @@ def like_recipe(like_recipe_id):
                     '$out': 'likes'
                 }
             ])
+            mongo.db.recipes.update({ '_id': ObjectId(like_recipe_id) },
+            {
+                '$inc': { 'likes': 1 }
+            })
             flash("Recipe liked!")
             return redirect(url_for('recipe',
                                     recipe_id = like_recipe_id))
