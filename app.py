@@ -201,7 +201,7 @@ def search_recipes(page_no):
     # Request the search term submitted as part of the form on index.html
     search_term = request.form.get('search_term')
     # Create index
-    mongo.db.recipes.create_index([('$**', 'text')])
+    recipes.create_index([('$**', 'text')])
     # Build query
     query = ({ '$text': { '$search': search_term } })
     # Find results
@@ -297,14 +297,43 @@ def media(media_id):
                             recipes = mongo.db.recipes.find().sort('recipe_name', 1))
 
 # Search media
-@app.route('/search_media', methods=['GET', 'POST'])
-def search_media():
+@app.route('/search_media/<page_no>', methods=['GET', 'POST'])
+def search_media(page_no):
+    selected_category = None
+    selected_genre = None
+    selected_origin = None
+    media = mongo.db.media
+    page_skip = (int(page_no) - 1) * 9
+    # Request the search term submitted as part of the form on index.html
     search_term = request.form.get('search_term')
-    mongo.db.media.create_index([('$**', 'text')])
+    # Create index
+    media.create_index([('$**', 'text')])
+    # Build query
     query = ({ '$text': { '$search': search_term } })
-    results = mongo.db.media.find(query)
+    # Find results
+    media_results = mongo.db.media.find(query)
+    # Count total number of returned media
+    total_media = media_results.count()
+    # If the total number of media is greater than 9, include pagination
+    if total_media > 9:
+        results_pages = media.find(query).sort('media_name', 1).skip(page_skip).limit(9)
+    else:
+        results_pages = media_results
+    # Calculate total number of pages needed
+    total_pages = int(math.ceil(total_media / 9.0))
+    if total_media == 0:
+        page_no = 0
     return render_template('media-results.html',
-                            media = results)
+                            page_no = page_no,
+                            total_results = total_media,
+                            total_pages = total_pages,
+                            media = results_pages,
+                            categories = mongo.db.categories.find(),
+                            origin = mongo.db.origin.find(),
+                            genres = mongo.db.genres.find(),
+                            selected_category = selected_category,
+                            selected_genre = selected_genre,
+                            selected_origin = selected_origin)
 
 """ Recipe create and edit functions """
 
