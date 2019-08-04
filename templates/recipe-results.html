@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-    {{ total_results }} result{% if total_results > 1 or total_results == 0 %}s{% endif %} found
+    <p>{{ total_results }} recipe{% if total_results > 1 or total_results == 0 %}s{% endif %} found</p>    
 </div>
 
 <div class="row">
@@ -23,7 +23,11 @@
             <div class="form-group">
                 <label>Recipe Type</label>
                 <select class="form-control" id="recipe_type" name="recipe_type">
+                    {% if selected_recipe_type %}
+                    <option value ="{{ selected_recipe_type }}" selected>{{ selected_recipe_type }}</option>
+                    {% else %}
                     <option value="" disabled selected>Choose Recipe Type</option>
+                    {% endif %}
                     {% for type in recipe_types %}
                     <option value="{{ type.recipe_type }}">{{ type.recipe_type }}</option>
                     {% endfor %}
@@ -33,7 +37,11 @@
             <div class="form-group">
                 <label>Category</label>
                 <select class="form-control" id="category" name="category">
+                    {% if selected_category %}
+                    <option value="{{ selected_category }}" selected>{{ selected_category }}</option>
+                    {% else %}
                     <option value="" disabled selected>Choose Category</option>
+                    {% endif %}
                     {% for cat in categories %}
                     <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
                     {% endfor %}
@@ -43,7 +51,11 @@
             <div class="form-group">
                 <label>Pairs With</label>
                 <select class="form-control" id="genres" name="genres">
-                    <option value="" disabled selected>Choose Category</option>
+                    {% if selected_genre %}
+                    <option value="{{ selected_genre }}" selected>{{ selected_genre }}</option>
+                    {% else %}
+                    <option value="" disabled selected>Choose Pairs With</option>
+                    {% endif %}
                     {% for genre in genres %}
                     <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
                     {% endfor %}
@@ -53,7 +65,11 @@
             <div class="form-group">
                 <label>Origin</label>
                 <select class="form-control" id="origin" name="origin">
-                    <option value="" disabled selected>Choose Category</option>
+                    {% if selected_origin %}
+                    <option value="{{ selected_origin }}" selected>{{ selected_origin }}</option>
+                    {% else %}
+                    <option value="" disabled selected>Choose Origin</option>
+                    {% endif %}
                     {% for o in origin %}
                     <option value="{{ o.nationality }}">{{ o.nationality }}</option>
                     {% endfor %}
@@ -78,6 +94,90 @@
         {% endfor %}
     </div>
 
+    <!-- Pagination Links -->
+
+    <!-- If results are filtered -->
+    {% if selected_recipe_type or selected_category or selected_genre or selected_origin %}
+    <div class="row">
+        <p>Page {{ page_no }} of {{ total_pages }}</p>
+        {% if total_pages <= 1 %}
+            <div></div>
+        {% elif total_pages > 1 %}
+            <div>
+                {% if page_no|int == 1 %}
+                <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
+                {% elif page_no|int == total_pages %}
+                <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
+                {% endif %}
+
+                    {% if selected_recipe_type %}
+                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
+                    {% endif %}
+
+                    {% if selected_category %}
+                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
+                    {% endif %}
+
+                    {% if selected_genre %}
+                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
+                    {% endif %}
+
+                    {% if selected_origin %}
+                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
+                    {% endif %}
+
+                {% if page_no|int == 1 %}
+                <button type="submit" class="btn btn-primary">Next Page</button>
+                {% elif page_no|int == total_pages %}
+                <button type="submit" class="btn btn-primary">Previous Page</button>
+                {% endif %}
+                </form>
+
+                {% if page_no|int > 1 and page_no|int < total_pages %}
+                <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
+                    {% if selected_recipe_type %}
+                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
+                    {% endif %}
+    
+                    {% if selected_category %}
+                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
+                    {% endif %}
+    
+                    {% if selected_genre %}
+                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
+                    {% endif %}
+    
+                    {% if selected_origin %}
+                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Next Page</button>
+                </form>
+
+                <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
+                    {% if selected_recipe_type %}
+                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
+                    {% endif %}
+        
+                    {% if selected_category %}
+                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
+                    {% endif %}
+        
+                    {% if selected_genre %}
+                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
+                    {% endif %}
+        
+                    {% if selected_origin %}
+                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Previous Page</button>
+                </form>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- If results are unfiltered -->
+    {% else %}
     <div class="row">
         <p>Page {{ page_no }} of {{ total_pages }}</p>
         {% if total_pages <= 1 %}
@@ -95,6 +195,7 @@
         </div>
         {% endif %}
     </div>
+    {% endif %}
 
 </div>
 

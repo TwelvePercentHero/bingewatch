@@ -147,18 +147,21 @@ def get_recipes(page_no):
             return redirect(url_for('get_recipes', page_no = 1))
         query = datafunctions.filter_recipes(form)
         filtered_results = recipes.find(query).sort('recipe_name', 1)
+        # Count total number of filtered recipes
         total_recipes = filtered_results.count()
+        # If the total number of recipes is greater than 9, include pagination
         if total_recipes > 9:
             results_pages = recipes.find(query).sort('recipe_name', 1).skip(page_skip).limit(9)
-        else:
-            results_pages = filtered_results
     else:
         all_results = recipes.find().sort('recipe_name', 1)
+        # Count total number of recipes
         total_recipes = all_results.count()
+        # If the total number of recipes is greater than 9, include pagination
         if total_recipes > 9:
             results_pages = recipes.find().sort('recipe_name', 1).skip(page_skip).limit(9)
         else:
             results_pages = all_results
+    # Calculate total number of pages needed
     total_pages = int(math.ceil(total_recipes/9.0))
     if total_recipes == 0:
         page_no = 0
