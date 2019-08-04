@@ -188,8 +188,14 @@ def recipe(recipe_id):
                             media = mongo.db.media.find().sort('media_name', 1))
 
 # Search recipes
-@app.route('/search_recipes', methods=['GET', 'POST'])
-def search_recipes():
+@app.route('/search_recipes/<page_no>', methods=['GET', 'POST'])
+def search_recipes(page_no):
+    selected_recipe_type = None
+    selected_category = None
+    selected_genre = None
+    selected_origin = None
+    recipes = mongo.db.recipes
+    page_skip = (int(page_no) - 1) * 9
     # Request the search term submitted as part of the form on index.html
     search_term = request.form.get('search_term')
     # Create index
@@ -197,9 +203,31 @@ def search_recipes():
     # Build query
     query = ({ '$text': { '$search': search_term } })
     # Find results
-    results = mongo.db.recipes.find(query)
+    recipe_results = recipes.find(query).sort('recipe_name', 1)
+    # Count total number of returned recipes
+    total_recipes = recipe_results.count()
+    # If the total number of recipes is greater than 9, include pagination
+    if total_recipes > 9:
+        results_pages = recipes.find(query).sort('recipe_name', 1).skip(page_skip).limit(9)
+    else:
+        results_pages = recipe_results
+    # Calculate total number of pages needed
+    total_pages = int(math.ceil(total_recipes/9.0))
+    if total_recipes == 0:
+        page_no = 0
     return render_template('recipe-results.html',
-                            recipes = results)
+                            page_no = page_no,
+                            total_results = total_recipes,
+                            total_pages = total_pages,
+                            recipes = results_pages,
+                            recipe_types = mongo.db.recipe_types.find(),
+                            genres = mongo.db.genres.find(),
+                            origin = mongo.db.origin.find(),
+                            categories = mongo.db.categories.find(),
+                            selected_recipe_type = selected_recipe_type,
+                            selected_category = selected_category,
+                            selected_genre = selected_genre,
+                            selected_origin = selected_origin)
 
 """ Media Queries """
 
