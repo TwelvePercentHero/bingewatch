@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 # Flask_uploads configuration for image uploads
 images = UploadSet('images', IMAGES)
-app.config['UPLOADED_IMAGES_DEST'] = 'static/images/uploads'
+app.config['UPLOADED_IMAGES_DEST'] = '../static/images/uploads'
 configure_uploads(app, images)
 
 # Database access configuration
@@ -355,11 +355,11 @@ def add_recipe():
 def insert_recipe():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
-    if 'image' in request.files:
+    if 'image' in request.form:
         filename = images.save(request.files['image'])
         filepath = '../static/images/uploads/' + filename
     else:
-        filepath = '../static/images/default.jpg'
+        filepath = '../static/images/uploads/default.jpg'
     # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
@@ -432,7 +432,7 @@ def submit_recipe(submit_recipe_id):
 def discard_recipe(discard_recipe_id):
     mongo.db.temp_recipes.remove({'_id': ObjectId(discard_recipe_id)})
     flash("Recipe discarded")
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('get_recipes', page_no = 1))
 
 # Edit recipe
 @app.route('/edit_recipe/<edit_recipe_id>')
@@ -544,11 +544,11 @@ def add_media():
 def insert_media():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and create filepath
-    if 'image' in request.files:
+    if 'image' in request.form:
         filename = images.save(request.files['image'])
-        filepath = 'static/images/uploads/' + filename
+        filepath = '../static/images/uploads/' + filename
     else:
-        filepath = 'static/images/default.jpg'
+        filepath = '../static/images/uploads/default.jpg'
     temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
@@ -592,7 +592,7 @@ def submit_media(submit_media_id):
 def discard_media(discard_media_id):
     mongo.db.temp_media.remove({ '_id': ObjectId(discard_media_id)})
     flash("Media discarded")
-    return redirect(url_for('get_media'))
+    return redirect(url_for('get_media', page_no = 1))
 
 # Edit media
 @app.route('/edit_media/<edit_media_id>')

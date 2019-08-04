@@ -97,8 +97,15 @@
     <p>Upload Image</p>
 
     <div class="form-group">
-        <input type="file" name="image" class="file" accept="image/*">
-    </div>
+            <div id="msg"></div>
+            <input type="file" name="image" class="file" accept="image/*">
+            <div class="input-group my-3">
+            <input type="text" class="form-control" disabled placeholder="{{ recipe.image }}" id="file" required>
+            <div class="input-group-append">
+                <button type="button" class="browse btn btn-primary">Browse...</button>
+            </div>
+            </div>
+        </div>
 
     <button type="submit" class="btn btn-primary" name="action">Update</button>
 
