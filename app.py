@@ -152,6 +152,8 @@ def get_recipes(page_no):
         # If the total number of recipes is greater than 9, include pagination
         if total_recipes > 9:
             results_pages = recipes.find(query).sort('recipe_name', 1).skip(page_skip).limit(9)
+        else:
+            results_pages = filtered_results
     else:
         all_results = recipes.find().sort('recipe_name', 1)
         # Count total number of recipes
@@ -232,20 +234,59 @@ def search_recipes(page_no):
 """ Media Queries """
 
 # Get all media
-@app.route('/get_media', methods=['GET', 'POST'])
-def get_media():
+@app.route('/get_media/<page_no>', methods=['GET', 'POST'])
+def get_media(page_no):
+    selected_category = None
+    selected_genre = None
+    selected_origin = None
+    media = mongo.db.media
+    page_skip = (int(page_no) - 1) * 9
     if request.method == 'POST':
         # Create dict from form fields to filter results
         form = request.form.to_dict()
+        if 'category' in form:
+            selected_category = form['category']
+        if 'genres' in form:
+            selected_genre = form['genres']
+        if 'origin' in form:
+            selected_origin = form['origin']
+        # Catch if users attempt to submit filters without selecting options
+        if len(form) == 0:
+            flash("Please choose a category to filter")
+            return redirect(url_for('get_media', page_no = 1))
         query = datafunctions.filter_media(form)
-        media = mongo.db.media.find(query).sort('media_name', 1)
+        filtered_media = mongo.db.media.find(query).sort('media_name', 1)
+        # Count total number of filtered media
+        total_media = filtered_media.count()
+        # If the total number of media is greater than 9, include pagination
+        if total_media > 9:
+            media_pages = media.find(query).sort('media_name', 1).skip(page_skip).limit(9)
+        else:
+            media_pages = filtered_media
     else:
-        media = mongo.db.media.find().sort('media_name', 1)
+        all_media = mongo.db.media.find().sort('media_name', 1)
+        # Count total number of media
+        total_media = all_media.count()
+        # If the total number of media is greater than 9, include pagination
+        if total_media > 9:
+            media_pages = media.find().sort('media_name', 1).skip(page_skip).limit(9)
+        else:
+            media_pages = all_media
+    # Calculate total number of pages needed
+    total_pages = int(math.ceil(total_media / 9.0))
+    if total_media == 0:
+        page_no = 0
     return render_template('media-results.html',
-                            media = media,
+                            page_no = page_no,
+                            total_results = total_media,
+                            total_pages = total_pages,
+                            media = media_pages,
                             categories = mongo.db.categories.find(),
                             origin = mongo.db.origin.find(),
-                            genres = mongo.db.genres.find())
+                            genres = mongo.db.genres.find(),
+                            selected_category = selected_category,
+                            selected_genre = selected_genre,
+                            selected_origin = selected_origin)
 
 # Find specific media
 @app.route('/media/<media_id>')
