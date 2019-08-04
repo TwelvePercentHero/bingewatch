@@ -355,7 +355,7 @@ def add_recipe():
 def insert_recipe():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
-    if 'image' in request.form:
+    if 'image' in request.files:
         filename = images.save(request.files['image'])
         filepath = '../static/images/uploads/' + filename
     else:
@@ -460,8 +460,6 @@ def edit_recipe(edit_recipe_id):
 @app.route('/update_recipe/<update_recipe_id>', methods=['GET', 'POST'])
 def update_recipe(update_recipe_id):
     if 'image' in request.form:
-        filepath = request.form['image']
-    elif 'image' in request.files:
         filename = images.save(request.files['image'])
         filepath = '../static/images/uploads/' + filename
     else:
