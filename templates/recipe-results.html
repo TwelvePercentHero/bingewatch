@@ -12,7 +12,8 @@
 </div>
 
 <div class="row">
-    <p>{{ total_results }} recipe{% if total_results > 1 or total_results == 0 %}s{% endif %} found</p>    
+    <p>{{ total_results }} recipe{% if total_results > 1 or total_results == 0 %}s{% endif %} found</p>   
+    <p>Showing results for '{{ search_term }}'</p>
 </div>
 
 <div class="row">
@@ -173,6 +174,26 @@
                 </form>
                 {% endif %}
             </div>
+        {% endif %}
+    </div>
+
+    <!-- If results are from search_recipes -->
+    {% elif search_term %}
+    <div class="row">
+        <p>Page {{ page_no }} of {{ total_pages }}</p>
+        {% if total_pages <= 1 %}
+        <div></div>
+        {% elif total_pages > 1 %}
+        <div>
+            {% if page_no|int == 1 %}
+            <a href="{{url_for('search_recipes', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int > 1 and page_no|int < total_pages %}
+            <a href="{{ url_for('search_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+            <a href="{{ url_for('search_recipes', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int == total_pages %}
+            <a href="{{ url_for('search_recipes', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+            {% endif %}
+        </div>
         {% endif %}
     </div>
     

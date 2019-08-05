@@ -4,14 +4,14 @@ from flask_pymongo import PyMongo, pymongo
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 # Adding flask_uploads to allow custom recipe images to be uploaded by users
-from flask_uploads import UploadSet, configure_uploads, IMAGES
+from flask_uploads import UploadSet, configure_uploads, IMAGES, UploadNotAllowed
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 # Flask_uploads configuration for image uploads
 images = UploadSet('images', IMAGES)
-app.config['UPLOADED_IMAGES_DEST'] = '../static/images/uploads'
+app.config['UPLOADED_IMAGES_DEST'] = '/static/images/uploads'
 configure_uploads(app, images)
 
 # Database access configuration
@@ -333,7 +333,8 @@ def search_media(page_no):
                             genres = mongo.db.genres.find(),
                             selected_category = selected_category,
                             selected_genre = selected_genre,
-                            selected_origin = selected_origin)
+                            selected_origin = selected_origin,
+                            search_term = search_term)
 
 """ Recipe create and edit functions """
 
@@ -351,15 +352,16 @@ def add_recipe():
         return redirect(url_for('login'))
 
 # Insert recipe to database
-@app.route('/insert_recipe', methods=['POST'])
+@app.route('/insert_recipe', methods=['GET', 'POST'])
 def insert_recipe():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
-    if 'image' in request.files:
-        filename = images.save(request.files['image'])
-        filepath = '../static/images/uploads/' + filename
-    else:
-        filepath = '../static/images/uploads/default.jpg'
+    if request.method == 'POST' and 'recipe-image' in request.files:
+        try:
+            image_filename = images.save(request.files['recipe-image'])
+            filepath = '../static/images/uploads/' + image_filename
+        except UploadNotAllowed:
+            filepath = '../static/images/uploads/default.jpg'
     # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
@@ -516,7 +518,7 @@ def delete_recipe(delete_recipe_id):
         archived_recipes.insert_one(delete)
         recipes.remove({'_id': ObjectId(delete_recipe_id)})
         flash("Recipe successfully deleted!")
-        return redirect(url_for('get_recipes'))
+        return redirect(url_for('get_recipes', page_no = 1))
     else:
         flash("Recipe Name does not match - delete recipe failed")
         return redirect(url_for('recipe',
@@ -538,15 +540,16 @@ def add_media():
         return redirect(url_for('login'))
 
 # Insert media to database
-@app.route('/insert_media', methods=['POST'])
+@app.route('/insert_media', methods=['GET', 'POST'])
 def insert_media():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and create filepath
-    if 'image' in request.form:
-        filename = images.save(request.files['image'])
-        filepath = '../static/images/uploads/' + filename
-    else:
-        filepath = '../static/images/uploads/default.jpg'
+    if request.method == 'POST' and 'image' in request.files:
+        try:
+            image_filename = images.save(request.files['image'])
+            filepath = '../static/images/uploads/' + image_filename
+        except UploadNotAllowed:
+            filepath = '../static/images/uploads/default.jpg'
     temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
@@ -761,6 +764,12 @@ def like_media(like_media_id):
             flash("Media liked!")
             return redirect(url_for('media',
                                     media_id = like_media_id))
+
+""" Error Handling """
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 # Run app
 if __name__ == 'main':
