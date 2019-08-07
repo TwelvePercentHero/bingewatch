@@ -229,7 +229,8 @@ def search_recipes(page_no):
                             selected_recipe_type = selected_recipe_type,
                             selected_category = selected_category,
                             selected_genre = selected_genre,
-                            selected_origin = selected_origin)
+                            selected_origin = selected_origin,
+                            search_term = search_term)
 
 """ Media Queries """
 
@@ -297,8 +298,8 @@ def media(media_id):
                             recipes = mongo.db.recipes.find().sort('recipe_name', 1))
 
 # Search media
-@app.route('/search_media/<page_no>', methods=['GET', 'POST'])
-def search_media(page_no):
+@app.route('/search_media/<search_term>/<page_no>', methods=['GET', 'POST'])
+def search_media(search_term, page_no):
     selected_category = None
     selected_genre = None
     selected_origin = None

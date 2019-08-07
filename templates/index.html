@@ -6,12 +6,12 @@
 
     <h1 class="display-4">Binge | Watch</h1>
     <p class="lead">Find the perfect food to cook for your next movie night</p>
-    <form method='POST' action="{{ url_for('search_recipes', page_no = 1) }}">
+    <form method='POST' action="{{ url_for('search_recipes', search_term = search_term, page_no = 1) }}">
         <input class="form-control" type="search" name="search_term" placeholder="Search Recipes">
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 
-    <form method='POST' action="{{ url_for('search_media', page_no = 1) }}">
+    <form method='POST' action="{{ url_for('search_media', search_term = search_term, page_no = 1) }}">
             <input class="form-control" type="search" name="search_term" placeholder="Search Media">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>

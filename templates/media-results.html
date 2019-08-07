@@ -158,22 +158,22 @@
         <!-- If results are returned by search query -->
         {% elif search_term %}
         <div class="row">
-        <p>Page {{ page_no }} of {{ total_pages }}</p>
+            <p>Page {{ page_no }} of {{ total_pages }}</p>
         {% if total_pages <= 1 %}
-        <div></div>
+            <div></div>
         {% elif total_pages > 1 %}
-        <div>
-            {% if page_no|int == 1 %}
-            <a href="{{url_for('search_media', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
-            {% elif page_no|int > 1 and page_no|int < total_pages %}
-            <a href="{{ url_for('search_media', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
-            <a href="{{ url_for('search_media', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
-            {% elif page_no|int == total_pages %}
-            <a href="{{ url_for('search_media', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
-            {% endif %}
-        </div>
+            <div>
+        {% if page_no|int == 1 %}
+            <form action="{{ url_for('search_media', search_term = search_term, page_no = page_no|int+1) }}" method="POST">
+        {% elif page_no|int == total_pages %}
+            <form action="{{ url_for('search_media', search_term = search_term, page_no = page_no|int-1) }}" method="POST">
         {% endif %}
-        </div>
+            <input id="category" name="search_term" class="form-control d-none" type="text" value="{{ search_term }}">
+        {% if page_no|int == 1 %}
+            <button type="submit" class="btn btn-primary">Next Page</button>
+        {% elif page_no|int == total_pages %}
+            <button type="submit" class="btn btn-primary">Previous Page</button>
+        {% endif %}
 
         <!-- If results are unfiltered -->
         {% else %}
