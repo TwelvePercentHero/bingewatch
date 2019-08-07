@@ -13,6 +13,9 @@
 
     <div class="row">
         <p>{{ total_results }} media found</p>
+        {% if search_term %}
+        <p>Showing results for '{{ search_term }}'</p>
+        {% endif %}
     </div>
 
     <div class="row">
@@ -71,7 +74,7 @@
 
         {% for media in media %}
         <div class="card col-sm-12 col-md-3" id="{{ media._id }}">
-            <img src="{{ media.image }}" class="card-img-top">
+            <img src="../{{ media.media_image }}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">{{ media.media_name }}</h5>
                 <p class="card-text"><strong>{{ media.category }}</strong></p>
@@ -150,6 +153,26 @@
                 {% endif %}
             </div>
             {% endif %}         
+        </div>
+
+        <!-- If results are returned by search query -->
+        {% elif search_term %}
+        <div class="row">
+        <p>Page {{ page_no }} of {{ total_pages }}</p>
+        {% if total_pages <= 1 %}
+        <div></div>
+        {% elif total_pages > 1 %}
+        <div>
+            {% if page_no|int == 1 %}
+            <a href="{{url_for('search_media', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int > 1 and page_no|int < total_pages %}
+            <a href="{{ url_for('search_media', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+            <a href="{{ url_for('search_media', page_no = page_no|int+1) }}" class="btn btn-primary">Next Page</a>
+            {% elif page_no|int == total_pages %}
+            <a href="{{ url_for('search_media', page_no = page_no|int-1) }}" class="btn btn-primary">Previous Page</a>
+            {% endif %}
+        </div>
+        {% endif %}
         </div>
 
         <!-- If results are unfiltered -->

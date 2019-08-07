@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 # Flask_uploads configuration for image uploads
 images = UploadSet('images', IMAGES)
-app.config['UPLOADED_IMAGES_DEST'] = '/static/images/uploads'
+app.config['UPLOADED_IMAGES_DEST'] = 'static/images/uploads'
 configure_uploads(app, images)
 
 # Database access configuration
@@ -304,39 +304,43 @@ def search_media(page_no):
     selected_origin = None
     media = mongo.db.media
     page_skip = (int(page_no) - 1) * 9
-    # Request the search term submitted as part of the form on index.html
     search_term = request.form.get('search_term')
-    # Create index
-    media.create_index([('$**', 'text')])
-    # Build query
-    query = ({ '$text': { '$search': search_term } })
-    # Find results
-    media_results = mongo.db.media.find(query)
-    # Count total number of returned media
-    total_media = media_results.count()
-    # If the total number of media is greater than 9, include pagination
-    if total_media > 9:
-        results_pages = media.find(query).sort('media_name', 1).skip(page_skip).limit(9)
+    # Request the search term submitted as part of the form on index.html
+    if 'search_term' == '':
+        flash("Please enter a term to search!")
+        return redirect(url_for('home_page'))
     else:
-        results_pages = media_results
-    # Calculate total number of pages needed
-    total_pages = int(math.ceil(total_media / 9.0))
-    if total_media == 0:
-        page_no = 0
-    return render_template('media-results.html',
-                            page_no = page_no,
-                            total_results = total_media,
-                            total_pages = total_pages,
-                            media = results_pages,
-                            categories = mongo.db.categories.find(),
-                            origin = mongo.db.origin.find(),
-                            genres = mongo.db.genres.find(),
-                            selected_category = selected_category,
-                            selected_genre = selected_genre,
-                            selected_origin = selected_origin,
-                            search_term = search_term)
+        # Create index
+        media.create_index([('$**', 'text')])
+        # Build query
+        query = ({ '$text': { '$search': search_term } })
+        # Find results
+        media_results = mongo.db.media.find(query)
+        # Count total number of returned media
+        total_media = media_results.count()
+        # If the total number of media is greater than 9, include pagination
+        if total_media > 9:
+            results_pages = media.find(query).sort('media_name', 1).skip(page_skip).limit(9)
+        else:
+            results_pages = media_results
+        # Calculate total number of pages needed
+        total_pages = int(math.ceil(total_media / 9.0))
+        if total_media == 0:
+            page_no = 0
+        return render_template('media-results.html',
+                                page_no = page_no,
+                                total_results = total_media,
+                                total_pages = total_pages,
+                                media = results_pages,
+                                categories = mongo.db.categories.find(),
+                                origin = mongo.db.origin.find(),
+                                genres = mongo.db.genres.find(),
+                                selected_category = selected_category,
+                                selected_genre = selected_genre,
+                                selected_origin = selected_origin,
+                                search_term = search_term)        
 
-""" Recipe create and edit functions """
+""" Recipe create/update/delete functions """
 
 # Add recipe form
 @app.route('/add_recipe')
@@ -356,10 +360,10 @@ def add_recipe():
 def insert_recipe():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
-    if request.method == 'POST' and 'recipe-image' in request.files:
+    if request.method == 'POST' and 'image' in request.files:
         try:
-            image_filename = images.save(request.files['recipe-image'])
-            filepath = '../static/images/uploads/' + image_filename
+            filename = images.save(request.files['image'])
+            filepath = '../static/images/uploads/' + filename
         except UploadNotAllowed:
             filepath = '../static/images/uploads/default.jpg'
     # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
@@ -461,11 +465,6 @@ def edit_recipe(edit_recipe_id):
 # Update recipe
 @app.route('/update_recipe/<update_recipe_id>', methods=['GET', 'POST'])
 def update_recipe(update_recipe_id):
-    if 'image' in request.form:
-        filename = images.save(request.files['image'])
-        filepath = '../static/images/uploads/' + filename
-    else:
-        filepath = '../static/images/default.jpg'
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
@@ -477,8 +476,7 @@ def update_recipe(update_recipe_id):
     'recipe_type': flatForm['recipe_type'],
     'recipe_description': form['recipe_description'],
     'ingredients': flatForm['ingredients'],
-    'method': flatForm['method'],
-    'image': filepath
+    'method': flatForm['method']
     })
     temp_recipes.aggregate([
         {
@@ -524,7 +522,7 @@ def delete_recipe(delete_recipe_id):
         return redirect(url_for('recipe',
                                 recipe_id = delete_recipe_id))
 
-""" Media create and edit functions """
+""" Media create/update/delete functions """
 
 # Add media form
 @app.route('/add_media')
@@ -544,12 +542,12 @@ def add_media():
 def insert_media():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and create filepath
-    if request.method == 'POST' and 'image' in request.files:
+    if request.method == 'POST' and 'media-image' in request.files:
         try:
-            image_filename = images.save(request.files['image'])
-            filepath = '../static/images/uploads/' + image_filename
+            media_image_filename = images.save(request.files['media-image'])
+            filepath = 'static/images/uploads/' + media_image_filename
         except UploadNotAllowed:
-            filepath = '../static/images/uploads/default.jpg'
+            filepath = 'static/images/uploads/default.jpg'
     temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
@@ -562,9 +560,8 @@ def insert_media():
             'creators': flatForm['creators'],
             'genres': flatForm['genres'],
             'description': form['description'],
-            'image': filepath,
-            'submitted_by': user['username'],
-            'likes': 0
+            'media_image': filepath,
+            'submitted_by': user['username']
         }
     )
     return redirect(url_for('preview_media', new_media_id = new_media.inserted_id))
@@ -617,26 +614,20 @@ def edit_media(edit_media_id):
 # Update media
 @app.route('/update_media/<update_media_id>', methods=['GET', 'POST'])
 def update_media(update_media_id):
-    if 'image' in request.form:
-        filepath = request.form['image']
-    elif 'image' in request.files:
-        filename = images.save(request.files['image'])
-        filepath = '../static/images/uploads/' + filename
-    else:
-        filepath = '../static/images/default.jpg'
     temp_media = mongo.db.temp_media
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
     temp_media.update({ '_id': ObjectId(update_media_id)},
-    {
+    { '$set':
+        {
         'media_name': form['media-name'],
         'category': form['category'],
         'origin': form['origin'],
         'starring': flatForm['starring'],
         'creators': flatForm['creators'],
         'genres': flatForm['genres'],
-        'description': form['description'],
-        'image': filepath
+        'description': form['description']
+        }
     })
     return redirect(url_for('preview_media', new_media_id = update_media_id))
 
@@ -653,7 +644,7 @@ def delete_media(delete_media_id):
         archived_media.insert_one(delete)
         media.remove({ '_id': ObjectId(delete_media_id)})
         flash("Media successfully deleted!")
-        return redirect(url_for('get_media'))
+        return redirect(url_for('get_media', page_no = 1))
     else:
         flash("Media Name does not match - delete media failed")
         return redirect(url_for('media',
@@ -770,6 +761,10 @@ def like_media(like_media_id):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def error_message(error):
+    return render_template('500.html'), 500
 
 # Run app
 if __name__ == 'main':
