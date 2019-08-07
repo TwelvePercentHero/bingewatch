@@ -75,7 +75,7 @@
         {% for media in media %}
         {% if media.media_name == recipe.recipe_from or media.genres == recipe.genres %}
         <div class="card col-sm-12 col-md-3" id="{{ media._id }}">
-            <img src="{{ media.image }}" class="card-img-top">
+            <img src="../{{ media.media_image }}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">{{ media.media_name }}</h5>
                 <p class="card-text"><strong>{{ media.category }}</strong></p>

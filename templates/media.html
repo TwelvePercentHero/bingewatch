@@ -61,7 +61,7 @@
         {% for recipe in recipes %}
         {% if recipe.recipe_from == media.media_name %}
         <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
-            <img src="{{ recipe.image }}" class="card-img-top">
+            <img src="../{{ recipe.image }}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">{{ recipe.recipe_name }}</h5>
                 <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>

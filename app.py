@@ -360,12 +360,12 @@ def add_recipe():
 def insert_recipe():
     user = mongo.db.users.find_one({ 'username': session['user'] })
     # Upload image to uploads folder and generate filepath
-    if request.method == 'POST' and 'image' in request.files:
+    if request.method == 'POST' and 'recipe-image' in request.files:
         try:
-            filename = images.save(request.files['image'])
-            filepath = '../static/images/uploads/' + filename
+            recipe_image_filename = images.save(request.files['recipe-image'])
+            filepath = 'static/images/uploads/' + recipe_image_filename
         except UploadNotAllowed:
-            filepath = '../static/images/uploads/default.jpg'
+            filepath = 'static/images/uploads/default.jpg'
     # Submits to temp_recipes collection to allow for preview without displaying in recipe-results
     temp_recipes = mongo.db.temp_recipes
     form = request.form.to_dict()
@@ -382,8 +382,7 @@ def insert_recipe():
         'ingredients': flatForm['ingredients'],
         'method': flatForm['method'],
         'image': filepath,
-        'submitted_by': user['username'],
-        'likes': 0
+        'submitted_by': user['username']
         }
     )
     # Use aggregate method to join the temp_recipes and media collections
@@ -469,6 +468,7 @@ def update_recipe(update_recipe_id):
     form = request.form.to_dict()
     flatForm = request.form.to_dict(flat=False)
     temp_recipes.update({'_id': ObjectId(update_recipe_id)},
+    { '$set':
     {
     'recipe_name': form['recipe_name'],
     'recipe_from': form['recipe_from'],
@@ -477,6 +477,7 @@ def update_recipe(update_recipe_id):
     'recipe_description': form['recipe_description'],
     'ingredients': flatForm['ingredients'],
     'method': flatForm['method']
+    }
     })
     temp_recipes.aggregate([
         {
