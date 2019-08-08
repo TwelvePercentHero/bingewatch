@@ -1,10 +1,27 @@
 .navbar {
     background-color: #490000;
+    font-family: 'Heebo', sans-serif;
+}
+
+.main-bg {
+    height: 100vh;
+    background: url('../static/images/uploads/background-image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 footer {
+    margin-top: 20px;
     background-color: #490000;
     color: #fff;
+    font-family: 'Heebo', sans-serif;
 }
 
 footer ul {
@@ -20,3 +37,5 @@ footer ul {
     visibility: hidden;
     position: absolute;
   }
+
+

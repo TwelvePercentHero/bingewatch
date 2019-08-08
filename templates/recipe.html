@@ -15,6 +15,13 @@
         <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}"class="btn btn-primary">Like Recipe</a>
     </div>
 
+    <div class="row">
+        <button type="button" class="btn btn-primary">
+            Likes <span class="badge badge-light">{{ recipe.likes }}</span>
+            <span class="sr-only">unread messages</span>
+        </button>
+    </div>
+
         <p>From <strong>{{ recipe.recipe_from }}</strong></p>
         <p><strong>Category: </strong> {{ recipe.category }}</p>
         <p>{{ recipe.recipe_description }}</p>

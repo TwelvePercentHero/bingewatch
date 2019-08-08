@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Heebo&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -22,30 +23,39 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('home_page') }}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('get_recipes', page_no = 1) }}">Browse Recipes</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Recipes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ url_for('get_recipes', page_no = 1) }}">Browse</a>
+                        <a class="dropdown-item" href="{{ url_for('add_recipe')}}">Add</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('get_media', page_no = 1) }}">Browse Media</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Media
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="{{ url_for('get_media', page_no = 1) }}">Browse</a>
+                        <a class="dropdown-item" href="{{ url_for('add_media')}}">Add</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('add_recipe')}}">Add Recipe</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('add_media')}}">Add Media</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login')}}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-                </li>
+                {% if 'user' in session %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('profile', user = session['user']) }}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Log Out</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login')}}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

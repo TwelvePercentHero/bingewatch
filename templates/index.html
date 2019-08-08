@@ -2,20 +2,31 @@
 
 {% block content %}
 
+<section class="container-fluid main-bg lg-img">
+
 <div class="jumbotron text-center">
 
     <h1 class="display-4">Binge | Watch</h1>
-    <p class="lead">Find the perfect food to cook for your next movie night</p>
-    <form method='POST' action="{{ url_for('search_recipes', search_term = search_term, page_no = 1) }}">
-        <input class="form-control" type="search" name="search_term" placeholder="Search Recipes">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    <p class="lead">Build your perfect movie night with our extensive database of recipes and media</p>
 
-    <form method='POST' action="{{ url_for('search_media', search_term = search_term, page_no = 1) }}">
+    <button class="btn btn-primary" id="show-recipe">Recipes</button>
+    <div class="search-div" id="recipe-search">
+        <form method='POST' action="{{ url_for('search_recipes', search_term = search_term, page_no = 1) }}">
+            <input class="form-control" type="search" name="search_term" placeholder="Search Recipes">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <button class="btn btn-primary" id="show-media">Media</button>
+    <div class="search-div" id="media-search">
+        <form method='POST' action="{{ url_for('search_media', search_term = search_term, page_no = 1) }}">
             <input class="form-control" type="search" name="search_term" placeholder="Search Media">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+    </div>
 
 </div>
+
+</section>
 
 {% endblock %}

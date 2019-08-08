@@ -10,6 +10,17 @@ function flashed_messages() {
 	}
 };
 
+$(document).ready(function(){
+    $('#show-recipe').click(function() {
+        $('#recipe-search').show();
+        $('#media-search').hide();
+    });
+    $('#show-media').click(function() {
+        $('#media-search').show();
+        $('#recipe-search').hide();
+    });
+});
+
 $(".custom-file-input").on("change", function() {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
