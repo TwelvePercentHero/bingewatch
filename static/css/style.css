@@ -23,6 +23,10 @@
     background-color: rgb(198, 132, 133, 0.8);
 }
 
+.main-subtitle {
+    font-size: 24px;
+}
+
 .main-search {
     border-radius: 15px;
 }
@@ -66,4 +70,16 @@ footer ul {
     position: absolute;
   }
 
+/* Media Queries */
 
+@media (max-width: 767.98px) {
+    .main-bg {
+        height: 80vh;
+    }
+    .jumbotron h1 {
+        font-size: 36px;
+    }
+    .main-subtitle {
+        font-size: 16px;
+    }
+}
