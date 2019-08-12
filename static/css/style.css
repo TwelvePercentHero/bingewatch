@@ -5,7 +5,7 @@
 
 .main-bg {
     height: 100vh;
-    background: url('../static/images/uploads/background-image.jpg');
+    background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
     -webkit-background-size: cover;
@@ -17,8 +17,36 @@
     justify-content: center;
 }
 
+.jumbotron {
+    font-family: 'Heebo', sans-serif;
+    border-radius: 25px;
+    background-color: rgb(198, 132, 133, 0.8);
+}
+
+.main-search {
+    border-radius: 15px;
+}
+
+.btn-selected {
+    border-radius: 0px;
+    background-color: #490000;
+    color: #fff;
+}
+
+.btn-deselected {
+    border-radius: 0px;
+    background-color: #c68485;
+    color: #000;
+}
+
+.btn-search {
+    border-radius: 15px;
+    background-color: #490000;
+    color: #fff;
+}
+
 footer {
-    margin-top: 20px;
+    padding-top: 20px;
     background-color: #490000;
     color: #fff;
     font-family: 'Heebo', sans-serif;

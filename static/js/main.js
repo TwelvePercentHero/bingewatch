@@ -11,13 +11,17 @@ function flashed_messages() {
 };
 
 $(document).ready(function(){
-    $('#show-recipe').click(function() {
-        $('#recipe-search').show();
-        $('#media-search').hide();
+    $('#show-media').click(function() {        
+        $('#media-search').removeClass("d-none").addClass("d-block");
+        $('#show-media').removeClass("btn-deselected").addClass("btn-selected");
+        $('#recipe-search').removeClass("d-block").addClass("d-none");
+        $('#show-recipe').removeClass("btn-selected").addClass("btn-deselected");
     });
-    $('#show-media').click(function() {
-        $('#media-search').show();
-        $('#recipe-search').hide();
+    $('#show-recipe').click(function() {
+        $('#recipe-search').removeClass("d-none").addClass("d-block");
+        $('#show-recipe').removeClass("btn-deselected").addClass("btn-selected");
+        $('#media-search').removeClass("d-block").addClass("d-none");
+        $('#show-media').removeClass("btn-selected").addClass("btn-deselected");
     });
 });
 

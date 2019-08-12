@@ -10,7 +10,7 @@
 {% for l in likes %}
 {% if l.record_type == 'recipe' %}
 <div class="card col-sm-12 col-md-3" id="{{ l.recipe_id }}">
-        <img src="{{ l.image }}" class="card-img-top">
+        <img src="../{{ l.image }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ l.recipe_name }}</h5>
             <p class="card-text">From <strong>{{ l.recipe_from }}</strong></p>
@@ -19,7 +19,7 @@
     </div>
 {% elif l.record_type == 'media' %}
     <div class="card col-sm-12 col-md-3" id="{{ l.media_id }}">
-        <img src="{{ l.image }}" class="card-img-top">
+        <img src="../{{ l.image }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ l.media_name }}</h5>
             <p class="card-text"><strong>{{ l.category }}</strong></p>
@@ -33,7 +33,7 @@
 {% for r in recipes %}
 {% if r.submitted_by == user['username'] %}
 <div class="card col-sm-12 col-md-3" id="{{ r._id }}">
-        <img src="{{ r.image }}" class="card-img-top">
+        <img src="../{{ r.image }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ r.recipe_name }}</h5>
             <p class="card-text">From <strong>{{ r.recipe_from }}</strong></p>
