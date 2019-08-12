@@ -37,6 +37,10 @@
     color: #fff;
 }
 
+.btn-selected :hover {
+    color: #c68485;
+}
+
 .btn-deselected {
     border-radius: 0px;
     background-color: #c68485;
@@ -47,6 +51,10 @@
     border-radius: 15px;
     background-color: #490000;
     color: #fff;
+}
+
+.btn-search :hover {
+    color: #c68485;
 }
 
 footer {
