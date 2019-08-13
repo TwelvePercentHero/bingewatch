@@ -25,6 +25,20 @@ main {
     justify-content: center;
 }
 
+.results-bg {
+    height: 130vh;
+    background: url('../images/uploads/background-image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .jumbotron {
     border-radius: 25px;
     background-color: rgb(198, 132, 133, 0.8);
@@ -115,5 +129,18 @@ footer a:hover {
     }
     .main-subtitle {
         font-size: 16px;
+    }
+    .results-bg {
+        height: 620vh;
+        background: url('../images/uploads/background-image.jpg');
+        background-attachment: scroll;
+        background-repeat: repeat-y;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
