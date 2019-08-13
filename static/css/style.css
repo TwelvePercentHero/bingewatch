@@ -1,6 +1,14 @@
+main {
+    font-family: 'Heebo', sans-serif;
+}
+
 .navbar {
     background-color: #490000;
-    font-family: 'Heebo', sans-serif;
+}
+
+.nav-item {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .main-bg {
@@ -18,7 +26,6 @@
 }
 
 .jumbotron {
-    font-family: 'Heebo', sans-serif;
     border-radius: 25px;
     background-color: rgb(198, 132, 133, 0.8);
 }
@@ -37,7 +44,7 @@
     color: #fff;
 }
 
-.btn-selected :hover {
+.btn-selected:hover {
     color: #c68485;
 }
 
@@ -53,7 +60,7 @@
     color: #fff;
 }
 
-.btn-search :hover {
+.btn-search:hover {
     color: #c68485;
 }
 
@@ -61,11 +68,27 @@ footer {
     padding-top: 20px;
     background-color: #490000;
     color: #fff;
-    font-family: 'Heebo', sans-serif;
+}
+
+footer h3 {
+    font-size: 16px;
+}
+
+footer p {
+    font-size: 14px;
 }
 
 footer ul {
     list-style: none;
+}
+
+footer a {
+    color: #c68485;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: none;
 }
 
 .card {
@@ -81,6 +104,9 @@ footer ul {
 /* Media Queries */
 
 @media (max-width: 767.98px) {
+    .header-logo {
+        width: 200px;
+    }
     .main-bg {
         height: 80vh;
     }

@@ -14,7 +14,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <a class="navbar-brand" href="{{ url_for('home_page') }}">Binge | Watch</a>
+        <a class="navbar-brand" href="{{ url_for('home_page') }}"><img class="img-fluid header-logo" src="../static/images/binge-watch-logo.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -86,24 +86,30 @@
 
         <div class="row text-center">
             <div class="col-xs-12 col-md-4">
+                <img class="img-fluid" src="../static/images/binge-watch-logo.png">
+            </div>
+            <div class="col-xs-12 col-md-4">
                 <h3>About</h3>
-                <p>Binge | Watch is a database of recipes</p>
+                <p><strong>Binge | Watch</strong> is a database of recipes and media to help you plan your ultimate movie night. 
+                    Recipes are copyright of <a href="https://www.bingingwithbabish.com" target="_blank">Binge Entertainment</a> 
+                    and reproduced here for educational purposes only. Media images are sourced from 
+                    <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank">Wikimedia Commons</a> and used here for educational purposes only.</p>
             </div>
             <div class="col-xs-12 col-md-4">
-                <ul>
-                    <li><a href="{{ url_for('home_page') }}">Home</a></li>
-                    <li><a href="{{ url_for('get_recipes', page_no = 1) }}">Browse Recipes</a></li>
-                    <li><a href="#">Add Recipe</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-12 col-md-4">
-                <h3>User Login</h3>
-                <p>Login here</p>
+                <h3>Users</h3>
+                {% if 'user' in session %}
+                    <a class="nav-link" href="{{ url_for('profile', user = session['user']) }}"><i class="fas fa-user"></i> Profile</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-user-plus"></i> Log Out</a>
+                {% else %}
+                    <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-user"></i> Log In</a>
+                    <a class="nav-link" href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a>
+                {% endif %}
             </div>
         </div>
         
     </footer>      
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
