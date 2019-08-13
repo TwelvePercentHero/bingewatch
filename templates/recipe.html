@@ -2,34 +2,31 @@
 
 {% block content %}
 
+<section class="recipe-section">
+
+<div class="container-fluid text-center">
+    <div class="row">
+        <img class="img-fluid recipe-image" src="../{{ recipe.image }}">
+
+        <div class="jumbotron">
+            <h1>{{ recipe.recipe_name }}</h1>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
-    <div class="row">
-        <img class="img-fluid" src="../{{ recipe.image }}">
-    </div>
 
-    <div class="row">
-        <h1>{{ recipe.recipe_name }}</h1>
-    </div>
-
-    <div class="row">
-        <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}"class="btn btn-primary">Like Recipe</a>
-    </div>
-
-    <div class="row">
-        <button type="button" class="btn btn-primary">
-            Likes <span class="badge badge-light">{{ recipe.likes }}</span>
-            <span class="sr-only">unread messages</span>
-        </button>
-    </div>
-
-        <p>From <strong>{{ recipe.recipe_from }}</strong></p>
-        <p><strong>Category: </strong> {{ recipe.category }}</p>
+    <div class="text-center">
+        <p>From: <strong>{{ recipe.recipe_from }}</strong></p>
+        <p><strong>Category:</strong> {{ recipe.category }}</p>
         <p>{{ recipe.recipe_description }}</p>
+        <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}"class="btn btn-primary"><i class="far fa-thumbs-up"></i> Like Recipe</a>
+    </div>
 
     <div class="row">
         <div class="col-md-3">
             <h2>Ingredients</h2>
-            <ul>
+            <ul class="ingredients-list">
                 {% for i in recipe.ingredients %}
                 <li>{{ i }}</li>
                 {% endfor %}
@@ -48,7 +45,7 @@
         <h3>Tags</h3>
     </div>
     <div class="row">
-        <ul>
+        <ul class="recipe-tags">
             {% for t in recipe.recipe_type %}
             <li>{{ t }}</li>
             {% endfor %}
@@ -93,6 +90,8 @@
         {% endfor %}
     </div>
 </div>
+
+</section>
 
 
 

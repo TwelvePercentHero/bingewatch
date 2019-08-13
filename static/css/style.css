@@ -115,6 +115,28 @@ footer a:hover {
     position: absolute;
   }
 
+.recipe-image {
+    width: 100%;
+  }
+
+.ingredients-list {
+    list-style: none;
+}
+
+.recipe-tags {
+    list-style: none;
+    display: inline;
+}
+
+.error-link {
+    color: #fff;
+}
+
+.error-link:hover {
+    color: #c68485;
+    text-decoration: none;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
