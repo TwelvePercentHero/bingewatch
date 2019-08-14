@@ -4,36 +4,37 @@
 
 <section class="recipe-section">
 
-<div class="container-fluid text-center">
+<div class="container-fluid text-center header-image">
     <div class="row">
         <img class="img-fluid recipe-image" src="../{{ recipe.image }}">
-
-        <div class="jumbotron">
-            <h1>{{ recipe.recipe_name }}</h1>
-        </div>
     </div>
+        <div class="jumbotron recipe-centered">
+            <h1>{{ recipe.recipe_name }}</h1>
+            <hr>
+            <p>From: <strong>{{ recipe.recipe_from }}</strong></p>
+            <p><strong>Category:</strong> {{ recipe.category }}</p>
+        </div>
 </div>
 
 <div class="container-fluid">
-
-    <div class="text-center">
-        <p>From: <strong>{{ recipe.recipe_from }}</strong></p>
-        <p><strong>Category:</strong> {{ recipe.category }}</p>
-        <p>{{ recipe.recipe_description }}</p>
-        <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}"class="btn btn-primary"><i class="far fa-thumbs-up"></i> Like Recipe</a>
+    <div class="row subheader-row">
+    <div class="col-xs-12 offset-md-1 col-md-2">
+        <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}"class="btn btn-primary"><i class="far fa-thumbs-up"></i> Like</a>
+    </div>
+    <div class="text-center col-xs-12 col-md-8">
+        <h5>{{ recipe.recipe_description }}</h5>
+    </div>
     </div>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-xs-12 offset-md-1 col-md-2">
             <h2>Ingredients</h2>
-            <ul class="ingredients-list">
-                {% for i in recipe.ingredients %}
-                <li>{{ i }}</li>
-                {% endfor %}
-            </ul>
+            {% for i in recipe.ingredients %}
+                <p>{{ i }}</p>
+            {% endfor %}
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h2>Method</h2>
             {% for m in recipe.method %}
             <p>{{ m }}</p>

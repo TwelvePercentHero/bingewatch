@@ -137,6 +137,31 @@ footer a:hover {
     text-decoration: none;
 }
 
+.header-image {
+    position: relative;
+    text-align: center;
+}
+
+.recipe-centered {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    color: #fff;
+    background-color: rgb(198, 132, 133, 0.6);
+}
+
+.recipe-centered p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.subheader-row {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
@@ -164,5 +189,22 @@ footer a:hover {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .recipe-centered {
+        width: 80%;
+        position: absolute;
+        top: 2%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        color: #fff;
+        background-color: rgb(198, 132, 133, 0.6);
+    }    
+    .recipe-centered h1 {
+        font-size: 16px;
+    }
+    .recipe-centered p {
+        margin-top: 2px;
+        margin-bottom: 0px;
+        font-size: 14px;
     }
 }
