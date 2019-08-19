@@ -30,7 +30,7 @@
         <div class="col-xs-12 offset-md-1 col-md-2">
             <h4>Ingredients</h4>
             {% for i in recipe.ingredients %}
-                <p>{{ i }}</p>
+                <p class="ingredient-text">{{ i }}</p>
             {% endfor %}
         </div>
 
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row meta-info">
         <div class="col-xs-4 offset-md-1 col-md-2 admin-div">
         <h5>Tags</h5>
             {% for t in recipe.recipe_type %}
@@ -84,7 +84,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ media.media_name }}</h5>
                 <p class="card-text"><strong>{{ media.category }}</strong></p>
-                <a href="{{ url_for('media', media_id = media._id) }}" class="btn btn-card"><i class="fas fa-film"></i> View</a>
+                <a href="{{ url_for('media', media_id = media._id) }}" class="btn view-btn"><i class="fas fa-film"></i> View</a>
                 <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like 
                     <span class="badge badge-light">{{ media.likes }}</span></a>
             </div>

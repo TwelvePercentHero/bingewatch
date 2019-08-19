@@ -119,8 +119,13 @@ footer a:hover {
     width: 100%;
   }
 
-.ingredients-list {
-    list-style: none;
+.ingredient-text {
+    margin-bottom: 5px;
+}
+
+.meta-info {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .recipe-tags {
@@ -168,7 +173,6 @@ footer a:hover {
 }
 
 .like-btn {
-    border-radius: 0px;
     background-color: #490000;
     color: #fff;
 }
@@ -203,6 +207,7 @@ footer a:hover {
 .rec-section {
     background-color: #c68485;
     padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .rec-card {
@@ -227,12 +232,12 @@ footer a:hover {
     max-height: 140px;
 }
 
-.btn-card {
+.view-btn {
     background-color: #490000;
     color: #fff;
 }
 
-.btn-card:hover {
+.view-btn:hover {
     color: #c68485;
 }
 
@@ -286,6 +291,10 @@ footer a:hover {
         text-align: center;
     }
     .like-btn {
+        font-size: 10px;
+        margin-bottom: 10px;
+    }
+    .view-btn {
         font-size: 10px;
         margin-bottom: 10px;
     }
