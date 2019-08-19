@@ -119,6 +119,10 @@ footer a:hover {
     width: 100%;
   }
 
+.media-image {
+    width: 100%;
+}
+
 .ingredient-text {
     margin-bottom: 5px;
 }
@@ -241,6 +245,10 @@ footer a:hover {
     color: #c68485;
 }
 
+.media-list {
+    margin-bottom: 5px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
@@ -278,7 +286,7 @@ footer a:hover {
         color: #fff;
         background-color: rgb(198, 132, 133, 0.6);
         padding: 20px 40px 20px 40px;
-    }    
+    }
     .recipe-centered h1 {
         font-size: 16px;
     }
@@ -288,6 +296,12 @@ footer a:hover {
         font-size: 14px;
     }
     .like-div {
+        text-align: center;
+    }
+    .card-div {
+        text-align: center;
+    }
+    .rec-title {
         text-align: center;
     }
     .like-btn {

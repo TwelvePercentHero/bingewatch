@@ -2,62 +2,73 @@
 
 {% block content %}
 
+<section class="media-section">
+
 <div class="container-fluid">
 
     <div class="row">
-        <img class="media-header img-fluid" src="/{{ media.media_image }}">
+        <img class="img-fluid media-image" src="../{{ media.media_image }}">
     </div>
-    
-    <div class="row">
-        <h1>{{ media.media_name }}</h1>
+
+    <div class="container-fluid">
+        <div class="row subheader-row">
+        <div class="like-div col-xs-12 offset-md-1 col-md-2">
+            <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like 
+                <span class="badge badge-light">{{ media.likes }}</span></a>
+        </div>
+        <div class="text-center col-xs-12 col-md-8">
+            <h1>{{ media.media_name }}</h1>
+            <h5>{{ media.category }}</h5>
+            <h5>{{ media.origin }}</h5>
+        </div>
     </div>
 
     <div class="row">
-        <a href="{{ url_for('like_media', like_media_id = media._id) }}"class="btn btn-primary">Like Media</a>
-    </div>
-
-    <div class="row">
-        <h2>Created By</h2>
-    </div>
-
-    <div class="row">
-        <ul>
+        <div class="col-xs-12 offset-md-1 col-md-2">
+            <h4>Created By</h4>
             {% for c in media.creators %}
-            <li>{{ c }}</li>
+            <p class="media-list">{{ c }}</p>
             {% endfor %}
-        </ul>
-    </div>
 
-    <div class="row">
-        <h2>Starring</h2>
-    </div>
-
-    <div class="row">
-        <ul>
+            <h4>Starring</h4>
             {% for s in media.starring %}
-            <li>{{ s }}</li>
+            <p class="media-list">{{ s }}</p>
             {% endfor %}
-        </ul>
+        </div>
+
+        <div class="col-md-8">
+            <h4>Description</h4>
+            <p>{{ media.description }}</p>
+        </div>
     </div>
+
+    <div class="row meta-info">
+            <div class="col-xs-4 offset-md-1 col-md-4 admin-div">
+            <h5>Genres</h5>
+                {% for g in media.genres %}
+                <span class="badge badge-primary">{{ g }}</span>
+                {% endfor %}
+            </div>
+    
+        <div class="col-xs-4 col-md-6 manage-buttons">
+            <!-- Only display edit and delete buttons if the user is logged in -->
+            {% if 'user' in session %}
+            <a href="{{ url_for('edit_media', edit_media_id = media._id) }}" class="btn btn-control"><i class="fas fa-user-edit"></i></a>
+            <button type="button" class="btn btn-control" data-toggle="modal" data-target="#confirm-delete-modal"><i class="far fa-trash-alt"></i></button>
+            {% endif %}
+        </div>
+    </div>
+
+</section>
+
+<section class="rec-section">
 
     <div class="row">
-        <h2>Description</h2>
-        <p>{{ media.description }}</p>
-    </div>
+        <div class="col-xs-12 offset-md-1 col-md-10">
+            <h4 class="rec-title">Recommended Recipes</h4>
+        </div>
 
-    <!-- Only display edit and delete buttons if the user is logged in -->
-    {% if 'user' in session %}
-    <div class="row">
-        <a href="{{ url_for('edit_media', edit_media_id = media._id )}}" class="btn btn-primary">Edit Media</a>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirm-delete-modal">Delete Media</button>
-    </div>
-    {% endif %}
-
-    <div class="row">
-        <h2>Recommended Recipes</h2>
-    </div>
-
-    <div class="col-sm-12">
+    <div class="card-div col-xs-12 offset-md-1 col-md-10">
         {% for recipe in recipes %}
         {% if recipe.recipe_from == media.media_name %}
         <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
@@ -73,6 +84,8 @@
     </div>
 
 </div>
+
+</section>
 
 <!-- Confirm Deletion Modal -->
 <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal" aria-hidden="true">
