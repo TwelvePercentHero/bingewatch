@@ -2,13 +2,14 @@
 
 {% block content %}
 
-<section class="container-fluid">
+<section class="container-fluid add-bg lg-img">
+
+<div class="col-xs-12 offset-md-1 col-md-8">
 
 <h1>Add a Recipe</h1>
 
 <form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
     <div class="form-row">
-        <label>Recipe Name</label>
         <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>
     </div>
 
@@ -19,6 +20,8 @@
             <option value="{{media.media_name}}">{{media.media_name}}</option>
             {% endfor %}
         </select>
+        <p>Don't see the media you want to choose? <a href="{{ url_for('add_media') }}" target="_blank">Click here</a> to add a new media record. You may need to refresh this
+        page to see the new media record in this list.</p>
     </div>
 
     <div class="form-row">
@@ -42,20 +45,21 @@
     </div>
 
     <div class="form-group">
-        <label>Recipe Description</label>
-        <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" required></textarea>
+        <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" placeholder="Recipe Description" required></textarea>
     </div>
 
     <div class="form-row">
         <p>Ingredients</p>
     </div>
 
-    <div id="ingredients-list">
+    <div id="ingredients-list col-md-6">
         <div class="form-group" id="first-ingredient">
             <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" required>
         </div>
     </div>
-    <a class="btn btn-primary" id="add-ingredient">Add Ingredient</a>
+    <div id="add-ingredient-div col-md-2">
+    <button class="btn btn-search" id="add-ingredient"><i class="fas fa-plus"></i></button>
+    </div>
 
     <div class="form-row">
         <p>Method</p>
@@ -78,6 +82,8 @@
     <button type="submit" class="btn btn-primary" name="action">Submit</button>
 
 </form>
+
+</div>
 
 </section>
 

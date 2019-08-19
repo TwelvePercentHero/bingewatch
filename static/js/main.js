@@ -31,15 +31,17 @@ $(".custom-file-input").on("change", function() {
 });
 
 $('#add-ingredient').click(function() {
-    var newIngredient = $(`<div class='form-group' id='ingredients-div'>
+    var newIngredient = $(`<div class='input-group' id='ingredients-div'>
     <input id='ingredients' name='ingredients' class='form-control' type='text' placeholder='Ingredient'>
-    <a class='btn btn-primary' id='remove-ingredient'>Remove Ingredient</a>
+        <div class="input-group-append">
+            <button class="btn btn-search" id="remove-ingredient"><i class="fas fa-minus"></i></button>
+        </div>
     </div>` );
     $('#ingredients-list').append(newIngredient);
 });
 
 $(document).on('click', '#remove-ingredient', function() {
-    $(this).parent().remove();
+    $(this).parent().parent().remove();
 });
 
 $('#add-step').click(function() {

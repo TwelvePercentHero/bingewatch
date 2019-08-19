@@ -39,6 +39,20 @@ main {
     justify-content: center;
 }
 
+.add-bg {
+    height: 100vh;
+    background: url('../images/uploads/background-image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .jumbotron {
     border-radius: 25px;
     background-color: rgb(198, 132, 133, 0.8);
@@ -249,6 +263,14 @@ footer a:hover {
     margin-bottom: 5px;
 }
 
+.form-row {
+    margin-bottom: 10px;
+}
+
+#ingredients {
+    margin-bottom: 10px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
@@ -311,5 +333,18 @@ footer a:hover {
     .view-btn {
         font-size: 10px;
         margin-bottom: 10px;
+    }
+    .add-bg {
+        height: 180vh;
+        background: url('../images/uploads/background-image.jpg');
+        background-attachment: scroll;
+        background-repeat: repeat-y;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
