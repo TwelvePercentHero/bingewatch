@@ -33,9 +33,9 @@ $(".custom-file-input").on("change", function() {
 $('#add-ingredient').click(function() {
     var newIngredient = $(`<div class='input-group' id='ingredients-div'>
     <input id='ingredients' name='ingredients' class='form-control' type='text' placeholder='Ingredient'>
-        <div class="input-group-append">
-            <button class="btn btn-search" id="remove-ingredient"><i class="fas fa-minus"></i></button>
-        </div>
+    <div class="input-group-append">
+        <a class="btn btn-add" id="remove-ingredient"><i class="fas fa-minus"></i></a>
+    </div>
     </div>` );
     $('#ingredients-list').append(newIngredient);
 });
@@ -45,15 +45,17 @@ $(document).on('click', '#remove-ingredient', function() {
 });
 
 $('#add-step').click(function() {
-    var newStep = $(`<div class='form-group' id='method-div'>
+    var newStep = $(`<div class='input-group' id='method-div'>
     <input id='method' name='method' class='form-control' type='text' placeholder='Step'>
-    <a class='btn btn-primary' id='remove-step'>Remove Step</a>
+    <div class="input-group-append">
+        <a class='btn btn-add' id='remove-step'><i class="fas fa-minus"></i></a>
+    </div>
     </div>` );
     $('#method-steps').append(newStep);
 });
 
 $(document).on('click', '#remove-step', function() {
-    $(this).parent().remove();
+    $(this).parent().parent().remove();
 });
 
 $('#add-actor').click(function() {

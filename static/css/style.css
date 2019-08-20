@@ -26,7 +26,7 @@ main {
 }
 
 .results-bg {
-    height: 130vh;
+    height: 100%;
     background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -40,7 +40,7 @@ main {
 }
 
 .add-bg {
-    height: 100vh;
+    height: 100%;
     background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -170,7 +170,7 @@ footer a:hover {
     top: 20%;
     left: 50%;
     transform: translate(-50%, 50%);
-    color: #fff;
+    color: #000;
     text-align: center;
     background-color: rgb(198, 132, 133, 0.6);
 }
@@ -271,6 +271,34 @@ footer a:hover {
     margin-bottom: 10px;
 }
 
+.add-title {
+    margin-bottom: 20px;
+}
+
+.add-div {
+    background-color: rgb(198, 132, 133, 0.8);
+    color: #000;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+}
+
+.btn-add {
+    background-color: #490000;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.btn-add:hover {
+    background-color: #c68485;
+}
+
+.file-div {
+    margin-bottom: 10px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
@@ -285,19 +313,6 @@ footer a:hover {
     }
     .main-subtitle {
         font-size: 16px;
-    }
-    .results-bg {
-        height: 620vh;
-        background: url('../images/uploads/background-image.jpg');
-        background-attachment: scroll;
-        background-repeat: repeat-y;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
     .recipe-centered {
         width: 80%;
@@ -333,18 +348,5 @@ footer a:hover {
     .view-btn {
         font-size: 10px;
         margin-bottom: 10px;
-    }
-    .add-bg {
-        height: 180vh;
-        background: url('../images/uploads/background-image.jpg');
-        background-attachment: scroll;
-        background-repeat: repeat-y;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 }

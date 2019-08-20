@@ -4,10 +4,11 @@
 
 <section class="container-fluid add-bg lg-img">
 
-<div class="col-xs-12 offset-md-1 col-md-8">
+<div class="add-div col-xs-12 offset-md-1 col-md-8">
 
-<h1>Add a Recipe</h1>
-
+<div class="text-center add-title">
+    <h1>Add a Recipe</h1>
+</div>
 <form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
     <div class="form-row">
         <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>
@@ -48,38 +49,35 @@
         <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" placeholder="Recipe Description" required></textarea>
     </div>
 
-    <div class="form-row">
-        <p>Ingredients</p>
-    </div>
 
-    <div id="ingredients-list col-md-6">
-        <div class="form-group" id="first-ingredient">
+    <h5>Ingredients</h5>
+    <div id="ingredients-list">
+        <div class="input-group" id="first-ingredient">
             <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" required>
+            <div class="input-group-append">
+                <a class="btn btn-add" id="add-ingredient"><i class="fas fa-plus"></i></a>
+            </div>
         </div>
-    </div>
-    <div id="add-ingredient-div col-md-2">
-    <button class="btn btn-search" id="add-ingredient"><i class="fas fa-plus"></i></button>
-    </div>
-
-    <div class="form-row">
-        <p>Method</p>
     </div>
     
+
+    <h5>Method</h5>    
     <div id="method-steps">
-        <div class="form-group" id="method-div">
+        <div class="input-group" id="method-div">
             <input id="method" name="method" class="form-control" type="text" placeholder="Step" required>
+            <div class="input-group-append">
+                <a class="btn btn-add" id="add-step"><i class="fas fa-plus"></i></a>
+            </div>
         </div>
     </div>
-    <a class="btn btn-primary" id="add-step">Add Step</a>
 
-    <p>Upload Image</p>
-
-    <div class="custom-file">
+    <h5>Upload Image</h5>
+    <div class="custom-file file-div">
         <input type="file" name="recipe-image" class="custom-file-input" id="main-image">
         <label class="custom-file-label" for="main-image">Choose file</label>
     </div>
 
-    <button type="submit" class="btn btn-primary" name="action">Submit</button>
+    <button type="submit" class="btn btn-control" name="action">Submit</button>
 
 </form>
 
