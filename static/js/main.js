@@ -59,27 +59,31 @@ $(document).on('click', '#remove-step', function() {
 });
 
 $('#add-actor').click(function() {
-    var newActor = $(`<div class='form-group' id='actor-div'>
+    var newActor = $(`<div class='input-group' id='actor-div'>
     <input id='starring' name='starring' class='form-control' type='text' placeholder='Actor'>
-    <a class='btn btn-primary' id='remove-actor'>Remove Actor</a>
+    <div class="input-group-append">
+        <a class='btn btn-add' id='remove-actor'><i class="fas fa-minus"></i></a>
+    </div>
     </div>` );
     $('#actor-list').append(newActor);
 });
 
 $(document).on('click', '#remove-actor', function() {
-    $(this).parent().remove();
+    $(this).parent().parent().remove();
 });
 
 $('#add-creator').click(function() {
-    var newCreator = $(`<div class='form-group' id='creator-div'>
+    var newCreator = $(`<div class='input-group' id='creator-div'>
     <input id='creators' name='creators' class='form-control' type='text' placeholder='Creator'>
-    <a class='btn btn-primary' id='remove-creator'>Remove Creator</a>
+    <div class="input-group-append">
+        <a class='btn btn-add' id='remove-creator'><i class="fas fa-minus"></i></a>
+    </div>
     </div>` );
     $('#creator-list').append(newCreator);
 });
 
 $(document).on('click', '#remove-creator', function() {
-    $(this).parent().remove();
+    $(this).parent().parent().remove();
 });
 
 });
