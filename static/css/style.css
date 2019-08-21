@@ -299,6 +299,13 @@ footer a:hover {
     margin-bottom: 10px;
 }
 
+.alert-preview {
+    margin: 20px;
+    background-color: #c68485;
+    color: #000;
+
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
@@ -348,5 +355,8 @@ footer a:hover {
     .view-btn {
         font-size: 10px;
         margin-bottom: 10px;
+    }
+    .preview-jumbotron {
+        top: 30%;
     }
 }
