@@ -335,6 +335,20 @@ footer a:hover {
     margin-top: 15px;
 }
 
+.modal-content {
+    background-color: #c68485;
+}
+
+.confirmation {
+    width: 80%;
+    left: 50%;
+}
+
+.delete-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {
