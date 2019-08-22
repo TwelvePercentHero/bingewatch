@@ -65,14 +65,10 @@
     </div>
 
     <div class="form-group">
-        <label>Recipe Description</label>
         <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" required>{{ recipe.recipe_description }}</textarea>
     </div>
 
-    <div class="form-row">
-        <p>Ingredients</p>
-    </div>
-
+    <h5>Ingredients</h5>
     <div id="ingredients-list">
         {% for i in recipe.ingredients %}
         <div class="input-group" id="first-ingredient">
@@ -85,10 +81,7 @@
     </div>
     
 
-    <div class="form-row">
-        <p>Method</p>
-    </div>
-    
+    <h5>Method</h5>   
     <div id="method-steps">
         {% for m in recipe.method %}
         <div class="input-group" id="method-div">
