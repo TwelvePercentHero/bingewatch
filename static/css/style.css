@@ -25,6 +25,20 @@ main {
     justify-content: center;
 }
 
+.login-bg {
+    height: 100vh;
+    background: url('../images/uploads/background-image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .results-bg {
     height: 100%;
     background: url('../images/uploads/background-image.jpg');
@@ -303,7 +317,11 @@ footer a:hover {
     margin: 20px;
     background-color: #c68485;
     color: #000;
+}
 
+.login-page {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .login-subtitle {
@@ -319,6 +337,9 @@ footer a:hover {
     }
     .main-bg {
         height: 80vh;
+    }
+    .login-bg {
+        height: 120vh;
     }
     .jumbotron h1 {
         font-size: 36px;

@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<section class="container-fluid main-bg lg-img">
+<section class="container-fluid login-bg lg-img">
 
-    <div class="jumbotron">
+    <div class="jumbotron login-page">
     <div class="text-center">
-        <h1 class="text-center">Log In</h1>
+        <h1>Log In</h1>
         <p class="login-subtitle">Log in with the username and password you submitted when creating your user account.</p>
     </div>
     <form method='POST' action="{{ url_for('user_auth') }}">
