@@ -2,6 +2,12 @@ main {
     font-family: 'Heebo', sans-serif;
 }
 
+#messages {
+    background-color: #c68485;
+    font-weight: bold;
+    width: 100%;
+}
+
 .navbar {
     background-color: #490000;
 }
