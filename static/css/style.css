@@ -306,6 +306,11 @@ footer a:hover {
 
 }
 
+.login-subtitle {
+    font-size: 18px;
+    margin-top: 15px;
+}
+
 /* Media Queries */
 
 @media (max-width: 767.98px) {

@@ -2,21 +2,32 @@
 
 {% block content %}
 
+<section class="container-fluid main-bg lg-img">
+
+    <div class="jumbotron">
+    <div class="text-center">
+        <h1 class="text-center">Log In</h1>
+        <p class="login-subtitle">Log in with the username and password you submitted when creating your user account.</p>
+    </div>
     <form method='POST' action="{{ url_for('user_auth') }}">
         <div class="form-group">
-            <label>Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-    <div>
-        <p>Don't have a user account? <a href="{{ url_for('register') }}">Register here!</a></p>
+        <div class="text-center">
+        <button type="submit" class="btn btn-control">Submit</button>
+        </div>
+        <hr>
+    <div class="text-center">
+        <p class="login-subtitle">Don't have a user account?</p>
+        <a class="btn btn-control" href="{{ url_for('register') }}">Register</a>
     </div>
+    </form>
+    </div>
+
+</section>
 
 
 {% endblock %}
