@@ -2,18 +2,19 @@
 
 {% block content %}
 
-<section class="container-fluid">
+<section class="container-fluid add-bg lg-img">
 
-<h1>Add a Recipe</h1>
+<div class="add-div col-xs-12 offset-md-1 col-md-8">
 
+<div class="text-center add-title">
+    <h1>Edit Recipe</h1>
+</div>
 <form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe" enctype=multipart/form-data method="POST">
-
     <div class="form-row">
-        <p>Amend the fields below and click the 'Submit' button to save your changes.</p>
+        <p>Amend the fields below and click the 'Submit' to save your changes.</p>
     </div>
 
     <div class="form-row">
-        <label>Recipe Name</label>
         <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" value="{{ recipe.recipe_name }}" required>
     </div>
 
@@ -74,12 +75,15 @@
 
     <div id="ingredients-list">
         {% for i in recipe.ingredients %}
-        <div class="form-group" id="first-ingredient">
+        <div class="input-group" id="first-ingredient">
             <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" value="{{ i }}" required>
+            <div class="input-group-append">
+                <a class="btn btn-add" id="remove-ingredient"><i class="fas fa-minus"></i></a>
+            </div>
         </div>
         {% endfor %}
     </div>
-    <a class="btn btn-primary" id="add-ingredient">Add Ingredient</a>
+    
 
     <div class="form-row">
         <p>Method</p>
@@ -87,16 +91,20 @@
     
     <div id="method-steps">
         {% for m in recipe.method %}
-        <div class="form-group" id="method-div">
+        <div class="input-group" id="method-div">
             <input id="method" name="method" class="form-control" type="text" placeholder="Step" value="{{ m }}" required>
+            <div class="input-group-append">
+                <a class='btn btn-add' id='remove-step'><i class="fas fa-minus"></i></a>
+            </div>
         </div>
         {% endfor %}
     </div>
-    <a class="btn btn-primary" id="add-step">Add Step</a>
-
-    <button type="submit" class="btn btn-primary" name="action">Update</button>
-
+    <div class="text-center">
+        <button type="submit" class="btn btn-control" name="action">Update</button>
+    </div>
 </form>
+
+</div>
 
 </section>
 
