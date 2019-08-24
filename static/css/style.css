@@ -1,4 +1,4 @@
-main {
+body {
     font-family: 'Heebo', sans-serif;
 }
 
@@ -10,6 +10,10 @@ main {
 
 .navbar {
     background-color: #490000;
+}
+
+section {
+    padding-bottom: 100px;
 }
 
 .nav-item {
@@ -132,6 +136,7 @@ footer {
     padding-top: 20px;
     background-color: #490000;
     color: #fff;
+    margin-top: -100px;
 }
 
 footer h3 {
@@ -198,6 +203,25 @@ footer a:hover {
 .error-link:hover {
     color: #c68485;
     text-decoration: none;
+}
+
+.top-row {
+    margin-top: 20px;
+}
+
+.side-div {
+    background-color: #c68485;
+    height: 100%;
+    padding: 40px;
+    width: 100%;
+}
+
+.filter-div {
+    margin-top: 10px;
+}
+
+.page-buttons {
+    padding-bottom: 30px;
 }
 
 .header-image {
@@ -421,6 +445,7 @@ footer a:hover {
     }
     .card-div {
         text-align: center;
+        padding: 10px;
     }
     .rec-title {
         text-align: center;
