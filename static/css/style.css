@@ -340,8 +340,8 @@ footer a:hover {
 }
 
 .confirmation {
-    width: 80%;
-    left: 50%;
+    width: 95%;
+    margin-left: 10px;
 }
 
 .delete-button {

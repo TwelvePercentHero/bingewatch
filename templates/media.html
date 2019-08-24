@@ -91,23 +91,27 @@
 <div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
+
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Delete Media</h5>
+              <h4 class="modal-title" id="exampleModalLongTitle">Delete Media</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
             <div class="modal-body">
               <p>Are you sure you want to delete this media? There's no coming back from it if you do...</p>
               <p>Enter the name of the media to delete it from the site.</p>
             </div>
+            <div class="text-center">
+                <p><strong>Enter Media Name</strong></p>
             <form action="{{ url_for('delete_media', delete_media_id = media._id) }}" method="POST">
                 <div class="form-group">
-                    <label for="enter-media-name">Enter Media Name</label>
-                    <input type="text" class="form-control" id="confirm-delete" name="confirm-delete" placeholder="Media Name" required>
-                    <button type="submit" class="btn btn-primary">Delete Media</button>
+                    <input type="text" class="form-control confirmation" id="confirm-delete" name="confirm-delete" placeholder="Media Name" required>
+                    <button type="submit" class="btn btn-control delete-button">Delete Media</button>
                 </div>
             </form>
+            </div>
           </div>
         </div>
       </div>
