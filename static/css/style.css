@@ -73,6 +73,20 @@ main {
     justify-content: center;
 }
 
+.profile-bg {
+    height: 100%;
+    background: url('../images/uploads/background-image.jpg');
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .jumbotron {
     border-radius: 25px;
     background-color: rgb(198, 132, 133, 0.8);
@@ -90,6 +104,7 @@ main {
     border-radius: 0px;
     background-color: #490000;
     color: #fff;
+    font-weight: bold;
 }
 
 .btn-selected:hover {
@@ -100,6 +115,7 @@ main {
     border-radius: 0px;
     background-color: #c68485;
     color: #000;
+    font-weight: bold;
 }
 
 .btn-search {
@@ -142,6 +158,10 @@ footer a:hover {
 .card {
     margin-bottom: 10px;
     display: inline-block;
+    width: 350px;
+    background-color: #490000;
+    color: #fff;
+    text-align: center;
 }
 
 .file {
@@ -213,10 +233,12 @@ footer a:hover {
 .like-btn {
     background-color: #490000;
     color: #fff;
+    border: 1px solid white;
 }
 
 .like-btn:hover {
     color: #c68485;
+    border: 1px solid #c68485;
 }
 
 .badge-primary {
@@ -236,10 +258,12 @@ footer a:hover {
 .btn-control {
     background-color: #490000;
     color: #fff;
+    border: 1px solid white;
 }
 
 .btn-control:hover {
     color: #c68485;
+    border: 1px solid #c68485;
 }
 
 .rec-section {
@@ -273,10 +297,12 @@ footer a:hover {
 .view-btn {
     background-color: #490000;
     color: #fff;
+    border: 1px solid white;
 }
 
 .view-btn:hover {
     color: #c68485;
+    border: 1px solid #c68485;
 }
 
 .media-list {

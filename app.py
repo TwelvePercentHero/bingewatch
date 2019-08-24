@@ -108,11 +108,13 @@ def profile(user):
     if 'user' in session:
         user_in_db = mongo.db.users.find_one({ 'username': user })
         user_likes = mongo.db.likes.find( { 'username': user_in_db['username']} )
+        # Create a list to allow template to run multiple for loops
+        all_likes = list(user_likes)
         recipes = mongo.db.recipes.find()
         media = mongo.db.media.find()
         return render_template('profile.html',
                                 user = user_in_db,
-                                likes = user_likes,
+                                likes = all_likes,
                                 recipes = recipes,
                                 media = media)
     else:

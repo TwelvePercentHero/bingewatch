@@ -2,11 +2,22 @@
 
 {% block content %}
 
+<section class="container-fluid profile-bg lg-img">
+
+    <div class="row">
+
+        <div class="col-xs-12 offset-md-1 col-md-2">
+
 <h1>Welcome {{ user.username }}</h1>
 
 <p>This is your <strong>Binge | Watch</strong> user profile page.</p>
-<p>All the recipes and media you have liked will appear in the sections below.</p>
+<p>All the recipes and media you have liked will appear on this page.</p>
 
+</div>
+
+<div class="col-xs-12 col-md-9">
+
+<h2>Liked Recipes</h2>
 {% for l in likes %}
 {% if l.record_type == 'recipe' %}
 <div class="card col-sm-12 col-md-3" id="{{ l.recipe_id }}">
@@ -14,16 +25,22 @@
         <div class="card-body">
             <h5 class="card-title">{{ l.recipe_name }}</h5>
             <p class="card-text">From <strong>{{ l.recipe_from }}</strong></p>
-            <a href="{{ url_for('recipe', recipe_id = l.recipe_id) }}" class="btn btn-primary">View Recipe</a>
+            <a href="{{ url_for('recipe', recipe_id = l.recipe_id) }}" class="btn view-btn"><i class="fas fa-pizza-slice"></i> View</a>
         </div>
     </div>
-{% elif l.record_type == 'media' %}
+{% endif %}
+{% endfor %}
+
+
+<h2>Liked Media</h2>
+{% for l in likes %}
+{% if l.record_type == 'media' %}
     <div class="card col-sm-12 col-md-3" id="{{ l.media_id }}">
-        <img src="../{{ l.image }}" class="card-img-top">
+        <img src="../{{ l.media_image }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ l.media_name }}</h5>
             <p class="card-text"><strong>{{ l.category }}</strong></p>
-            <a href="{{ url_for('media', media_id = l.media_id) }}" class="btn btn-primary">View Media</a>
+            <a href="{{ url_for('media', media_id = l.media_id) }}" class="btn view-btn"><i class="fas fa-film"></i> View</a>
         </div>
     </div>
 {% endif %}
@@ -37,7 +54,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ r.recipe_name }}</h5>
             <p class="card-text">From <strong>{{ r.recipe_from }}</strong></p>
-            <a href="{{ url_for('recipe', recipe_id = r._id) }}" class="btn btn-primary">View Recipe</a>
+            <a href="{{ url_for('recipe', recipe_id = r._id) }}" class="btn view-btn"><i class="fas fa-pizza-slice"></i> View</a>
         </div>
     </div>
 {% endif %}
@@ -47,14 +64,21 @@
 {% for m in media %}
 {% if m.submitted_by == user['username'] %}
     <div class="card col-sm-12 col-md-3" id="{{ m.media_id }}">
-        <img src="../{{ m.image }}" class="card-img-top">
+        <img src="../{{ m.media_image }}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ m.media_name }}</h5>
             <p class="card-text"><strong>{{ m.category }}</strong></p>
-            <a href="{{ url_for('media', media_id = m.media_id) }}" class="btn btn-primary">View Media</a>
+            <a href="{{ url_for('media', media_id = m.media_id) }}" class="btn view-btn"><i class="fas fa-film"></i> View</a>
         </div>
     </div>
 {% endif %}
 {% endfor %}
+
+</div>
+
+        
+</div>
+
+</section>
 
 {% endblock %}
