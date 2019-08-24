@@ -67,22 +67,23 @@
 
 </div>
 
-      <!-- Modal -->
+      <!-- Confirm Discard Modal -->
       <div class="modal fade" id="discard-recipe-modal" tabindex="-1" role="dialog" aria-labelledby="discard-recipe-modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Discard Recipe</h5>
+              <h4 class="modal-title" id="exampleModalLongTitle">Discard Recipe</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
             <div class="modal-body">
-              Are you sure you want to discard your recipe?
+              <p>Are you sure you want to discard your recipe?</p>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No, I want to keep it!</button>
-              <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}" class="btn btn-primary">Yes, get it out of my sight!</a>
+            <div class="modal-footer text-center">
+              <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
+              <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}" class="btn btn-control">Yes, get it out of my sight!</a>
             </div>
           </div>
         </div>
