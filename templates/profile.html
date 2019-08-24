@@ -4,7 +4,7 @@
 
 <section class="container-fluid profile-bg lg-img">
 
-    <div class="row">
+    <div class="row profile-div">
 
         <div class="col-xs-12 offset-md-1 col-md-2">
 
@@ -15,9 +15,9 @@
 
 </div>
 
-<div class="col-xs-12 col-md-9">
+<div class="card-div col-xs-12 col-md-9">
 
-<h2>Liked Recipes</h2>
+<h4>Liked Recipes</h4>
 {% for l in likes %}
 {% if l.record_type == 'recipe' %}
 <div class="card col-sm-12 col-md-3" id="{{ l.recipe_id }}">
@@ -32,7 +32,7 @@
 {% endfor %}
 
 
-<h2>Liked Media</h2>
+<h4>Liked Media</h4>
 {% for l in likes %}
 {% if l.record_type == 'media' %}
     <div class="card col-sm-12 col-md-3" id="{{ l.media_id }}">
@@ -46,7 +46,7 @@
 {% endif %}
 {% endfor %} 
 
-<h2>Your Recipes</h2>
+<h4>Your Recipes</h4>
 {% for r in recipes %}
 {% if r.submitted_by == user['username'] %}
 <div class="card col-sm-12 col-md-3" id="{{ r._id }}">
@@ -60,7 +60,7 @@
 {% endif %}
 {% endfor %}
 
-<h2>Your Media</h2>
+<h4>Your Media</h4>
 {% for m in media %}
 {% if m.submitted_by == user['username'] %}
     <div class="card col-sm-12 col-md-3" id="{{ m.media_id }}">
