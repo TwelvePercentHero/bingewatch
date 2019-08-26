@@ -6,10 +6,13 @@
 
 <div class="add-div col-xs-12 offset-md-1 col-md-8">
 
-<div class="text-center add-title">
-    <h1>Add a Recipe</h1>
-</div>
-<form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
+    <div class="text-center add-title">
+        <h1>Add a Recipe</h1>
+    </div>
+
+    <!-- Use a form to build the dict which passes to MongoDB -->
+    <form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
+        
     <div class="form-row">
         <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>
     </div>
@@ -59,7 +62,7 @@
             </div>
         </div>
     </div>
-    
+        
 
     <h5>Method</h5>    
     <div id="method-steps">
@@ -76,11 +79,12 @@
         <input type="file" name="recipe-image" class="custom-file-input" id="main-image">
         <label class="custom-file-label" for="main-image">Choose file</label>
     </div>
+    
     <div class="text-center">
         <button type="submit" class="btn btn-control" name="action">Preview</button>
     </div>
-    
-</form>
+        
+    </form>
 
 </div>
 

@@ -4,12 +4,14 @@
 
 <section class="container-fluid add-bg lg-img">
 
-<div class="add-div col-xs-12 offset-md-1 col-md-8">
+    <div class="add-div col-xs-12 offset-md-1 col-md-8">
+        <div class="text-center add-title">
+            <h1>Edit Recipe</h1>
+        </div>
 
-<div class="text-center add-title">
-    <h1>Edit Recipe</h1>
-</div>
-<form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe" enctype=multipart/form-data method="POST">
+    <!-- This version of the form pulls field data from MongoDB -->
+    <form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe" enctype=multipart/form-data method="POST">
+    
     <div class="form-row">
         <p>Amend the fields below and click the 'Submit' to save your changes.</p>
     </div>
@@ -95,7 +97,8 @@
     <div class="text-center">
         <button type="submit" class="btn btn-control" name="action">Update</button>
     </div>
-</form>
+    
+    </form>
 
 </div>
 

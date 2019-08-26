@@ -3,7 +3,9 @@
 {% block content %}
     
 <section class="recipe-section">
+
     <div class="text-center">
+        <!-- Alert displays at top of page to indicate this is a preview -->
         <div class="alert alert-preview" role="alert">
             <strong>This is a preview. To submit your recipe to the site please check the details are correct and then click the '+' button.</strong>
         </div>
@@ -12,6 +14,7 @@
     <div class="row">
         <img class="img-fluid recipe-image" src="../{{ temp_recipe.image }}">
     </div>
+
     <div class="jumbotron recipe-centered preview-jumbotron">
         <h1>{{ temp_recipe.recipe_name }}</h1>
         <hr class="jumbotron-rule">
@@ -20,13 +23,14 @@
     </div>
     
     <div class="container-fluid">
-    <div class="row subheader-row">
-        <div class="col-xs-12 offset-md-1 col-md-2">
+
+        <div class="row subheader-row">
+            <div class="col-xs-12 offset-md-1 col-md-2">
+            </div>
+            <div class="text-center col-xs-12 col-md-8">
+                <h5>{{ temp_recipe.recipe_description }}</h5>
+            </div>
         </div>
-        <div class="text-center col-xs-12 col-md-8">
-            <h5>{{ temp_recipe.recipe_description }}</h5>
-        </div>
-    </div>
     
         <div class="row">
             <div class="col-xs-12 offset-md-1 col-md-2">
@@ -65,12 +69,17 @@
             </div>
         </div>
 
-</div>
+    </div>
 
-      <!-- Confirm Discard Modal -->
-      <div class="modal fade" id="discard-recipe-modal" tabindex="-1" role="dialog" aria-labelledby="discard-recipe-modal" aria-hidden="true">
+</section>
+
+<!-- Confirm Discard Modal -->
+    <div class="modal fade" id="discard-recipe-modal" tabindex="-1" role="dialog" aria-labelledby="discard-recipe-modal" aria-hidden="true">
+
         <div class="modal-dialog modal-dialog-centered" role="document">
+
           <div class="modal-content">
+
             <div class="modal-header">
               <h4 class="modal-title" id="exampleModalLongTitle">Discard Recipe</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -81,13 +90,17 @@
             <div class="modal-body">
               <p>Are you sure you want to discard your recipe?</p>
             </div>
+
             <div class="modal-footer text-center">
               <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
               <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}" class="btn btn-control">Yes, get it out of my sight!</a>
             </div>
+
           </div>
+
         </div>
-      </div>
+
+    </div>
 
 
 {% endblock %}

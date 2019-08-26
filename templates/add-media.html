@@ -5,10 +5,12 @@
 <section class="container-fluid add-bg lg-img">
 
     <div class="add-div col-xs-12 offset-md-1 col-md-8">
+
         <div class="text-center add-title">
             <h1>Add Media</h1>
         </div>
 
+        <!-- Use a form to build the dict which passes to MongoDB -->
         <form action="{{ url_for('insert_media') }}" id="add-media" enctype="multipart/form-data" method="POST">
         
         <div class="form-row">
@@ -16,7 +18,7 @@
         </div>
 
         <div class="form-row">
-            <div class="col">
+            <div class="col-xs-12 col-md-6">
                 <select id="category" name="category" class="form-control" required>
                     <option value="" disabled selected>Choose Category</option>
                     {% for cat in categories %}
@@ -25,7 +27,7 @@
                 </select>
             </div>
 
-            <div class="col">
+            <div class="col-xs-12 col-md-6">
                 <select id="origin" name="origin" class="form-control" required>
                     <option value="" disabled selected>Choose Origin</option>
                     {% for origin in origin %}

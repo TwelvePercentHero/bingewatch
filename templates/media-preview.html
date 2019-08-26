@@ -5,9 +5,10 @@
 <section class="media-section">
 
   <div class="text-center">
-    <div class="alert alert-preview" role="alert">
-      <strong>This is a preview. To submit your media to the site please check the details are correct and then click the '+' button.</strong>
-    </div>
+      <!-- Alert displays at top of page to indicate this is a preview -->
+      <div class="alert alert-preview" role="alert">
+        <strong>This is a preview. To submit your media to the site please check the details are correct and then click the '+' button.</strong>
+      </div>
   </div>
 
   <div class="row">
@@ -16,8 +17,7 @@
             
   <div class="container-fluid">
     <div class="row subheader-row">
-      <div class="like-div col-xs-12 offset-md-1 col-md-2">
-      </div>
+      <div class="like-div col-xs-12 offset-md-1 col-md-2"></div>
       <div class="text-center col-xs-12 col-md-8">
         <h1>{{ temp_media.media_name }}</h1>
         <h5>{{ temp_media.category }}</h5>
@@ -25,60 +25,66 @@
       </div>
     </div>
             
-    <div class="row">
-      <div class="col-xs-12 offset-md-1 col-md-2">
-        <h4>Created By</h4>
-        {% for c in temp_media.creators %}
-        <p class="media-list">{{ c }}</p>
-        {% endfor %}
-              
-        <h4>Starring</h4>
-        {% for s in temp_media.starring %}
-        <p class="media-list">{{ s }}</p>
-        {% endfor %}
-      </div>
-            
-      <div class="col-md-8">
-        <h4>Description</h4>
-        <p>{{ temp_media.description }}</p>
-      </div>
+  <div class="row">
+    <div class="col-xs-12 offset-md-1 col-md-2">
+      <h4>Created By</h4>
+      {% for c in temp_media.creators %}
+      <p class="media-list">{{ c }}</p>
+      {% endfor %}
+                    
+      <h4>Starring</h4>
+      {% for s in temp_media.starring %}
+      <p class="media-list">{{ s }}</p>
+      {% endfor %}
+    </div>                
+    <div class="col-md-8">
+      <h4>Description</h4>
+      <p>{{ temp_media.description }}</p>
     </div>
+  </div>
             
-    <div class="row meta-info">
-      <div class="col-xs-4 offset-md-1 col-md-4 admin-div">
-        <h5>Genres</h5>
-        {% for g in temp_media.genres %}
+  <div class="row meta-info">
+    <div class="col-xs-4 offset-md-1 col-md-4 admin-div">
+      <h5>Genres</h5>
+      {% for g in temp_media.genres %}
         <span class="badge badge-primary">{{ g }}</span>
-        {% endfor %}
-      </div>
-
-      <div class="col-xs-4 col-md-6 manage-buttons">
-        <a href="{{ url_for('submit_media', submit_media_id = temp_media._id )}}" class="btn btn-control"><i class="fas fa-plus"></i></a>
-        <button type="button" class="btn btn-control" data-toggle="modal" data-target="#discard-media-modal"><i class="far fa-trash-alt"></i></button>
-      </div>
+      {% endfor %}
     </div>
 
-    <!-- Confirm Discard Modal -->
-    <div class="modal fade" id="discard-media-modal" tabindex="-1" role="dialog" aria-labelledby="discard-media-modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="exampleModalLongTitle">Discard Media</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
+    <div class="col-xs-4 col-md-6 manage-buttons">
+      <a href="{{ url_for('submit_media', submit_media_id = temp_media._id )}}" class="btn btn-control"><i class="fas fa-plus"></i></a>
+      <button type="button" class="btn btn-control" data-toggle="modal" data-target="#discard-media-modal"><i class="far fa-trash-alt"></i></button>
+    </div>
+  </div>
+
+<!-- Confirm Discard Modal -->
+<div class="modal fade" id="discard-media-modal" tabindex="-1" role="dialog" aria-labelledby="discard-media-modal" aria-hidden="true">
+
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Discard Media</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
                 
-                <div class="modal-body">
-                  <p>Are you sure you want to discard your media?</p>
-                </div>
-                <div class="modal-footer text-center">
-                  <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
-                  <a href="{{ url_for('discard_media', discard_media_id = temp_media._id )}}" class="btn btn-control">Yes, get it out of my sight!</a>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="modal-body">
+        <p>Are you sure you want to discard your media?</p>
+      </div>
+
+      <div class="modal-footer text-center">
+        <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
+        <a href="{{ url_for('discard_media', discard_media_id = temp_media._id )}}" class="btn btn-control">Yes, get it out of my sight!</a>
+      </div>
+
+    </div>
+
+  </div>
+  
+</div>
 
 
 {% endblock %}

@@ -9,6 +9,7 @@
             <h1>Edit Media</h1>
         </div>
 
+        <!-- This version of the form pulls field data from MongoDB -->
         <form action="{{ url_for('update_media', update_media_id = media._id)}}" id="edit-media" enctype=multipart/form-data method="POST">
         
         <div class="form-row">
@@ -94,6 +95,7 @@
         <div class="text-center">
         <button type="submit" class="btn btn-control" name="action">Preview</button>        
         </div>
+        
         </form>
     </div>
 
