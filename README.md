@@ -1,1 +1,7 @@
 # Binge | Watch - Data Centric Development Milestone Project
+This is an app designed to help people create their ideal movie night by combining collections of recipes and media such as film, TV and video games, and creating pairings and recommendations across the two collections. The app is also designed to allow users to register and login in order to create, edit and delete recipes and media records to allow them to contribute to the database and community.
+
+## UX
+My goal in the design and development of the app was to create a visually engaging and accessible way of storing and surfacing information relating to both recipes and media, as well as a place for users to build their own database of preferences for easy access in the future.
+
+I also wanted to create a secure app, both in terms of the storage of user information and ensuring that access to certain functions was restricted to users only. This required a user login function to control access to certain pages, which was not something I had initially factored into the design and early development of the site. If I was to start the project from scratch, the user login would likely be one of the first functions that I would have included as it factors in to a number of the other functions included within the app - this would have saved time refactoring code at a later stage of the project.
