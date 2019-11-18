@@ -16,7 +16,7 @@ I also looked at the Internet Movie Database or [IMDB](https://www.imdb.com/ "IM
 
 A series of **User Stories** can be found in the user-stories.md file.
 
-A set of wireframes can be found in the wireframes folder, mocked up using [Balsamiq](https://balsamiq.com/ "Balsamiq homepage"). The final design of the app remained largely similar to these mockups with a few small changes based on functionality.
+A set of wireframes can be found in the docs folder, mocked up using [Balsamiq](https://balsamiq.com/ "Balsamiq homepage"). The final design of the app remained largely similar to these mockups with a few small changes based on functionality.
 
 ## Technologies
 
