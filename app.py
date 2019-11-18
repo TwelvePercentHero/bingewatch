@@ -199,7 +199,6 @@ def search_recipes(page_no):
     selected_genre = None
     selected_origin = None
     recipes = mongo.db.recipes
-    page_skip = (int(page_no) - 1) * 9
     # Request the search term submitted as part of the form on index.html
     search_term = request.form.get('search_term')
     # Create index
@@ -207,23 +206,12 @@ def search_recipes(page_no):
     # Build query
     query = ({ '$text': { '$search': search_term } })
     # Find results
-    recipe_results = recipes.find(query).sort('recipe_name', 1)
-    # Count total number of returned recipes
-    total_recipes = recipe_results.count()
-    # If the total number of recipes is greater than 9, include pagination
-    if total_recipes > 9:
-        results_pages = recipes.find(query).sort('recipe_name', 1).skip(page_skip).limit(9)
-    else:
-        results_pages = recipe_results
-    # Calculate total number of pages needed
-    total_pages = int(math.ceil(total_recipes/9.0))
-    if total_recipes == 0:
-        page_no = 0
+    recipe_results = recipes.find(query).sort('recipe_name', 1).limit(9)
+    total_results = recipe_results.count()
     return render_template('recipe-results.html',
                             page_no = page_no,
-                            total_results = total_recipes,
-                            total_pages = total_pages,
-                            recipes = results_pages,
+                            total_results = total_results,
+                            recipes = recipe_results,
                             recipe_types = mongo.db.recipe_types.find(),
                             genres = mongo.db.genres.find(),
                             origin = mongo.db.origin.find(),
@@ -306,7 +294,6 @@ def search_media(page_no):
     selected_genre = None
     selected_origin = None
     media = mongo.db.media
-    page_skip = (int(page_no) - 1) * 9
     search_term = request.form.get('search_term')
     # Request the search term submitted as part of the form on index.html
     if 'search_term' == '':
@@ -318,23 +305,12 @@ def search_media(page_no):
         # Build query
         query = ({ '$text': { '$search': search_term } })
         # Find results
-        media_results = mongo.db.media.find(query)
-        # Count total number of returned media
-        total_media = media_results.count()
-        # If the total number of media is greater than 9, include pagination
-        if total_media > 9:
-            results_pages = media.find(query).sort('media_name', 1).skip(page_skip).limit(9)
-        else:
-            results_pages = media_results
-        # Calculate total number of pages needed
-        total_pages = int(math.ceil(total_media / 9.0))
-        if total_media == 0:
-            page_no = 0
+        media_results = mongo.db.media.find(query).limit(9)
+        total_results = media_results.count()
         return render_template('media-results.html',
                                 page_no = page_no,
-                                total_results = total_media,
-                                total_pages = total_pages,
-                                media = results_pages,
+                                media = media_results,
+                                total_results = total_results,
                                 categories = mongo.db.categories.find(),
                                 origin = mongo.db.origin.find(),
                                 genres = mongo.db.genres.find(),

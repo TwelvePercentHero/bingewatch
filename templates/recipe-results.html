@@ -185,23 +185,6 @@
     <!-- If results are from search_recipes -->
     {% elif search_term %}
     <div class="row">
-        <div class="col-xs-12 offset-md-3 col-md-9 page-buttons">
-        <p><strong>Page {{ page_no }} of {{ total_pages }}</strong></p>
-        {% if total_pages <= 1 %}
-        <div></div>
-        {% elif total_pages > 1 %}
-        <div>
-            {% if page_no|int == 1 %}
-            <a href="{{url_for('search_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-            {% elif page_no|int > 1 and page_no|int < total_pages %}
-            <a href="{{ url_for('search_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-            <a href="{{ url_for('search_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-            {% elif page_no|int == total_pages %}
-            <a href="{{ url_for('search_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-            {% endif %}
-        </div>
-        {% endif %}
-        </div>
     </div>
     
     <!-- If results are unfiltered -->
