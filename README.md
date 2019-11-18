@@ -123,6 +123,8 @@ There were a number of additional features I would have liked to include in the 
 
 **Change Order of Results:** In future I would like to add an option to change the order of results based on number of ‘likes’ as well as alphabetically by name.
 
+**Search Pagination:** Currently the pagination for the search_recipes and search_media functions has not been implemented. In the development process I found it difficult to build the pagination buttons with links that would carry the search term over to the next page, so the second page of search results would actually be the first page of the browsing results. As I did not have time to recreate the buttons, I elected to remove them and limit the number of search results to 9 to ensure that only a single page of results would be returned. This is not ideal, but would be a priority for future development.
+
 **Fine-tune Pagination:** Although the pagination currently set up in the app is functional, I feel it is a minimum viable product rather than being as effective as it could be. Given more time I would like to fine tune this and reduce the amount of code required to get the results separated out onto different pages.
 
 **Fine-tune Aggregation:** The aggregation of the recipes and media collection ideally needs some fine-tuning as it currently pulls all the fields from the media collection into the recipes collection, some of which are unnecessary for the other functions carried out in the app.
