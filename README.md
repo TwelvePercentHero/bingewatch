@@ -199,6 +199,30 @@ In order to proceed with local deployment:
 
 To deploy BingeWatch to Heroku, take the following steps:
 
+- Create **requirements** file by using the following terminal command:
+
+`pip freeze > requirements.txt`
+
+- Create a **Procfile** by using the following terminal command:
+
+`echo web: python app.py > Procfile`
+
+(Note: On Windows machines the file type of the Procfile may not be valid, you may need to copy the contents into a Notepad file, then save it as a new Procfile and use it to replace the existing one)
+
+- Sign up for a free Heroku account, create a project app and click the **Deploy** tab. You can then use the **Connect GitHub** option under the Deployment Method section.
+
+- Select **Enable Automatic Deployment**.
+
+- In the **Settings** tab, click on the **Reveal Config Vars** button and set your environment variables as follows:
+  - **IP**: 0.0.0.0
+  - **PORT**: 5000
+  - **MONGO_URI**: `<a link to your Mongo DB database>`
+  - **SECRET_KEY**: `<your own secret key>`
+
+- If you have not already done so, push your code to GitHub using `git push`.
+
+- Your app should now be deployed on Heroku.
+
 ## Credits
 
 ### Content
