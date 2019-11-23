@@ -5,6 +5,18 @@ This is an app designed to help people create their ideal movie night by combini
 ## Contents
 
 - [UX](#ux)
+- [Technologies](#technologies)
+- [Features](#features)
+  - [Existing Features](#existing-features)
+  - [Features Left to Implement](#features-left-to-implement)
+- [Testing](#testing)
+- [Deployment](#deployment)
+  - [Local Deployment](#local-deployment)
+  - [Heroku Deployment](#heroku-deployment)
+- [Credits](#credits)
+  - [Content](#content)
+  - [Media](#media)
+- [Acknowledgements](#acknowledgements)
 
 ## UX
 
@@ -18,9 +30,9 @@ I looked at existing recipe sites and apps for inspiration around the design and
 
 I also looked at the Internet Movie Database or [IMDB](https://www.imdb.com/ "IMDB homepage") to understand the key pieces of information that people may search when looking for a film recommendation. This heavily informed the development of the media collection within my database, as I wanted to ensure that the key data was included.
 
-A series of **User Stories** can be found in the user-stories.md file.
+A series of **User Stories** can be found in the [user-stories.md](https://github.com/TwelvePercentHero/bingewatch/blob/master/static/docs/user-stories.md) file.
 
-A set of wireframes can be found in the docs folder, mocked up using [Balsamiq](https://balsamiq.com/ "Balsamiq homepage"). The final design of the app remained largely similar to these mockups with a few small changes based on functionality.
+A set of wireframes can be found [here](https://github.com/TwelvePercentHero/bingewatch/blob/master/static/docs/wireframes.pdf), mocked up using [Balsamiq](https://balsamiq.com/ "Balsamiq homepage"). The final design of the app remained largely similar to these mockups with a few small changes based on functionality.
 
 ## Technologies
 
@@ -143,7 +155,7 @@ There were a number of additional features I would have liked to include in the 
 
 ## Testing
 
-Details of testing can be found in the **testing.md** file.
+Details of testing can be found in the [testing.md](https://github.com/TwelvePercentHero/bingewatch/blob/master/static/docs/testing.md) file.
 
 ## Deployment
 
