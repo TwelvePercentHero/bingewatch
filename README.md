@@ -147,6 +147,8 @@ The app has been deployed to **Heroku** and can be accessed here: [BingeWatch Ap
 
 To run this project on your own IDE follow the instructions below.
 
+Blah blah blah
+
 ## Credits
 
 ### Content
