@@ -139,7 +139,7 @@ There were a number of additional features I would have liked to include in the 
 
 ## Testing
 
-Details of testing can be found in testing.md
+This project was 
 
 ## Deployment
 
