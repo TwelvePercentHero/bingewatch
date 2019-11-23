@@ -139,11 +139,11 @@ There were a number of additional features I would have liked to include in the 
 
 ## Testing
 
-This project was 
+Details of testing can be found in the **testing.md** file.
 
 ## Deployment
 
-The app has been deployed to **Heroku** and can be accessed here:
+The app has been deployed to **Heroku** and can be accessed here: [BingeWatch App](https://bingewatch-recipeapp.herokuapp.com/)
 
 To run this project on your own IDE follow the instructions below.
 
