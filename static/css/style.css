@@ -1,3 +1,5 @@
+/* --- Base Elements --- */
+
 body {
     font-family: 'Heebo', sans-serif;
 }
@@ -7,6 +9,36 @@ body {
     font-weight: bold;
     width: 100%;
 }
+
+footer {
+    padding-top: 20px;
+    background-color: #490000;
+    color: #fff;
+    margin-top: -100px;
+}
+
+footer h3 {
+    font-size: 16px;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer a {
+    color: #c68485;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* --- Navbar --- */
 
 .navbar {
     background-color: #490000;
@@ -20,6 +52,8 @@ section {
     padding-left: 5px;
     padding-right: 5px;
 }
+
+/* --- Backgrounds --- */
 
 .main-bg {
     height: 100vh;
@@ -91,6 +125,8 @@ section {
     justify-content: center;
 }
 
+/* --- Page Elements --- */
+
 .jumbotron {
     border-radius: 25px;
     background-color: rgb(198, 132, 133, 0.8);
@@ -102,62 +138,6 @@ section {
 
 .main-search {
     border-radius: 15px;
-}
-
-.btn-selected {
-    border-radius: 0px;
-    background-color: #490000;
-    color: #fff;
-    font-weight: bold;
-}
-
-.btn-selected:hover {
-    color: #c68485;
-}
-
-.btn-deselected {
-    border-radius: 0px;
-    background-color: #c68485;
-    color: #000;
-    font-weight: bold;
-}
-
-.btn-search {
-    border-radius: 15px;
-    background-color: #490000;
-    color: #fff;
-}
-
-.btn-search:hover {
-    color: #c68485;
-}
-
-footer {
-    padding-top: 20px;
-    background-color: #490000;
-    color: #fff;
-    margin-top: -100px;
-}
-
-footer h3 {
-    font-size: 16px;
-}
-
-footer p {
-    font-size: 14px;
-}
-
-footer ul {
-    list-style: none;
-}
-
-footer a {
-    color: #c68485;
-}
-
-footer a:hover {
-    color: #fff;
-    text-decoration: none;
 }
 
 .card {
@@ -174,12 +154,8 @@ footer a:hover {
     position: absolute;
   }
 
-.recipe-image {
-    width: 100%;
-  }
-
-.media-image {
-    width: 100%;
+.recipe-info, .media-info {
+    color: #490000;
 }
 
 .ingredient-text {
@@ -220,15 +196,6 @@ footer a:hover {
     margin-top: 10px;
 }
 
-.page-buttons {
-    padding-bottom: 30px;
-}
-
-.header-image {
-    position: relative;
-    text-align: center;
-}
-
 .recipe-centered {
     position: absolute;
     top: 20%;
@@ -254,17 +221,6 @@ footer a:hover {
     margin-bottom: 10px;
 }
 
-.like-btn {
-    background-color: #490000;
-    color: #fff;
-    border: 1px solid white;
-}
-
-.like-btn:hover {
-    color: #c68485;
-    border: 1px solid #c68485;
-}
-
 .badge-primary {
     background-color: #490000;
     color: #fff;
@@ -274,26 +230,11 @@ footer a:hover {
     padding-bottom: 10px;
 }
 
-.manage-buttons {
-    text-align: right;
-    padding-bottom: 10px;
-}
-
-.btn-control {
-    background-color: #490000;
-    color: #fff;
-    border: 1px solid white;
-}
-
-.btn-control:hover {
-    color: #c68485;
-    border: 1px solid #c68485;
-}
-
 .rec-section {
     background-color: #c68485;
     padding-top: 20px;
     padding-bottom: 20px;
+    height: 450px;
 }
 
 .rec-card {
@@ -312,21 +253,6 @@ footer a:hover {
 .card-text {
     margin-bottom: 5px;
     font-size: 12px;
-}
-
-.card-img-top {
-    max-height: 140px;
-}
-
-.view-btn {
-    background-color: #490000;
-    color: #fff;
-    border: 1px solid white;
-}
-
-.view-btn:hover {
-    color: #c68485;
-    border: 1px solid #c68485;
 }
 
 .media-list {
@@ -353,16 +279,6 @@ footer a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 15px;
-}
-
-.btn-add {
-    background-color: #490000;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-.btn-add:hover {
-    background-color: #c68485;
 }
 
 .file-div {
@@ -402,6 +318,103 @@ footer a:hover {
 .profile-div {
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+/* --- Images --- */
+
+.recipe-image, .media-image {
+    width: 100%;
+}
+
+.header-image {
+    position: relative;
+    text-align: center;
+}
+
+.card-img-top {
+    max-height: 140px;
+}
+
+/* --- Buttons --- */
+
+.btn-selected {
+    border-radius: 0px;
+    background-color: #490000;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn-selected:hover {
+    color: #c68485;
+}
+
+.btn-deselected {
+    border-radius: 0px;
+    background-color: #c68485;
+    color: #000;
+    font-weight: bold;
+}
+
+.btn-search {
+    border-radius: 15px;
+    background-color: #490000;
+    color: #fff;
+}
+
+.btn-search:hover {
+    color: #c68485;
+}
+
+.page-buttons {
+    padding-bottom: 30px;
+}
+
+.like-btn {
+    background-color: #490000;
+    color: #fff;
+    border: 1px solid white;
+}
+
+.like-btn:hover {
+    color: #c68485;
+    border: 1px solid #c68485;
+}
+
+.manage-buttons {
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+.btn-control {
+    background-color: #490000;
+    color: #fff;
+    border: 1px solid white;
+}
+
+.btn-control:hover {
+    color: #c68485;
+    border: 1px solid #c68485;
+}
+
+.view-btn {
+    background-color: #490000;
+    color: #fff;
+    border: 1px solid white;
+}
+
+.view-btn:hover {
+    color: #c68485;
+    border: 1px solid #c68485;
+}
+
+.btn-add {
+    background-color: #490000;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.btn-add:hover {
+    background-color: #c68485;
 }
 
 /* Media Queries */
@@ -446,6 +459,7 @@ footer a:hover {
     .card-div {
         text-align: center;
         padding: 10px;
+        height: 100%;
     }
     .rec-title {
         text-align: center;
@@ -465,3 +479,9 @@ footer a:hover {
         width: 300px;
     }
 }
+@media (max-width: 991.98px) {
+    .recipe-centered {
+        top: 1%;
+    }
+}
+

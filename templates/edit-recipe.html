@@ -4,103 +4,110 @@
 
 <section class="container-fluid add-bg lg-img">
 
-    <div class="add-div col-xs-12 offset-md-1 col-md-8">
+    <div class="add-div col-sm-12 offset-xl-1 col-xl-8">
         <div class="text-center add-title">
             <h1>Edit Recipe</h1>
         </div>
 
-    <!-- This version of the form pulls field data from MongoDB -->
-    <form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe" enctype=multipart/form-data method="POST">
-    
-    <div class="form-row">
-        <p>Amend the fields below and click the 'Submit' to save your changes.</p>
-    </div>
+        <!-- This version of the form pulls field data from MongoDB -->
+        <form action="{{ url_for('update_recipe', update_recipe_id = recipe._id) }}" id="edit-recipe"
+            enctype=multipart/form-data method="POST">
 
-    <div class="form-row">
-        <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" value="{{ recipe.recipe_name }}" required>
-    </div>
-
-    <div class="form-row">
-        <select id="recipe_from" name="recipe_from" class="form-control" required>
-            <option value="" disabled selected>Recipe From</option>
-            {% for media in media %}
-            {% if media.media_name == recipe.recipe_from %}
-            <option value="{{media.media_name}}" selected>{{media.media_name}}</option>
-            {% else %}
-            <option value="{{media.media_name}}">{{media.media_name}}</option>
-            {% endif %}
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-row">
-        <select id="cuisine" name="cuisine" class="form-control" required>
-            <option value="" disabled selected>Cuisine</option>
-            {% for origin in origin %}
-            {% if origin.nationality == recipe.cuisine %}
-            <option value="{{ origin.nationality }}" selected>{{ origin.nationality }}</option>
-            {% else %}
-            <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
-            {% endif %}
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-row">
-        {% for type in recipe_types %}
-        {% if type.recipe_type in recipe.recipe_type %}
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}" id="recipe_type" checked>
-            <label class="form-check-label">
-                {{ type.recipe_type }}
-            </label>
-        </div>
-        {% else %}
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}" id="recipe_type">
-            <label class="form-check-label">
-                {{ type.recipe_type }}
-            </label>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-
-    <div class="form-group">
-        <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" required>{{ recipe.recipe_description }}</textarea>
-    </div>
-
-    <h5>Ingredients</h5>
-    <div id="ingredients-list">
-        {% for i in recipe.ingredients %}
-        <div class="input-group" id="first-ingredient">
-            <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" value="{{ i }}" required>
-            <div class="input-group-append">
-                <a class="btn btn-add" id="remove-ingredient"><i class="fas fa-minus"></i></a>
+            <div class="form-row">
+                <p>Amend the fields below and click the 'Submit' to save your changes.</p>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-    
 
-    <h5>Method</h5>   
-    <div id="method-steps">
-        {% for m in recipe.method %}
-        <div class="input-group" id="method-div">
-            <input id="method" name="method" class="form-control" type="text" placeholder="Step" value="{{ m }}" required>
-            <div class="input-group-append">
-                <a class='btn btn-add' id='remove-step'><i class="fas fa-minus"></i></a>
+            <div class="form-row">
+                <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name"
+                    value="{{ recipe.recipe_name }}" required>
             </div>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="text-center">
-        <button type="submit" class="btn btn-control" name="action">Update</button>
-    </div>
-    
-    </form>
 
-</div>
+            <div class="form-row">
+                <select id="recipe_from" name="recipe_from" class="form-control" required>
+                    <option value="" disabled selected>Recipe From</option>
+                    {% for media in media %}
+                    {% if media.media_name == recipe.recipe_from %}
+                    <option value="{{media.media_name}}" selected>{{media.media_name}}</option>
+                    {% else %}
+                    <option value="{{media.media_name}}">{{media.media_name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <select id="cuisine" name="cuisine" class="form-control" required>
+                    <option value="" disabled selected>Cuisine</option>
+                    {% for origin in origin %}
+                    {% if origin.nationality == recipe.cuisine %}
+                    <option value="{{ origin.nationality }}" selected>{{ origin.nationality }}</option>
+                    {% else %}
+                    <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row">
+                {% for type in recipe_types %}
+                {% if type.recipe_type in recipe.recipe_type %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}"
+                        id="recipe_type" checked>
+                    <label class="form-check-label">
+                        {{ type.recipe_type }}
+                    </label>
+                </div>
+                {% else %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}"
+                        id="recipe_type">
+                    <label class="form-check-label">
+                        {{ type.recipe_type }}
+                    </label>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5"
+                    required>{{ recipe.recipe_description }}</textarea>
+            </div>
+
+            <h5>Ingredients</h5>
+            <div id="ingredients-list">
+                {% for i in recipe.ingredients %}
+                <div class="input-group" id="first-ingredient">
+                    <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient"
+                        value="{{ i }}" required>
+                    <div class="input-group-append">
+                        <a class="btn btn-add" id="remove-ingredient"><i class="fas fa-minus"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+            <h5>Method</h5>
+            <div id="method-steps">
+                {% for m in recipe.method %}
+                <div class="input-group" id="method-div">
+                    <input id="method" name="method" class="form-control" type="text" placeholder="Step" value="{{ m }}"
+                        required>
+                    <div class="input-group-append">
+                        <a class='btn btn-add' id='remove-step'><i class="fas fa-minus"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-control" name="action">Update</button>
+            </div>
+
+        </form>
+
+    </div>
 
 </section>
 

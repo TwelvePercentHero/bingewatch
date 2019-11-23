@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
+
 <section class="recipe-section">
 
     <div class="text-center">
         <!-- Alert displays at top of page to indicate this is a preview -->
         <div class="alert alert-preview" role="alert">
-            <strong>This is a preview. To submit your recipe to the site please check the details are correct and then click the '+' button.</strong>
+            <strong>This is a preview. To submit your recipe to the site please check the details are correct and then
+                click the '+' button.</strong>
         </div>
     </div>
-    
+
     <div class="row">
         <img class="img-fluid recipe-image" src="../{{ temp_recipe.image }}">
     </div>
@@ -21,51 +22,53 @@
         <p>From: <strong>{{ temp_recipe.recipe_from }}</strong></p>
         <p><strong>Category:</strong> {{ temp_recipe.category }}</p>
     </div>
-    
+
     <div class="container-fluid">
 
         <div class="row subheader-row">
-            <div class="col-xs-12 offset-md-1 col-md-2">
+            <div class="col-sm-12 offset-xl-1 col-xl-2">
             </div>
-            <div class="text-center col-xs-12 col-md-8">
+            <div class="text-center col-sm-12 col-xl-8">
                 <h5>{{ temp_recipe.recipe_description }}</h5>
             </div>
         </div>
-    
+
         <div class="row">
-            <div class="col-xs-12 offset-md-1 col-md-2">
+            <div class="col-sm-12 offset-xl-1 col-xl-2">
                 <h4>Ingredients</h4>
                 {% for i in temp_recipe.ingredients %}
-                    <p class="ingredient-text">{{ i }}</p>
+                <p class="ingredient-text">{{ i }}</p>
                 {% endfor %}
             </div>
-    
-            <div class="col-md-8">
+
+            <div class="col-xl-8">
                 <h4>Method</h4>
                 {% for m in temp_recipe.method %}
                 <p>{{ m }}</p>
                 {% endfor %}
             </div>
         </div>
-    
+
         <div class="row meta-info">
-            <div class="col-xs-4 offset-md-1 col-md-2 admin-div">
-            <h5>Tags</h5>
+            <div class="col-sm-4 offset-xl-1 col-xl-2 admin-div">
+                <h5>Tags</h5>
                 {% for t in temp_recipe.recipe_type %}
                 <span class="badge badge-primary">{{ t }}</span>
                 {% endfor %}
             </div>
-            
-            <div class="col-xs-4 col-md-2 admin-div">
-            <h5>Pairs With</h5>
+
+            <div class="col-sm-4 col-xl-2 admin-div">
+                <h5>Pairs With</h5>
                 {% for p in temp_recipe.genres %}
                 <span class="badge badge-primary">{{ p }}</span>
                 {% endfor %}
             </div>
 
-            <div class="col-xs-4 col-md-6 manage-buttons">
-                <a href="{{ url_for('submit_recipe', submit_recipe_id = temp_recipe._id) }}" class="btn btn-control"><i class="fas fa-plus"></i></a>
-                <button type="button" class="btn btn-control" data-toggle="modal" data-target="#discard-recipe-modal"><i class="far fa-trash-alt"></i></button>
+            <div class="col-sm-4 col-xl-6 manage-buttons">
+                <a href="{{ url_for('submit_recipe', submit_recipe_id = temp_recipe._id) }}" class="btn btn-control"><i
+                        class="fas fa-plus"></i></a>
+                <button type="button" class="btn btn-control" data-toggle="modal" data-target="#discard-recipe-modal"><i
+                        class="far fa-trash-alt"></i></button>
             </div>
         </div>
 
@@ -74,33 +77,35 @@
 </section>
 
 <!-- Confirm Discard Modal -->
-    <div class="modal fade" id="discard-recipe-modal" tabindex="-1" role="dialog" aria-labelledby="discard-recipe-modal" aria-hidden="true">
+<div class="modal fade" id="discard-recipe-modal" tabindex="-1" role="dialog" aria-labelledby="discard-recipe-modal"
+    aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
 
-          <div class="modal-content">
+        <div class="modal-content">
 
             <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLongTitle">Discard Recipe</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h4 class="modal-title" id="exampleModalLongTitle">Discard Recipe</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="modal-body">
-              <p>Are you sure you want to discard your recipe?</p>
+                <p>Are you sure you want to discard your recipe?</p>
             </div>
 
             <div class="modal-footer text-center">
-              <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
-              <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}" class="btn btn-control">Yes, get it out of my sight!</a>
+                <button type="button" class="btn btn-control" data-dismiss="modal">No, I want to keep it!</button>
+                <a href="{{ url_for('discard_recipe', discard_recipe_id = temp_recipe._id) }}"
+                    class="btn btn-control">Yes, get it out of my sight!</a>
             </div>
-
-          </div>
 
         </div>
 
     </div>
+
+</div>
 
 
 {% endblock %}

@@ -4,7 +4,7 @@
 
 <section class="container-fluid add-bg lg-img">
 
-    <div class="add-div col-xs-12 offset-md-1 col-md-8">
+    <div class="add-div col-sm-12 offset-xl-1 col-xl-8">
 
         <div class="text-center add-title">
             <h1>Add Media</h1>
@@ -12,75 +12,79 @@
 
         <!-- Use a form to build the dict which passes to MongoDB -->
         <form action="{{ url_for('insert_media') }}" id="add-media" enctype="multipart/form-data" method="POST">
-        
-        <div class="form-row">
-            <input id="media-name" name="media-name" class="form-control" type="text" placeholder="Media Name" required>
-        </div>
 
-        <div class="form-row">
-            <div class="col-xs-12 col-md-6">
-                <select id="category" name="category" class="form-control" required>
-                    <option value="" disabled selected>Choose Category</option>
-                    {% for cat in categories %}
-                    <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
-                    {% endfor %}
-                </select>
+            <div class="form-row">
+                <input id="media-name" name="media-name" class="form-control" type="text" placeholder="Media Name"
+                    required>
             </div>
 
-            <div class="col-xs-12 col-md-6">
-                <select id="origin" name="origin" class="form-control" required>
-                    <option value="" disabled selected>Choose Origin</option>
-                    {% for origin in origin %}
-                    <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+            <div class="form-row">
+                <div class="col-sm-12 col-xl-6">
+                    <select id="category" name="category" class="form-control" required>
+                        <option value="" disabled selected>Choose Category</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <div class="form-row">
-            {% for genres in genres %}
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="genres" value="{{ genres.genre_name }}" id="genres">
-                <label class="form-check-label">
-                    {{ genres.genre_name }}
-                </label>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="form-group">
-            <textarea id="description" name="description" placeholder="Media Description" class="form-control" rows="5" required></textarea>
-        </div>
-
-        <h5>Starring</h5>
-        <div id="actor-list">
-            <div class="input-group" id="actors">
-                <input id="starring" name="starring" class="form-control" type="text" placeholder="Actor" required>
-                <div class="input-group-append">
-                    <a class="btn btn-add" id="add-actor"><i class="fas fa-plus"></i></a>
+                <div class="col-sm-12 col-xl-6">
+                    <select id="origin" name="origin" class="form-control" required>
+                        <option value="" disabled selected>Choose Origin</option>
+                        {% for origin in origin %}
+                        <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
-        </div>
-        
-        <h5>Creators</h5>
-        <div id="creator-list">
-            <div class="input-group" id="creator-div">
-                <input id="creators" name="creators" class="form-control" type="text" placeholder="Creator" required>
-                <div class="input-group-append">
-                    <a class="btn btn-add" id="add-creator"><i class="fas fa-plus"></i></a>
+
+            <div class="form-row">
+                {% for genres in genres %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="genres" value="{{ genres.genre_name }}"
+                        id="genres">
+                    <label class="form-check-label">
+                        {{ genres.genre_name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <textarea id="description" name="description" placeholder="Media Description" class="form-control"
+                    rows="5" required></textarea>
+            </div>
+
+            <h5>Starring</h5>
+            <div id="actor-list">
+                <div class="input-group" id="actors">
+                    <input id="starring" name="starring" class="form-control" type="text" placeholder="Actor" required>
+                    <div class="input-group-append">
+                        <a class="btn btn-add" id="add-actor"><i class="fas fa-plus"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <h5>Upload Image</h5>
-        <div class="custom-file file-div">
+            <h5>Creators</h5>
+            <div id="creator-list">
+                <div class="input-group" id="creator-div">
+                    <input id="creators" name="creators" class="form-control" type="text" placeholder="Creator"
+                        required>
+                    <div class="input-group-append">
+                        <a class="btn btn-add" id="add-creator"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <h5>Upload Image</h5>
+            <div class="custom-file file-div">
                 <input type="file" name="media-image" class="custom-file-input" id="media-image">
                 <label class="custom-file-label" for="media-image">Choose file</label>
             </div>
 
             <div class="text-center">
                 <button type="submit" class="btn btn-control" name="action">Preview</button>
-            </div>     
+            </div>
         </form>
     </div>
 

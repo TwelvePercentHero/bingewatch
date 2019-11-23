@@ -7,16 +7,17 @@
     <div class="container-fluid text-center">
 
         <div class="row top-row">
-            <div class="col-xs-12 offset-md-3 col-md-9">
+            <div class="col-sm-12 offset-xl-3 col-xl-9 media-info">
                 <h1>Media</h1>
                 <p>Browse all of the film, TV and video games currently in the Binge | Watch database below.</p>
-                <p>Do you have a favourite media you don't see below? Then follow the link to <a href="{{ url_for('add_media')}}">add</a> to the database.</p>
+                <p>Do you have a favourite media you don't see below? Then follow the link to <a
+                        href="{{ url_for('add_media')}}">add</a> to the database.</p>
             </div>
         </div>
 
         <div class="row">
             <!-- Show number of results returned by query -->
-            <div class="col-xs-12 offset-md-3 col-md-9">
+            <div class="col-sm-12 offset-xl-3 col-xl-9">
                 <p><strong>{{ total_results }} media found</strong></p>
                 {% if search_term %}
                 <p><strong>Showing results for '{{ search_term }}'</strong></p>
@@ -25,10 +26,11 @@
         </div>
 
         <div class="row">
-            <div class="side-div col-xs-12 offset-md-1 col-md-2">
+            <div class="side-div col-sm-12 offset-xl-1 col-xl-2">
                 <h4>Filters</h4>
                 <!-- Reset filters by reloading page -->
-                <a href="{{ url_for('get_media', page_no = 1) }}" class="btn btn-control"><i class="fas fa-sync-alt"></i> Reset</a>
+                <a href="{{ url_for('get_media', page_no = 1) }}" class="btn btn-control"><i
+                        class="fas fa-sync-alt"></i> Reset</a>
                 <div class="filter-div">
                     <!-- Use a form to filter results -->
                     <form action="{{ url_for('get_media', page_no = 1) }}" method="POST">
@@ -44,8 +46,8 @@
                                 {% endfor %}
                             </select>
                         </div>
-                    
-                            
+
+
                         <div class="form-group">
                             <select class="form-control" id="genres" name="genres">
                                 {% if selected_genre %}
@@ -76,122 +78,141 @@
                 </div>
             </div>
 
-            <div class="card-div col-sm-12 col-md-9">
+            <div class="card-div col-sm-12 col-xl-9">
                 <!-- Display a card for each media record returned by query -->
                 {% for media in media %}
-                <div class="card col-sm-12 col-md-3" id="{{ media._id }}">
+                <div class="card col-sm-12 col-xl-3" id="{{ media._id }}">
                     <img src="../{{ media.media_image }}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">{{ media.media_name }}</h5>
                         <p class="card-text"><strong>{{ media.category }}</strong></p>
-                        <a href="{{ url_for('media', media_id = media._id) }}" class="btn view-btn"><i class="fas fa-film"></i> View</a>
-                        <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like
+                        <a href="{{ url_for('media', media_id = media._id) }}" class="btn view-btn"><i
+                                class="fas fa-film"></i> View</a>
+                        <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i
+                                class="far fa-thumbs-up"></i> Like
                             <span class="badge badge-light">{{ media.likes }}</span></a>
                     </div>
                 </div>
                 {% endfor %}
-
+            </div>
             </div>
 
-    <!-- Pagination Links -->
+            <!-- Pagination Links -->
 
-        <!-- If results are filtered -->
-        {% if selected_category or selected_genre or selected_origin %}
-        <div class="row">
-            <div class="col-xs-12 offset-md-3 col-md-9 page-buttons">
-                <p>Page {{ page_no }} of {{ total_pages }}</p>
-            {% if total_pages <= 1 %}
-                <div></div>
-            {% elif total_pages > 1 %}
-                <div>
-                {% if page_no|int == 1 %}
-                    <form action="{{ url_for('get_media', page_no = page_no|int+1) }}" method="POST">
-                {% elif page_no|int == total_pages %}
-                    <form action="{{ url_for('get_media', page_no = page_no|int-1) }}" method="POST">
-                {% endif %}
-
-                    {% if selected_category %}
-                        <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                    {% endif %}
-
-                    {% if selected_genre %}
-                        <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                    {% endif %}
-
-                    {% if selected_origin %}
-                        <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                    {% endif %}
-
-                {% if page_no|int == 1 %}
-                    <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
-                {% elif page_no|int == total_pages %}
-                    <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i> Previous</button>
-                {% endif %}
-                    </form>
-
-                {% if page_no|int > 1 and page_no|int < total_pages %}
-                    <form action="{{ url_for('get_media', page_no = page_no|int+1) }}" method="POST">
-                    {% if selected_category %}
-                        <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                    {% endif %}
-        
-                    {% if selected_genre %}
-                        <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                    {% endif %}
-        
-                    {% if selected_origin %}
-                        <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                    {% endif %}
-                        <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
-                    </form>
-
-                    <form action="{{ url_for('get_media', page_no = page_no|int-1) }}" method="POST">
-                        {% if selected_category %}
-                            <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                        {% endif %}
-            
-                        {% if selected_genre %}
-                            <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                        {% endif %}
-            
-                        {% if selected_origin %}
-                            <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                        {% endif %}
-                            <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
-                        </form>
-                {% endif %}
-                </div>
-            {% endif %}
-            </div>
-
-        <!-- If results are from search_media -->
-        {% elif search_term %}
-        <div class="row">
-        </div>
-
-        <!-- If results are unfiltered -->
-        {% else %}
+            <!-- If results are filtered -->
+            {% if selected_category or selected_genre or selected_origin %}
             <div class="row">
-                <div class="col-xs-12 offset-md-3 col-md-9 page-buttons">
-                <p>Page {{ page_no }} of {{ total_pages }}</p>
-            {% if total_pages <= 1 %}
-                <div></div>
-            {% elif total_pages > 1 %}
-                <div>
-                {% if page_no|int == 1 %}
-                    <a href="{{ url_for('get_media', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-                {% elif page_no|int > 1 and page_no|int < total_pages %}
-                    <a href="{{ url_for('get_media', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-                    <a href="{{ url_for('get_media', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-                {% elif page_no|int == total_pages %}
-                    <a href="{{ url_for('get_media', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-                {% endif %}
+                <div class="col-sm-12 offset-xl-3 col-xl-9 page-buttons">
+                    <p>Page {{ page_no }} of {{ total_pages }}</p>
+                    {% if total_pages <= 1 %}
+                    <div></div>
+                    {% elif total_pages > 1 %}
+                    <div>
+                        {% if page_no|int == 1 %}
+                        <form action="{{ url_for('get_media', page_no = page_no|int+1) }}" method="POST">
+                            {% elif page_no|int == total_pages %}
+                            <form action="{{ url_for('get_media', page_no = page_no|int-1) }}" method="POST">
+                                {% endif %}
+
+                                {% if selected_category %}
+                                <input id="category" name="category" class="form-control d-none" type="text"
+                                    value="{{ selected_category }}">
+                                {% endif %}
+
+                                {% if selected_genre %}
+                                <input id="genres" name="genres" class="form-control d-none" type="text"
+                                    value="{{ selected_genre }}">
+                                {% endif %}
+
+                                {% if selected_origin %}
+                                <input id="origin" name="origin" class="form-control d-none" type="text"
+                                    value="{{ selected_origin }}">
+                                {% endif %}
+
+                                {% if page_no|int == 1 %}
+                                <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i>
+                                    Next</button>
+                                {% elif page_no|int == total_pages %}
+                                <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i>
+                                    Previous</button>
+                                {% endif %}
+                            </form>
+
+                            {% if page_no|int > 1 and page_no|int < total_pages %}
+                            <form action="{{ url_for('get_media', page_no = page_no|int+1) }}" method="POST">
+                                {% if selected_category %}
+                                <input id="category" name="category" class="form-control d-none" type="text"
+                                    value="{{ selected_category }}">
+                                {% endif %}
+
+                                {% if selected_genre %}
+                                <input id="genres" name="genres" class="form-control d-none" type="text"
+                                    value="{{ selected_genre }}">
+                                {% endif %}
+
+                                {% if selected_origin %}
+                                <input id="origin" name="origin" class="form-control d-none" type="text"
+                                    value="{{ selected_origin }}">
+                                {% endif %}
+                                <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i>
+                                    Next</button>
+                            </form>
+
+                            <form action="{{ url_for('get_media', page_no = page_no|int-1) }}" method="POST">
+                                {% if selected_category %}
+                                <input id="category" name="category" class="form-control d-none" type="text"
+                                    value="{{ selected_category }}">
+                                {% endif %}
+
+                                {% if selected_genre %}
+                                <input id="genres" name="genres" class="form-control d-none" type="text"
+                                    value="{{ selected_genre }}">
+                                {% endif %}
+
+                                {% if selected_origin %}
+                                <input id="origin" name="origin" class="form-control d-none" type="text"
+                                    value="{{ selected_origin }}">
+                                {% endif %}
+                                <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i>
+                                    Next</button>
+                            </form>
+                            {% endif %}
+                    </div>
+                    {% endif %}
                 </div>
-            {% endif %}
+
+                <!-- If results are from search_media -->
+                {% elif search_term %}
+                <div class="row">
+                </div>
+
+                <!-- If results are unfiltered -->
+                {% else %}
+                <div class="row">
+                    <div class="col-sm-12 offset-xl-3 col-xl-9 page-buttons">
+                        <p>Page {{ page_no }} of {{ total_pages }}</p>
+                        {% if total_pages <= 1 %}
+                        <div></div>
+                        {% elif total_pages > 1 %}
+                        <div>
+                            {% if page_no|int == 1 %}
+                            <a href="{{ url_for('get_media', page_no = page_no|int+1) }}" class="btn btn-control"><i
+                                    class="fas fa-forward"></i> Next</a>
+                            {% elif page_no|int > 1 and page_no|int < total_pages %}
+                            <a href="{{ url_for('get_media', page_no = page_no|int-1) }}" class="btn btn-control"><i
+                                    class="fas fa-backward"></i> Previous</a>
+                            <a href="{{ url_for('get_media', page_no = page_no|int+1) }}" class="btn btn-control"><i
+                                    class="fas fa-forward"></i> Next</a>
+                            {% elif page_no|int == total_pages %}
+                            <a href="{{ url_for('get_media', page_no = page_no|int-1) }}" class="btn btn-control"><i
+                                    class="fas fa-backward"></i> Previous</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-        {% endif %}
-    </div>
-</div>
 </section>
 
 {% endblock %}

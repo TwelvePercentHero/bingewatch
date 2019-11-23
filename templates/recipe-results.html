@@ -4,212 +4,235 @@
 
 <section class="container-fluid results-bg lg-img">
 
-<div class="container-fluid text-center">
-    <div class="row top-row">
-        <div class="col-xs-12 offset-md-3 col-md-9">
-            <h1>Recipes</h1>
-            <p>Browse all of the delicious (and occasionally disgusting) recipes from the worlds of film, TV and video games below</p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12 offset-md-3 col-md-9">
-            <p><strong>{{ total_results }} recipe{% if total_results > 1 or total_results == 0 %}s{% endif %} found</strong></p>   
-            {% if search_term %}
-            <p><strong>Showing results for '{{ search_term }}'</strong></p>
-            {% endif %}
-        </div>
-    </div>
-
-<div class="row">
-    <div class="side-div col-xs-12 offset-md-1 col-md-2">
-        <h4>Filters</h4>
-        <a href="{{ url_for('get_recipes', page_no = 1) }}" class="btn btn-control"><i class="fas fa-sync-alt"></i> Reset</a>
-        <div class="filter-div">
-        <form action="{{ url_for('get_recipes', page_no = 1) }}" method="POST">
-            <div class="form-group">
-                <select class="form-control" id="recipe_type" name="recipe_type">
-                    {% if selected_recipe_type %}
-                    <option value ="{{ selected_recipe_type }}" selected>{{ selected_recipe_type }}</option>
-                    {% else %}
-                    <option value="" disabled selected>Choose Recipe Type</option>
-                    {% endif %}
-                    {% for type in recipe_types %}
-                    <option value="{{ type.recipe_type }}">{{ type.recipe_type }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <select class="form-control" id="category" name="category">
-                    {% if selected_category %}
-                    <option value="{{ selected_category }}" selected>{{ selected_category }}</option>
-                    {% else %}
-                    <option value="" disabled selected>Choose Category</option>
-                    {% endif %}
-                    {% for cat in categories %}
-                    <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <select class="form-control" id="genres" name="genres">
-                    {% if selected_genre %}
-                    <option value="{{ selected_genre }}" selected>{{ selected_genre }}</option>
-                    {% else %}
-                    <option value="" disabled selected>Choose Pairs With</option>
-                    {% endif %}
-                    {% for genre in genres %}
-                    <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <select class="form-control" id="origin" name="origin">
-                    {% if selected_origin %}
-                    <option value="{{ selected_origin }}" selected>{{ selected_origin }}</option>
-                    {% else %}
-                    <option value="" disabled selected>Choose Origin</option>
-                    {% endif %}
-                    {% for o in origin %}
-                    <option value="{{ o.nationality }}">{{ o.nationality }}</option>
-                    {% endfor %}
-                </select>
+    <div class="container-fluid text-center">
+        <div class="row top-row">
+            <div class="col-sm-12 offset-xl-3 col-xl-9 recipe-info">
+                <h1>Recipes</h1>
+                <p>Browse all of the delicious (and occasionally disgusting) recipes from the worlds of film, TV and
+                    video games below</p>
             </div>
         </div>
-            <button type="submit" class="btn btn-control"><i class="fas fa-filter"></i> Filter</button>
-        </form>
-    </div>
 
-    <div class="card-div col-xs-12 col-md-9">
-        {% for recipe in recipes %}
-        <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
-            <img src="../{{ recipe.image }}" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">{{ recipe.recipe_name }}</h5>
-                <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
-                <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn view-btn"><i class="fas fa-pizza-slice"></i> View</a>
-                <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like
-                    <span class="badge badge-light">{{ recipe.likes }}</span></a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-    <!-- Pagination Links -->
-
-    <!-- If results are filtered -->
-    {% if selected_recipe_type or selected_category or selected_genre or selected_origin %}
-    <div class="row">
-        <div class="col-xs-12 offset-md-3 col-md-9 page-buttons">
-        <p><strong>Page {{ page_no }} of {{ total_pages }}</strong></p>
-        {% if total_pages <= 1 %}
-            <div></div>
-        {% elif total_pages > 1 %}
-            <div>
-                {% if page_no|int == 1 %}
-                <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
-                {% elif page_no|int == total_pages %}
-                <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
-                {% endif %}
-
-                    {% if selected_recipe_type %}
-                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
-                    {% endif %}
-
-                    {% if selected_category %}
-                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                    {% endif %}
-
-                    {% if selected_genre %}
-                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                    {% endif %}
-
-                    {% if selected_origin %}
-                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                    {% endif %}
-
-                {% if page_no|int == 1 %}
-                <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
-                {% elif page_no|int == total_pages %}
-                <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i> Previous</button>
-                {% endif %}
-                </form>
-
-                {% if page_no|int > 1 and page_no|int < total_pages %}
-                <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
-                    {% if selected_recipe_type %}
-                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
-                    {% endif %}
-    
-                    {% if selected_category %}
-                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                    {% endif %}
-    
-                    {% if selected_genre %}
-                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                    {% endif %}
-    
-                    {% if selected_origin %}
-                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                    {% endif %}
-                    <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
-                </form>
-
-                <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
-                    {% if selected_recipe_type %}
-                    <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text" value="{{ selected_recipe_type }}">
-                    {% endif %}
-        
-                    {% if selected_category %}
-                    <input id="category" name="category" class="form-control d-none" type="text" value="{{ selected_category }}">
-                    {% endif %}
-        
-                    {% if selected_genre %}
-                    <input id="genres" name="genres" class="form-control d-none" type="text" value="{{ selected_genre }}">
-                    {% endif %}
-        
-                    {% if selected_origin %}
-                    <input id="origin" name="origin" class="form-control d-none" type="text" value="{{ selected_origin }}">
-                    {% endif %}
-                    <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i> Previous</button>
-                </form>
+        <div class="row">
+            <div class="col-sm-12 offset-xl-3 col-xl-9">
+                <p><strong>{{ total_results }} recipe{% if total_results > 1 or total_results == 0 %}s{% endif %}
+                        found</strong></p>
+                {% if search_term %}
+                <p><strong>Showing results for '{{ search_term }}'</strong></p>
                 {% endif %}
             </div>
-        {% endif %}
-    </div>
-
-    <!-- If results are from search_recipes -->
-    {% elif search_term %}
-    <div class="row">
-    </div>
-    
-    <!-- If results are unfiltered -->
-    {% else %}
-    <div class="row">
-        <div class="col-xs-12 offset-md-3 col-md-9 page-buttons">
-        <p><strong>Page {{ page_no }} of {{ total_pages }}</strong></p>
-        {% if total_pages <= 1 %}
-        <div></div>
-        {% elif total_pages > 1 %}
-        <div>
-            {% if page_no|int == 1 %}
-            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-            {% elif page_no|int > 1 and page_no|int < total_pages %}
-            <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-            <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i class="fas fa-forward"></i> Next</a>
-            {% elif page_no|int == total_pages %}
-            <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i class="fas fa-backward"></i> Previous</a>
-            {% endif %}
         </div>
-        {% endif %}
-    </div>
-    {% endif %}
-</div>
-</div>
+
+        <div class="row">
+            <div class="side-div col-sm-12 offset-xl-1 col-xl-2">
+                <h4>Filters</h4>
+                <a href="{{ url_for('get_recipes', page_no = 1) }}" class="btn btn-control"><i
+                        class="fas fa-sync-alt"></i> Reset</a>
+                <div class="filter-div">
+                    <form action="{{ url_for('get_recipes', page_no = 1) }}" method="POST">
+                        <div class="form-group">
+                            <select class="form-control" id="recipe_type" name="recipe_type">
+                                {% if selected_recipe_type %}
+                                <option value="{{ selected_recipe_type }}" selected>{{ selected_recipe_type }}</option>
+                                {% else %}
+                                <option value="" disabled selected>Choose Recipe Type</option>
+                                {% endif %}
+                                {% for type in recipe_types %}
+                                <option value="{{ type.recipe_type }}">{{ type.recipe_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" id="category" name="category">
+                                {% if selected_category %}
+                                <option value="{{ selected_category }}" selected>{{ selected_category }}</option>
+                                {% else %}
+                                <option value="" disabled selected>Choose Category</option>
+                                {% endif %}
+                                {% for cat in categories %}
+                                <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" id="genres" name="genres">
+                                {% if selected_genre %}
+                                <option value="{{ selected_genre }}" selected>{{ selected_genre }}</option>
+                                {% else %}
+                                <option value="" disabled selected>Choose Pairs With</option>
+                                {% endif %}
+                                {% for genre in genres %}
+                                <option value="{{ genre.genre_name }}">{{ genre.genre_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" id="origin" name="origin">
+                                {% if selected_origin %}
+                                <option value="{{ selected_origin }}" selected>{{ selected_origin }}</option>
+                                {% else %}
+                                <option value="" disabled selected>Choose Origin</option>
+                                {% endif %}
+                                {% for o in origin %}
+                                <option value="{{ o.nationality }}">{{ o.nationality }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-control"><i class="fas fa-filter"></i> Filter</button>
+                </form>
+            </div>
+
+            <div class="card-div col-sm-12 col-xl-9">
+                {% for recipe in recipes %}
+                <div class="card col-sm-12 col-xl-3" id="{{ recipe._id }}">
+                    <img src="../{{ recipe.image }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+                        <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
+                        <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn view-btn"><i
+                                class="fas fa-pizza-slice"></i> View</a>
+                        <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}" class="btn like-btn"><i
+                                class="far fa-thumbs-up"></i> Like
+                            <span class="badge badge-light">{{ recipe.likes }}</span></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Pagination Links -->
+
+        <!-- If results are filtered -->
+        {% if selected_recipe_type or selected_category or selected_genre or selected_origin %}
+        <div class="row">
+            <div class="col-sm-12 offset-xl-3 col-xl-9 page-buttons">
+                <p><strong>Page {{ page_no }} of {{ total_pages }}</strong></p>
+                {% if total_pages <= 1 %}
+                <div></div>
+                {% elif total_pages > 1 %}
+                <div>
+                    {% if page_no|int == 1 %}
+                    <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
+                        {% elif page_no|int == total_pages %}
+                        <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
+                            {% endif %}
+
+                            {% if selected_recipe_type %}
+                            <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text"
+                                value="{{ selected_recipe_type }}">
+                            {% endif %}
+
+                            {% if selected_category %}
+                            <input id="category" name="category" class="form-control d-none" type="text"
+                                value="{{ selected_category }}">
+                            {% endif %}
+
+                            {% if selected_genre %}
+                            <input id="genres" name="genres" class="form-control d-none" type="text"
+                                value="{{ selected_genre }}">
+                            {% endif %}
+
+                            {% if selected_origin %}
+                            <input id="origin" name="origin" class="form-control d-none" type="text"
+                                value="{{ selected_origin }}">
+                            {% endif %}
+
+                            {% if page_no|int == 1 %}
+                            <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
+                            {% elif page_no|int == total_pages %}
+                            <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i>
+                                Previous</button>
+                            {% endif %}
+                        </form>
+
+                        {% if page_no|int > 1 and page_no|int < total_pages %}
+                        <form action="{{ url_for('get_recipes', page_no = page_no|int+1) }}" method="POST">
+                            {% if selected_recipe_type %}
+                            <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text"
+                                value="{{ selected_recipe_type }}">
+                            {% endif %}
+
+                            {% if selected_category %}
+                            <input id="category" name="category" class="form-control d-none" type="text"
+                                value="{{ selected_category }}">
+                            {% endif %}
+
+                            {% if selected_genre %}
+                            <input id="genres" name="genres" class="form-control d-none" type="text"
+                                value="{{ selected_genre }}">
+                            {% endif %}
+
+                            {% if selected_origin %}
+                            <input id="origin" name="origin" class="form-control d-none" type="text"
+                                value="{{ selected_origin }}">
+                            {% endif %}
+                            <button type="submit" class="btn btn-control"><i class="fas fa-forward"></i> Next</button>
+                        </form>
+
+                        <form action="{{ url_for('get_recipes', page_no = page_no|int-1) }}" method="POST">
+                            {% if selected_recipe_type %}
+                            <input id="recipe_type" name="recipe_type" class="form-control d-none" type="text"
+                                value="{{ selected_recipe_type }}">
+                            {% endif %}
+
+                            {% if selected_category %}
+                            <input id="category" name="category" class="form-control d-none" type="text"
+                                value="{{ selected_category }}">
+                            {% endif %}
+
+                            {% if selected_genre %}
+                            <input id="genres" name="genres" class="form-control d-none" type="text"
+                                value="{{ selected_genre }}">
+                            {% endif %}
+
+                            {% if selected_origin %}
+                            <input id="origin" name="origin" class="form-control d-none" type="text"
+                                value="{{ selected_origin }}">
+                            {% endif %}
+                            <button type="submit" class="btn btn-control"><i class="fas fa-backward"></i>
+                                Previous</button>
+                        </form>
+                        {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- If results are from search_recipes -->
+            {% elif search_term %}
+            <div class="row">
+            </div>
+
+            <!-- If results are unfiltered -->
+            {% else %}
+            <div class="row">
+                <div class="col-sm-12 offset-xl-3 col-xl-9 page-buttons">
+                    <p><strong>Page {{ page_no }} of {{ total_pages }}</strong></p>
+                    {% if total_pages <= 1 %}
+                    <div></div>
+                    {% elif total_pages > 1 %}
+                    <div>
+                        {% if page_no|int == 1 %}
+                        <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i
+                                class="fas fa-forward"></i> Next</a>
+                        {% elif page_no|int > 1 and page_no|int < total_pages %}
+                        <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i
+                                class="fas fa-backward"></i> Previous</a>
+                        <a href="{{ url_for('get_recipes', page_no = page_no|int+1) }}" class="btn btn-control"><i
+                                class="fas fa-forward"></i> Next</a>
+                        {% elif page_no|int == total_pages %}
+                        <a href="{{ url_for('get_recipes', page_no = page_no|int-1) }}" class="btn btn-control"><i
+                                class="fas fa-backward"></i> Previous</a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
 </section>
 
 

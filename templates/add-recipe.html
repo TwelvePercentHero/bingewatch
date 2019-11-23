@@ -4,89 +4,94 @@
 
 <section class="container-fluid add-bg lg-img">
 
-<div class="add-div col-xs-12 offset-md-1 col-md-8">
+    <div class="add-div col-sm-12 offset-xl-1 col-xl-8">
 
-    <div class="text-center add-title">
-        <h1>Add a Recipe</h1>
-    </div>
-
-    <!-- Use a form to build the dict which passes to MongoDB -->
-    <form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
-        
-    <div class="form-row">
-        <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name" required>
-    </div>
-
-    <div class="form-row">
-        <select id="recipe_from" name="recipe_from" class="form-control" required>
-            <option value="" disabled selected>Recipe From</option>
-            {% for media in media %}
-            <option value="{{media.media_name}}">{{media.media_name}}</option>
-            {% endfor %}
-        </select>
-        <p>Don't see the media you want to choose? <a href="{{ url_for('add_media') }}" target="_blank">Click here</a> to add a new media record. You may need to refresh this
-        page to see the new media record in this list.</p>
-    </div>
-
-    <div class="form-row">
-        <select id="cuisine" name="cuisine" class="form-control" required>
-            <option value="" disabled selected>Cuisine</option>
-            {% for origin in origin %}
-            <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-row">
-        {% for type in recipe_types %}
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}" id="recipe_type">
-            <label class="form-check-label">
-                {{ type.recipe_type }}
-            </label>
+        <div class="text-center add-title">
+            <h1>Add a Recipe</h1>
         </div>
-        {% endfor %}
-    </div>
 
-    <div class="form-group">
-        <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5" placeholder="Recipe Description" required></textarea>
-    </div>
+        <!-- Use a form to build the dict which passes to MongoDB -->
+        <form action="{{ url_for('insert_recipe') }}" id="add-recipe" enctype="multipart/form-data" method="POST">
 
-
-    <h5>Ingredients</h5>
-    <div id="ingredients-list">
-        <div class="input-group" id="first-ingredient">
-            <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient" required>
-            <div class="input-group-append">
-                <a class="btn btn-add" id="add-ingredient"><i class="fas fa-plus"></i></a>
+            <div class="form-row">
+                <input id="recipe_name" name="recipe_name" class="form-control" type="text" placeholder="Recipe Name"
+                    required>
             </div>
-        </div>
-    </div>
-        
 
-    <h5>Method</h5>    
-    <div id="method-steps">
-        <div class="input-group" id="method-div">
-            <input id="method" name="method" class="form-control" type="text" placeholder="Step" required>
-            <div class="input-group-append">
-                <a class="btn btn-add" id="add-step"><i class="fas fa-plus"></i></a>
+            <div class="form-row">
+                <select id="recipe_from" name="recipe_from" class="form-control" required>
+                    <option value="" disabled selected>Recipe From</option>
+                    {% for media in media %}
+                    <option value="{{media.media_name}}">{{media.media_name}}</option>
+                    {% endfor %}
+                </select>
+                <p>Don't see the media you want to choose? <a href="{{ url_for('add_media') }}" target="_blank">Click
+                        here</a> to add a new media record. You may need to refresh this
+                    page to see the new media record in this list.</p>
             </div>
-        </div>
-    </div>
 
-    <h5>Upload Image</h5>
-    <div class="custom-file file-div">
-        <input type="file" name="recipe-image" class="custom-file-input" id="main-image">
-        <label class="custom-file-label" for="main-image">Choose file</label>
-    </div>
-    
-    <div class="text-center">
-        <button type="submit" class="btn btn-control" name="action">Preview</button>
-    </div>
-        
-    </form>
+            <div class="form-row">
+                <select id="cuisine" name="cuisine" class="form-control" required>
+                    <option value="" disabled selected>Cuisine</option>
+                    {% for origin in origin %}
+                    <option value="{{ origin.nationality }}">{{ origin.nationality }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-</div>
+            <div class="form-row">
+                {% for type in recipe_types %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="recipe_type" value="{{ type.recipe_type }}"
+                        id="recipe_type">
+                    <label class="form-check-label">
+                        {{ type.recipe_type }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <textarea id="recipe_description" name="recipe_description" class="form-control" rows="5"
+                    placeholder="Recipe Description" required></textarea>
+            </div>
+
+
+            <h5>Ingredients</h5>
+            <div id="ingredients-list">
+                <div class="input-group" id="first-ingredient">
+                    <input id="ingredients" name="ingredients" class="form-control" type="text" placeholder="Ingredient"
+                        required>
+                    <div class="input-group-append">
+                        <a class="btn btn-add" id="add-ingredient"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <h5>Method</h5>
+            <div id="method-steps">
+                <div class="input-group" id="method-div">
+                    <input id="method" name="method" class="form-control" type="text" placeholder="Step" required>
+                    <div class="input-group-append">
+                        <a class="btn btn-add" id="add-step"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <h5>Upload Image</h5>
+            <div class="custom-file file-div">
+                <input type="file" name="recipe-image" class="custom-file-input" id="main-image">
+                <label class="custom-file-label" for="main-image">Choose file</label>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-control" name="action">Preview</button>
+            </div>
+
+        </form>
+
+    </div>
 
 </section>
 

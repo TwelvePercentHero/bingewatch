@@ -4,38 +4,40 @@
 
 <section class="container-fluid main-bg lg-img">
 
-<!-- Jumbotron including search bars -->
-<div class="jumbotron text-center">
+    <!-- Jumbotron including search bars -->
+    <div class="jumbotron text-center">
 
-    <img class="img-fluid" src="../static/images/jumbotron-logo.png">
-    <p class="main-subtitle">Build your perfect movie night with our extensive database of recipes and media</p>
-    <button class="btn btn-selected" id="show-recipe">Recipes</button><button class="btn btn-deselected" id="show-media">Media</button>
+        <img class="img-fluid" src="../static/images/jumbotron-logo.png">
+        <p class="main-subtitle">Build your perfect movie night with our extensive database of recipes and media</p>
+        <button class="btn btn-selected" id="show-recipe">Recipes</button><button class="btn btn-deselected"
+            id="show-media">Media</button>
 
-    <!-- Recipe Search -->
-    <div class="search-div d-block" id="recipe-search">
-        <form method='POST' action="{{ url_for('search_recipes', search_term = search_term, page_no = 1) }}">
-            <div class="input-group">
-                <input class="form-control main-search" type="search" name="search_term" placeholder="Search Recipes">
-                <div class="input-group-append">
-                    <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+        <!-- Recipe Search -->
+        <div class="search-div d-block" id="recipe-search">
+            <form method='POST' action="{{ url_for('search_recipes', search_term = search_term, page_no = 1) }}">
+                <div class="input-group">
+                    <input class="form-control main-search" type="search" name="search_term"
+                        placeholder="Search Recipes">
+                    <div class="input-group-append">
+                        <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <!-- Media Search -->
-    <div class="search-div d-none" id="media-search">
-        <form method='POST' action="{{ url_for('search_media', search_term = search_term, page_no = 1) }}">
-            <div class="input-group">
-                <input class="form-control main-search" type="search" name="search_term" placeholder="Search Media">
-                <div class="input-group-append">
-                    <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+        <!-- Media Search -->
+        <div class="search-div d-none" id="media-search">
+            <form method='POST' action="{{ url_for('search_media', search_term = search_term, page_no = 1) }}">
+                <div class="input-group">
+                    <input class="form-control main-search" type="search" name="search_term" placeholder="Search Media">
+                    <div class="input-group-append">
+                        <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-</div>
+    </div>
 
 </section>
 

@@ -4,60 +4,63 @@
 
 <section class="media-section">
 
-<div class="container-fluid">
-
-    <div class="row">
-        <img class="img-fluid media-image" src="../{{ media.media_image }}">
-    </div>
-
     <div class="container-fluid">
-        <div class="row subheader-row">
-        <div class="like-div col-xs-12 offset-md-1 col-md-2">
-            <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like 
-                <span class="badge badge-light">{{ media.likes }}</span></a>
-        </div>
-        <div class="text-center col-xs-12 col-md-8">
-            <h1>{{ media.media_name }}</h1>
-            <h5>{{ media.category }}</h5>
-            <h5>{{ media.origin }}</h5>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-12 offset-md-1 col-md-2">
-            <h4>Created By</h4>
-            {% for c in media.creators %}
-            <p class="media-list">{{ c }}</p>
-            {% endfor %}
-
-            <h4>Starring</h4>
-            {% for s in media.starring %}
-            <p class="media-list">{{ s }}</p>
-            {% endfor %}
+        <div class="row">
+            <img class="img-fluid media-image" src="../{{ media.media_image }}">
         </div>
 
-        <div class="col-md-8">
-            <h4>Description</h4>
-            <p>{{ media.description }}</p>
-        </div>
-    </div>
-
-    <div class="row meta-info">
-            <div class="col-xs-4 offset-md-1 col-md-4 admin-div">
-            <h5>Genres</h5>
-                {% for g in media.genres %}
-                <span class="badge badge-primary">{{ g }}</span>
-                {% endfor %}
+        <div class="container-fluid">
+            <div class="row subheader-row">
+                <div class="like-div col-sm-12 offset-xl-1 col-xl-2">
+                    <a href="{{ url_for('like_media', like_media_id = media._id) }}" class="btn like-btn"><i
+                            class="far fa-thumbs-up"></i> Like
+                        <span class="badge badge-light">{{ media.likes }}</span></a>
+                </div>
+                <div class="text-center col-sm-12 col-xl-8">
+                    <h1>{{ media.media_name }}</h1>
+                    <h5>{{ media.category }}</h5>
+                    <h5>{{ media.origin }}</h5>
+                </div>
             </div>
-    
-        <div class="col-xs-4 col-md-6 manage-buttons">
-            <!-- Only display edit and delete buttons if the user is logged in -->
-            {% if 'user' in session %}
-            <a href="{{ url_for('edit_media', edit_media_id = media._id) }}" class="btn btn-control"><i class="fas fa-user-edit"></i></a>
-            <button type="button" class="btn btn-control" data-toggle="modal" data-target="#confirm-delete-modal"><i class="far fa-trash-alt"></i></button>
-            {% endif %}
-        </div>
-    </div>
+
+            <div class="row">
+                <div class="col-sm-12 offset-xl-1 col-xl-2">
+                    <h4>Created By</h4>
+                    {% for c in media.creators %}
+                    <p class="media-list">{{ c }}</p>
+                    {% endfor %}
+
+                    <h4>Starring</h4>
+                    {% for s in media.starring %}
+                    <p class="media-list">{{ s }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="col-xl-8">
+                    <h4>Description</h4>
+                    <p>{{ media.description }}</p>
+                </div>
+            </div>
+
+            <div class="row meta-info">
+                <div class="col-sm-4 offset-xl-1 col-xl-4 admin-div">
+                    <h5>Genres</h5>
+                    {% for g in media.genres %}
+                    <span class="badge badge-primary">{{ g }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="col-sm-4 col-xl-6 manage-buttons">
+                    <!-- Only display edit and delete buttons if the user is logged in -->
+                    {% if 'user' in session %}
+                    <a href="{{ url_for('edit_media', edit_media_id = media._id) }}" class="btn btn-control"><i
+                            class="fas fa-user-edit"></i></a>
+                    <button type="button" class="btn btn-control" data-toggle="modal"
+                        data-target="#confirm-delete-modal"><i class="far fa-trash-alt"></i></button>
+                    {% endif %}
+                </div>
+            </div>
 
 </section>
 
@@ -65,56 +68,60 @@
 
     <!-- Include recipes connected to the media record by title or genre -->
     <div class="row">
-        <div class="col-xs-12 offset-md-1 col-md-10">
+        <div class="col-sm-12 offset-xl-1 col-xl-10">
             <h4 class="rec-title">Recommended Recipes</h4>
         </div>
 
-        <div class="card-div col-xs-12 offset-md-1 col-md-10">
-        {% for recipe in recipes %}
-        {% if recipe.recipe_from == media.media_name %}
-        <div class="card col-sm-12 col-md-3" id="{{ recipe._id }}">
-            <img src="../{{ recipe.image }}" class="card-img-top">
-            <div class="card-body">
-                <h5 class="card-title">{{ recipe.recipe_name }}</h5>
-                <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
-                <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn view-btn"><i class="fas fa-pizza-slice"></i> View</a>
-                <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}" class="btn like-btn"><i class="far fa-thumbs-up"></i> Like
-                    <span class="badge badge-light">{{ recipe.likes }}</span></a>
+        <div class="card-div col-sm-12 offset-xl-1 col-xl-10">
+            {% for recipe in recipes %}
+            {% if recipe.recipe_from == media.media_name %}
+            <div class="card col-sm-12 col-xl-3" id="{{ recipe._id }}">
+                <img src="../{{ recipe.image }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+                    <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
+                    <a href="{{ url_for('recipe', recipe_id = recipe._id) }}" class="btn view-btn"><i
+                            class="fas fa-pizza-slice"></i> View</a>
+                    <a href="{{ url_for('like_recipe', like_recipe_id = recipe._id) }}" class="btn like-btn"><i
+                            class="far fa-thumbs-up"></i> Like
+                        <span class="badge badge-light">{{ recipe.likes }}</span></a>
+                </div>
             </div>
-        </div>
-        {% endif %}
-        {% endfor %}
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 
 </section>
 
 <!-- Confirm Deletion Modal -->
-<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal" aria-hidden="true">
-    
+<div class="modal fade" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal"
+    aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLongTitle">Delete Media</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                <h4 class="modal-title" id="exampleModalLongTitle">Delete Media</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="modal-body">
-              <p>Are you sure you want to delete this media? There's no coming back from it if you do...</p>
-              <p>Enter the name of the media to delete it from the site.</p>
+                <p>Are you sure you want to delete this media? There's no coming back from it if you do...</p>
+                <p>Enter the name of the media to delete it from the site.</p>
             </div>
 
             <div class="text-center">
                 <p><strong>Enter Media Name</strong></p>
                 <form action="{{ url_for('delete_media', delete_media_id = media._id) }}" method="POST">
-                <div class="form-group">
-                    <input type="text" class="form-control confirmation" id="confirm-delete" name="confirm-delete" placeholder="Media Name" required>
-                    <button type="submit" class="btn btn-control delete-button">Delete Media</button>
-                </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control confirmation" id="confirm-delete" name="confirm-delete"
+                            placeholder="Media Name" required>
+                        <button type="submit" class="btn btn-control delete-button">Delete Media</button>
+                    </div>
                 </form>
             </div>
 
