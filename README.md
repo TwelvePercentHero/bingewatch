@@ -2,6 +2,8 @@
 
 ![alt text](static/docs/responsive-image.JPG "Image of Responsive Design")
 
+App hosted at:
+
 This is an app designed to help people create their ideal movie night by combining collections of recipes and media such as film, TV and video games, and creating pairings and recommendations across the two collections. The app is also designed to allow users to register and login in order to create, edit and delete recipes and media records to allow them to contribute to the database and community.
 
 ## Contents
