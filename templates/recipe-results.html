@@ -89,7 +89,7 @@
             <div class="card-div col-sm-12 col-xl-9">
                 {% for recipe in recipes %}
                 <div class="card col-sm-12 col-xl-3" id="{{ recipe._id }}">
-                    <img src="../{{ recipe.image }}" class="card-img-top">
+                    <img src="{{ recipe.image }}" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.recipe_name }}</h5>
                         <p class="card-text">From <strong>{{ recipe.recipe_from }}</strong></p>
