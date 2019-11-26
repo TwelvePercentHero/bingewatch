@@ -227,7 +227,7 @@ To deploy BingeWatch to Heroku, take the following steps:
 
 `echo web: python app.py > Procfile`
 
-(Note: On Windows machines the file type of the Procfile may not be valid, you may need to copy the contents into a Notepad file, then save it as a new Procfile and use it to replace the existing one)
+(Note: Using Microsoft Visual Studio may result in the need to include `gunicorn` in both the project and the Procfile. In this case use the command `echo web: gunicorn app:app > Procfile` and ensure that `gunicorn` is installed and included in `requirements.txt`)
 
 - Sign up for a free Heroku account, create a project app and click the **Deploy** tab. You can then use the **Connect GitHub** option under the Deployment Method section.
 
@@ -270,3 +270,5 @@ Guidance for binding jQuery click events to dynamically added elements for addin
 Guidance for creating the file upload fields on the **add-recipe** and **add-media** forms was sourced from [Learn Code Web](https://learncodeweb.com/snippets/browse-button-in-bootstrap-4-with-select-image-preview/ "Learn Code Web upload field guidance").
 
 Guidance on creating a list to allow **Jinja** to iterate through a collection more than once on the **profile** page was sourced from [Stack Overflow](https://stackoverflow.com/questions/57537866/two-for-loops-in-one-html-page-using-jinja-not-working "Stack Overflow - For loops question")
+
+Thanks also to the tutors at **Code Institute**, particularly Tim and Michael who helped greatly with my initial Heroku deployment problems.
