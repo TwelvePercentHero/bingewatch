@@ -84,7 +84,7 @@ section {
 }
 
 .results-bg {
-    height: 100%;
+    min-height: 100vh;
     background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
