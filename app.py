@@ -187,9 +187,10 @@ def get_recipes(page_no):
 @app.route('/recipe/<recipe_id>')
 def recipe(recipe_id):
     current_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    related_media = mongo.db.media.find().limit(8)
     return render_template('recipe.html',
                             recipe = current_recipe,
-                            media = mongo.db.media.find().sort('media_name', 1))
+                            media = related_media)
 
 # Search recipes
 @app.route('/search_recipes/<page_no>', methods=['GET', 'POST'])
@@ -283,9 +284,10 @@ def get_media(page_no):
 @app.route('/media/<media_id>')
 def media(media_id):
     media = mongo.db.media.find_one({'_id': ObjectId(media_id)})
+    related_recipes = mongo.db.recipes.find().limit(8)
     return render_template('media.html',
                             media = media,
-                            recipes = mongo.db.recipes.find().sort('recipe_name', 1))
+                            recipes = related_recipes)
 
 # Search media
 @app.route('/search_media/<page_no>', methods=['GET', 'POST'])

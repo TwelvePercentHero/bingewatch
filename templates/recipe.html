@@ -74,6 +74,7 @@
 </section>
 
 <section class="rec-section">
+    <div class="container-fluid">
 
     <div class="row">
         <div class="col-sm-12 offset-xl-1 col-xl-10">
@@ -84,6 +85,7 @@
         <div class="card-div col-sm-12 offset-xl-1 col-xl-10">
             {% for media in media %}
             {% if media.media_name == recipe.recipe_from or media.genres == recipe.genres %}
+                
             <div class="card rec-card col-sm-6 col-xl-3 text-center" id="{{ media._id }}">
                 <img src="../{{ media.media_image }}" class="card-img-top img-fluid">
                 <div class="card-body">
@@ -100,6 +102,7 @@
             {% endfor %}
         </div>
     </div>
+</div>
 
 </section>
 

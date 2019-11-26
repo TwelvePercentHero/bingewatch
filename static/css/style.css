@@ -98,7 +98,7 @@ section {
 }
 
 .add-bg {
-    height: 100%;
+    min-height: 100vh;
     background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -112,7 +112,7 @@ section {
 }
 
 .profile-bg {
-    height: 100vh;
+    min-height: 100vh;
     background: url('../images/uploads/background-image.jpg');
     background-repeat: no-repeat;
     background-attachment: scroll;
@@ -233,8 +233,8 @@ section {
 .rec-section {
     background-color: #c68485;
     padding-top: 20px;
-    padding-bottom: 20px;
-    height: 450px;
+    padding-bottom: 100px;
+    height: 100%;
 }
 
 .rec-card {
@@ -322,7 +322,7 @@ section {
 }
 
 .data-section {
-    height: 250px;
+    min-height: 250px;
 }
 
 /* --- Images --- */
@@ -378,6 +378,7 @@ section {
     background-color: #490000;
     color: #fff;
     border: 1px solid white;
+    font-size: 10px;
 }
 
 .like-btn:hover {
@@ -405,6 +406,7 @@ section {
     background-color: #490000;
     color: #fff;
     border: 1px solid white;
+    font-size: 10px;
 }
 
 .view-btn:hover {

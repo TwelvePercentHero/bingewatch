@@ -13,6 +13,11 @@
                 <h1>Welcome {{ user.username }}</h1>
                 <p>This is your <strong>Binge | Watch</strong> user profile page.</p>
                 <p>All the recipes and media you have liked will appear on this page.</p>
+                <p>If you haven't liked or uploaded any recipes or media, try it now!</p>
+                <a href="{{ url_for('add_recipe') }}" class="btn btn-control"><i
+                    class="fas fa-plus"></i> Add Recipe</a>
+                <a href="{{ url_for('add_media') }}" class="btn btn-control"><i
+                    class="fas fa-plus"></i> Add Media</a>
             </div>
 
             <!-- List recipes and media based on whether the user has liked or created the record -->
@@ -21,18 +26,20 @@
                     <h4>Liked Recipes</h4>
                     {% for l in likes %}
                     {% if l.record_type == 'recipe' %}
-                    <div class="card col-sm-12 col-xl-3" id="{{ l.recipe_id }}">
-                        <img src="../{{ l.image }}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ l.recipe_name }}</h5>
-                            <p class="card-text">From <strong>{{ l.recipe_from }}</strong></p>
-                            <a href="{{ url_for('recipe', recipe_id = l.recipe_id) }}" class="btn view-btn"><i
-                                    class="fas fa-pizza-slice"></i> View</a>
+                        <div class="card col-sm-12 col-xl-3" id="{{ l.recipe_id }}">
+                            <img src="../{{ l.image }}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ l.recipe_name }}</h5>
+                                <p class="card-text">From <strong>{{ l.recipe_from }}</strong></p>
+                                <a href="{{ url_for('recipe', recipe_id = l.recipe_id) }}" class="btn view-btn"><i
+                                        class="fas fa-pizza-slice"></i> View</a>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                     {% endfor %}
                 </div>
+
+                <hr>
 
                 <div class="data-section">
                     <h4>Liked Media</h4>
@@ -51,6 +58,8 @@
                     {% endfor %}
                 </div>
 
+                <hr>
+
                 <div class="data-section">
                     <h4>Your Recipes</h4>
                     {% for r in recipes %}
@@ -67,6 +76,8 @@
                     {% endif %}
                     {% endfor %}
                 </div>
+
+                <hr>
 
                 <div class="data-section">
                     <h4>Your Media</h4>
